@@ -1,0 +1,28 @@
+{
+  "listaOfertas": [
+    {
+      "idioma": "Español",
+      "fecha": "2023-10-01",
+      "horaInicio": "10:00",
+      "horaFin": "11:00",
+      "lugar": "Sala A",
+      "descripcion": "Clase de conversación en español"
+    },
+    {
+      "idioma": "Inglés",
+      "fecha": "2023-10-02",
+      "horaInicio": "12:00",
+      "horaFin": "13:00",
+      "lugar": "Sala B",
+      "descripcion": "Clase de gramática en inglés"
+    },
+    {
+      "idioma": "Francés",
+      "fecha": "2023-10-03",
+      "horaInicio": "14:00",
+      "horaFin": "15:00",
+      "lugar": "Sala C",
+      "descripcion": "Clase de pronunciación en francés"
+    }
+  ]
+}
