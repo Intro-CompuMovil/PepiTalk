@@ -1,0 +1,246 @@
+[
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_aceptar_traductor.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_aceptar_traductor.xml"
+    },
+    {
+        "merged": "com.example.pepitalk.app-debug-31:/layout_activity_ver_grupos.xml.flat",
+        "source": "com.example.pepitalk.app-main-33:/layout/activity_ver_grupos.xml"
+    },
+    {
+        "merged": "com.example.pepitalk.app-debug-31:/layout_activity_ver_grupo.xml.flat",
+        "source": "com.example.pepitalk.app-main-33:/layout/activity_ver_grupo.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_ver_oferta.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_ver_oferta.xml"
+    },
+    {
+        "merged": "com.example.pepitalk.app-debug-31:/layout_activity_ver_oferta.xml.flat",
+        "source": "com.example.pepitalk.app-main-33:/layout/activity_ver_oferta.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_actualizar_grupo.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_actualizar_grupo.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_layout_grupos.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\layout_grupos.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\mipmap-anydpi_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\mipmap-anydpi\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activty_reunion.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activty_reunion.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_crear_grupo.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_crear_grupo.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_crear_reunion.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_crear_reunion.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\xml_data_extraction_rules.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\xml\\data_extraction_rules.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\mipmap-xxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\drawable_circular_shape.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\drawable\\circular_shape.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_perfil.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\perfil.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\mipmap-xxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_ver_reunion.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_ver_reunion.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_ver_grupo.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_ver_grupo.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_layout_reuniones.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\layout_reuniones.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\mipmap-xhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\drawable_icons8_casa_24.png.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\drawable\\icons8_casa_24.png"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_ver_ofertas_cliente.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_ver_ofertas_cliente.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_grupo.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_grupo.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_ruta.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_ruta.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\mipmap-mdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_menu_cliente.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_menu_cliente.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\drawable_icons8_casa_40.png.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\drawable\\icons8_casa_40.png"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\mipmap-mdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_ver_ofertas.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_ver_ofertas.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\mipmap-xhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_actualizar_reunion.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_actualizar_reunion.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_actualizar_oferta.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_actualizar_oferta.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\drawable_pepitoempresario.png.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\drawable\\pepitoempresario.png"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\drawable_user.png.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\drawable\\user.png"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_layout_ofertas.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\layout_ofertas.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_oferta.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_oferta.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_ver_ofertas_traductor.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_ver_ofertas_traductor.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\mipmap-anydpi_ic_launcher.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\mipmap-anydpi\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_trabajos_traductor.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_trabajos_traductor.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_login.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_login.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_calificar.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_calificar.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\mipmap-xxxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_crear_oferta.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_crear_oferta.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_registro.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_registro.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\drawable_border.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\drawable\\border.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\mipmap-hdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_actualizar_cuenta.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_actualizar_cuenta.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_ver_grupos.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_ver_grupos.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_menu_traductor.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_menu_traductor.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_perfil.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_perfil.xml"
+    },
+    {
+        "merged": "com.example.pepitalk.app-debug-31:/layout_activity_ver_reunion.xml.flat",
+        "source": "com.example.pepitalk.app-main-33:/layout/activity_ver_reunion.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\drawable_m2.jpg.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\drawable\\m2.jpg"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\mipmap-hdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\drawable_grupo.jpg.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\drawable\\grupo.jpg"
+    },
+    {
+        "merged": "com.example.pepitalk.app-debug-31:/layout_activity_ver_reuniones.xml.flat",
+        "source": "com.example.pepitalk.app-main-33:/layout/activity_ver_reuniones.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\layout_activity_ver_reuniones.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\layout\\activity_ver_reuniones.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\drawable\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-debug-31:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\juani\\.gradle\\daemon\\8.7\\com.example.pepitalk.app-main-33:\\xml\\backup_rules.xml"
+    }
+]

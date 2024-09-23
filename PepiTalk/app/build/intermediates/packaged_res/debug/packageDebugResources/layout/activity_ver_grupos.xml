@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarVerGrupos"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/azulOscuro"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"/>
+
+    <TextView
+        android:id="@+id/tiruloVerGrupos"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="Grupos"
+        android:textAlignment="center"
+        android:textSize="28dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:gravity="center"
+    />
+
+    <ImageButton
+        android:id="@+id/butInicio"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:background="@null"
+        app:srcCompat="@drawable/icons8_casa_40"
+        android:paddingLeft="30dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="4dp"
+        android:layout_gravity="center">
+
+        <ImageButton
+            android:id="@+id/butPerfil"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/m2"/>
+    </androidx.cardview.widget.CardView>
+
+    <ListView
+        android:id="@+id/grupos1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbarVerGrupos"
+        ></ListView>
+
+</RelativeLayout>

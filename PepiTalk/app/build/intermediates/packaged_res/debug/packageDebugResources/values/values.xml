@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="azulOscuro">#283492</color>
+    <color name="black">#FF000000</color>
+    <color name="letraOscura">#293241</color>
+    <color name="morado">#6B1B9A</color>
+    <color name="rosa">#EA8BD5</color>
+    <color name="white">#FFFFFFFF</color>
+    <string name="app_name">PepiTalk</string>
+    <style name="Base.Theme.PepiTalk" parent="Theme.Material3.DayNight.NoActionBar">
+        
+        
+    </style>
+    <style name="Theme.PepiTalk" parent="Base.Theme.PepiTalk"/>
+</resources>
