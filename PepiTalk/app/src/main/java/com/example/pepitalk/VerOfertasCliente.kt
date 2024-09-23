@@ -1,4 +1,4 @@
 package com.example.pepitalk
 
-class VerGrupo {
+class VerOfertasCliente {
 }
