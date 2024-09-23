@@ -13,7 +13,7 @@
         android:theme="@style/Theme.PepiTalk"
         tools:targetApi="31">
         <activity
-            android:name=".VerOfertas"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,7 +50,11 @@
             android:exported="false">
         </activity>
         <activity
-            android:name=".Perfil"
+            android:name=".VerOfertasCliente"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".VerOfertasTraductor"
             android:exported="false">
         </activity>
         <activity
@@ -66,7 +70,7 @@
             android:exported="false">
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".VerGrupos"
             android:exported="false">
         </activity>
         <activity
@@ -107,10 +111,6 @@
         </activity>
         <activity
             android:name=".Calificar"
-            android:exported="false">
-        </activity>
-        <activity
-            android:name=".VerGrupos"
             android:exported="false">
         </activity>
     </application>
