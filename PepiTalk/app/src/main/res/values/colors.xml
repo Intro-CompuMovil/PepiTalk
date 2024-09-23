@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="azulOscuro">#283492</color>
+    <color name="letraOscura">#293241</color>
+    <color name="rosa">#EA8BD5</color>
+    <color name="morado">#6B1B9A</color>
 </resources>

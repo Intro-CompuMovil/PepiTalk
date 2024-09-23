@@ -5,7 +5,7 @@
     >
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarVerGrupos"
+        android:id="@+id/toolbarVerOfertas"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_alignParentRight="true"
@@ -16,16 +16,16 @@
         android:theme="?attr/actionBarTheme"/>
 
     <TextView
-        android:id="@+id/tiruloVerGrupos"
+        android:id="@+id/tituloVerOfertas"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:text="Grupos"
+        android:text="Ofertas"
         android:textAlignment="center"
         android:textSize="28dp"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:gravity="center"
-    />
+        />
 
     <ImageButton
         android:id="@+id/butInicio"
@@ -55,10 +55,10 @@
     </androidx.cardview.widget.CardView>
 
     <ListView
-        android:id="@+id/grupos1"
+        android:id="@+id/ofertas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbarVerGrupos"
+        android:layout_below="@+id/toolbarVerOfertas"
         ></ListView>
 
 </RelativeLayout>
