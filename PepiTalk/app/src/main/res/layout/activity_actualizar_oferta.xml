@@ -1,6 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarActualizarOferta"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/azulOscuro"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        />
+
+    <TextView
+        android:id="@+id/tituloActualizarOferta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="0dp"
+        android:padding="25dp"
+        android:text="Actualizar Oferta"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="28sp" />
+    <ImageButton
+        android:id="@+id/butInicio"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:background="@null"
+        app:srcCompat="@drawable/icons8_casa_40"
+        android:paddingLeft="30dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="4dp"
+        android:layout_gravity="center">
+
+        <ImageButton
+            android:id="@+id/butPerfil"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/m2"/>
+    </androidx.cardview.widget.CardView>
+    <TextView
+        android:id="@+id/infoText8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbarActualizarOferta"
+        android:text="¡Cambia tu oferta oferta!"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:textColor="@color/letraOscura"
+        android:padding="25dp"/>
+
+
+
+    <EditText
+        android:id="@+id/editTextDiaOfertaAct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/infoText8"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:padding="10dp"
+        android:hint="Dia: DD/MM/AAAA"
+        android:textColorHint="@color/morado"
+        android:textSize="24sp"
+        android:background="@drawable/rounded"
+        android:elevation="12dp"/>
+    <EditText
+        android:id="@+id/editTextHoraInicioAct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextDiaOfertaAct"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:padding="10dp"
+        android:hint="Hora de inicio: HH:MM"
+        android:textColorHint="@color/morado"
+        android:textSize="24sp"
+        android:background="@drawable/rounded"
+        android:elevation="12dp"/>
+
+    <EditText
+        android:id="@+id/editTextHoraFinalAct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextHoraInicioAct"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:padding="10dp"
+        android:hint="Hora final: HH:MM"
+        android:textColorHint="@color/morado"
+        android:textSize="24sp"
+        android:background="@drawable/rounded"
+        android:elevation="12dp"/>
+
+
+    <EditText
+        android:id="@+id/editTextRecompensaAct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextHoraFinalAct"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:padding="10dp"
+        android:hint="Pago"
+        android:textSize="24sp"
+        android:textColorHint="@color/morado"
+        android:background="@drawable/rounded"
+        android:elevation="12dp"
+        />
+    <EditText
+        android:id="@+id/editTextLugarOfertaAct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextRecompensaAct"
+        android:layout_alignParentLeft="true"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:padding="10dp"
+        android:hint="Lugar"
+        android:textSize="24sp"
+        android:textColorHint="@color/morado"
+        android:background="@drawable/rounded"
+        android:elevation="12dp"
+        />
+    <EditText
+        android:id="@+id/editTextDescripcionOfertaAct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextLugarOfertaAct"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:padding="10dp"
+        android:hint="Descripción"
+        android:textSize="24sp"
+        android:textColorHint="@color/morado"
+        android:background="@drawable/rounded"
+        android:elevation="12dp"
+        />
+
+    <Button
+        android:id="@+id/buttonActualizarOferta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="60dp"
+        android:layout_marginHorizontal="60dp"
+        android:padding="15dp"
+        android:textSize="24sp"
+        android:text="Cambia tu oferta"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:elevation="12dp"
+        />
+
+
+
+
+</RelativeLayout>
