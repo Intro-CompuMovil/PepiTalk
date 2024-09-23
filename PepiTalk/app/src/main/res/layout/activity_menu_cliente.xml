@@ -1,6 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+     <com.google.android.material.appbar.MaterialToolbar
+         android:id="@+id/toolbarMenuCliente"
+         android:layout_width="match_parent"
+         android:layout_height="100dp"
+         android:layout_alignParentLeft="true"
+         android:layout_alignParentTop="true"
+         android:layout_alignParentRight="true"
+         android:background="@color/azulOscuro"
+         android:minHeight="?attr/actionBarSize"
+         android:theme="?attr/actionBarTheme" />
+
+     <TextView
+         android:id="@+id/TituloMenuCliente"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="Menu Cliente"
+         android:layout_centerHorizontal="true"
+         android:textSize="35sp"
+         android:textColor="@color/blanco"
+         android:layout_marginTop="25dp"/>
+
+     <ImageButton
+         android:id="@+id/imageButtonPerfil"
+         android:layout_width="44dp"
+         android:layout_height="42dp"
+         android:layout_alignParentRight="true"
+         android:layout_marginTop="25dp"
+         android:layout_marginRight="25dp"
+         tools:srcCompat="@tools:sample/avatars"
+
+         />
+
+     <TextView
+         android:id="@+id/textSeleccionarOpcion"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="Selecciona una Opcion"
+         android:textSize="30dp"
+         android:layout_centerHorizontal="true"
+         android:layout_below="@id/toolbarMenuCliente"
+         android:layout_marginTop="50dp"
+         android:textColor="@color/morado"/>
+
+     <Button
+         android:id="@+id/buttonGrupos"
+         android:layout_width="300dp"
+         android:layout_height="100dp"
+         android:layout_above="@id/buttonReuniones"
+         android:layout_centerHorizontal="true"
+         android:layout_marginBottom="60dp"
+         android:text="Grupos \n \n Ver, manejar y unirse a Grupos"
+         android:backgroundTint="@color/rosa"
+         android:textColor="@color/morado"/>
+
+     <Button
+         android:id="@+id/buttonReuniones"
+         android:layout_width="300dp"
+         android:layout_height="100dp"
+         android:layout_above="@id/buttonServicios"
+         android:layout_centerHorizontal="true"
+         android:layout_marginBottom="60dp"
+         android:text="Reuniones \n \n Ver, manejar y Unirse a reuniones"
+         android:backgroundTint="@color/rosa"
+         android:textColor="@color/morado"/>
+
+     <Button
+         android:id="@+id/buttonServicios"
+         android:layout_width="300dp"
+         android:layout_height="100dp"
+         android:layout_alignParentBottom="true"
+         android:layout_centerHorizontal="true"
+         android:layout_marginBottom="70dp"
+         android:text="Servicios \n\n Contratar interpretes"
+         android:backgroundTint="@color/rosa"
+         android:textColor="@color/morado"/>
+
+
+</RelativeLayout>
