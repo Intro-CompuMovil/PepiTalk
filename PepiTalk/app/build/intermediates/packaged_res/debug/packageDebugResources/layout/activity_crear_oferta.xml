@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarCrearOferta"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/azulOscuro"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        />
+
+    <TextView
+        android:id="@+id/tituloCrearOferta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="0dp"
+        android:padding="25dp"
+        android:text="Crear Oferta"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="32sp" />
+
+    <TextView
+        android:id="@+id/infoText7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbarCrearOferta"
+        android:text="¡Haz una oferta!"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:textColor="@color/letraOscura"
+        android:padding="25dp"/>
+
+
+
+
+    <EditText
+        android:id="@+id/editTextIdiomaOferta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/infoText7"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:padding="10dp"
+        android:hint="Idioma"
+        android:textColorHint="@color/morado"
+        android:textSize="24sp"
+        android:background="@drawable/rounded"
+        android:elevation="12dp"/>
+    <EditText
+        android:id="@+id/editTextDiaOferta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextIdiomaOferta"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:padding="10dp"
+        android:hint="Dia: DD/MM/AAAA"
+        android:textColorHint="@color/morado"
+        android:textSize="24sp"
+        android:background="@drawable/rounded"
+        android:elevation="12dp"/>
+    <EditText
+        android:id="@+id/editTextHoraInicio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextDiaOferta"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:padding="10dp"
+        android:hint="Hora de inicio: HH:MM"
+        android:textColorHint="@color/morado"
+        android:textSize="24sp"
+        android:background="@drawable/rounded"
+        android:elevation="12dp"/>
+
+    <EditText
+        android:id="@+id/editTextHoraFinal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextHoraInicio"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:padding="10dp"
+        android:hint="Hora final: HH:MM"
+        android:textColorHint="@color/morado"
+        android:textSize="24sp"
+        android:background="@drawable/rounded"
+        android:elevation="12dp"/>
+
+
+    <EditText
+        android:id="@+id/editTextRecompensa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextHoraFinal"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:padding="10dp"
+        android:hint="Valor en pesos colombianos"
+        android:textSize="24sp"
+        android:textColorHint="@color/morado"
+        android:background="@drawable/rounded"
+        android:elevation="12dp"
+        />
+    <EditText
+        android:id="@+id/editTextLugarOferta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextRecompensa"
+        android:layout_alignParentLeft="true"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:padding="10dp"
+        android:hint="Lugar"
+        android:textSize="24sp"
+        android:textColorHint="@color/morado"
+        android:background="@drawable/rounded"
+        android:elevation="12dp"
+        />
+    <EditText
+        android:id="@+id/editTextDescripcionOferta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextLugarOferta"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:padding="10dp"
+        android:hint="Descripción"
+        android:textSize="24sp"
+        android:textColorHint="@color/morado"
+        android:background="@drawable/rounded"
+        android:elevation="12dp"
+        />
+
+    <Button
+        android:id="@+id/buttonCrearOferta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="60dp"
+        android:layout_marginHorizontal="60dp"
+        android:padding="15dp"
+        android:textSize="24sp"
+        android:text="Publica tu oferta"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:elevation="12dp"
+        />
+
+
+
+
+
+</RelativeLayout>
