@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarGrupo"
+        android:id="@+id/toolbarMenuReunion"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_alignParentRight="true"
@@ -16,10 +16,10 @@
         />
 
     <TextView
-        android:id="@+id/TituloMenuGrupo"
+        android:id="@+id/TituloReunion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Menu Grupos"
+        android:text="Menu Reuniones"
         android:layout_centerHorizontal="true"
         android:textSize="35sp"
         android:textColor="@color/blanco"
@@ -29,16 +29,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Selecciona una Opcion"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/toolbarGrupo"
+        android:layout_below="@id/toolbarMenuReunion"
         android:layout_marginTop="45dp"
         android:textColor="@color/morado"/>
     <Button
-        android:id="@+id/buttonVerMisGrupos"
+        android:id="@+id/buttonVerMisReuniones"
         android:layout_width="300dp"
         android:layout_height="100dp"
-        android:text="Ver mis Grupos"
+        android:text="Ver mis Reuniones"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/textOpciones"
         android:backgroundTint="@color/rosa"
@@ -46,23 +46,23 @@
         android:layout_marginTop="50dp"/>
 
     <Button
-        android:id="@+id/buttonVerGruposParaUnirme"
+        android:id="@+id/buttonVerReunionesParaUnirme"
         android:layout_width="300dp"
         android:layout_height="100dp"
-        android:text="Ver grupos a los que me puedo unir"
+        android:text="Ver Reuniones a las que me puedo unir"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/buttonVerMisGrupos"
+        android:layout_below="@id/buttonVerMisReuniones"
         android:backgroundTint="@color/rosa"
         android:textColor="@color/morado"
         android:layout_marginTop="60dp"/>
 
     <Button
-        android:id="@+id/buttonCrearGrupo"
+        android:id="@+id/buttonCrearReunion"
         android:layout_width="300dp"
         android:layout_height="100dp"
-        android:text="Crear un grupo"
+        android:text="Crear una Reunion"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/buttonVerGruposParaUnirme"
+        android:layout_below="@id/buttonVerReunionesParaUnirme"
         android:backgroundTint="@color/rosa"
         android:textColor="@color/morado"
         android:layout_marginTop="60dp"/>
