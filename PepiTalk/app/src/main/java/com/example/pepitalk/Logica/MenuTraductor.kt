@@ -1,10 +1,11 @@
-package com.example.pepitalk
+package com.example.pepitalk.Logica
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.R
 
 class MenuTraductor : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,11 +14,11 @@ class MenuTraductor : AppCompatActivity(){
 
         val Trabajos = findViewById<Button>(R.id.buttonTrabajos)
         val Ofertas = findViewById<Button>(R.id.buttonOfertas)
-        val Perfil = findViewById<ImageButton>(R.id.imageButtonPerfil)
+        val perfil = findViewById<ImageButton>(R.id.butPerfil)
 
         AccionBotonTrabajos(Trabajos)
         AccionBotonOfertas(Ofertas)
-        AccionBotonPerfil(Perfil)
+        AccionBotonPerfil(perfil)
 
     }
     fun AccionBotonTrabajos( Trabajos : Button){
@@ -33,9 +34,9 @@ class MenuTraductor : AppCompatActivity(){
         }
     }
 
-    fun AccionBotonPerfil( Perfil : ImageButton) {
+    fun AccionBotonPerfil( perfil : ImageButton) {
         val irAPerfil = Intent(this, Perfil::class.java)
-        Perfil.setOnClickListener{
+        perfil.setOnClickListener{
             startActivity(irAPerfil)
         }
     }

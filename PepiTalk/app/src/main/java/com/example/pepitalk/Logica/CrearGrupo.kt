@@ -1,4 +1,4 @@
-package com.example.pepitalk
+package com.example.pepitalk.Logica
 
 import android.Manifest
 import android.app.Activity
@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.pepitalk.Datos.Data
+import com.example.pepitalk.R
 
 class CrearGrupo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +26,8 @@ class CrearGrupo : AppCompatActivity() {
         setContentView(R.layout.activity_crear_grupo)
         val botonCrearGrupo = findViewById<Button>(R.id.buttonCrearGrupo)
         val botonImagen = findViewById<ImageButton>(R.id.imageButton3)
+        val menuPrincipal = findViewById<ImageButton>(R.id.butInicio)
+        val perfil = findViewById<ImageButton>(R.id.butPerfil)
         botonImagen.isEnabled = false
         pedirPermiso(this, arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE), "Se necesita este permiso", Data.MY_PERMISSION_REQUEST_CAMERA)
         botonCrearGrupo.setOnClickListener(){
@@ -33,6 +36,17 @@ class CrearGrupo : AppCompatActivity() {
         botonImagen.setOnClickListener(){
             escogerImagen(botonImagen)
         }
+        menuPrincipal.setOnClickListener(){
+            irPrincipal()
+        }
+        perfil.setOnClickListener(){
+            startActivity(Intent(this, Perfil::class.java))
+        }
+    }
+
+    private fun irPrincipal(){
+
+        startActivity(Intent(this, MenuCliente::class.java))
     }
 
     private fun validarCampos(){

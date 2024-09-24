@@ -1,9 +1,13 @@
-package com.example.pepitalk
+package com.example.pepitalk.Logica
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.R
 
 class Reunion : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,10 +17,14 @@ class Reunion : AppCompatActivity(){
         val ButtonVerMisReuniones = findViewById<Button>(R.id.buttonVerMisReuniones)
         val ButtonVerReunionesParaUnirme = findViewById<Button>(R.id.buttonVerReunionesParaUnirme)
         val ButtonCrearReunion = findViewById<Button>(R.id.buttonCrearReunion)
+        val menuInicio = findViewById<ImageButton>(R.id.butInicio)
+        val perfil = findViewById<ImageButton>(R.id.butPerfil)
 
         VerMisReuniones(ButtonVerMisReuniones)
         VerReunionesParaUnirme(ButtonVerReunionesParaUnirme)
         CrearReunion(ButtonCrearReunion)
+        irPerfil(perfil, this)
+        menuPrincipal(menuInicio, this)
     }
 
     fun VerMisReuniones( ButtonVerMisReuniones : Button ){
@@ -37,5 +45,18 @@ class Reunion : AppCompatActivity(){
             startActivity(irACrearReuniones)
         }
     }
-
+    fun menuPrincipal(menuInicio: ImageButton, context: Context){
+        val irAMenuPrincipal = Intent(this, MenuCliente::class.java)
+        menuInicio.setOnClickListener {
+            startActivity(irAMenuPrincipal)
+            Toast.makeText(this,"Yendo al menú", Toast. LENGTH_LONG).show()
+        }
+    }
+    fun irPerfil(perfil : ImageButton, context : Context){
+        val irAPerfil = Intent(this, Perfil::class.java)
+        perfil.setOnClickListener {
+            startActivity(irAPerfil)
+            Toast.makeText(this,"¡Tu perfil!", Toast. LENGTH_LONG).show()
+        }
+    }
 }

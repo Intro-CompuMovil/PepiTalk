@@ -1,4 +1,4 @@
-package com.example.pepitalk
+package com.example.pepitalk.Logica
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.Datos.Persona
+import com.example.pepitalk.R
 
 class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,25 +40,33 @@ class Login : AppCompatActivity() {
 
     private fun validarLogin(usuario: String, contrasena: String){
         //recorrer arreglo con los usuarios
-        val userTemp = "gabriel13"
-        val claveTemp = "clave123"
-        val tipoTemp = "Cliente"
+        var found = false
 
+        for( i in 0 until Persona.personas.size){
+            if(usuario == Persona.personas[i].usuario && contrasena == Persona.personas[i].contrasena){
+                found = true
+                Persona.personaLog.tipo = Persona.personas[i].tipo
+                Persona.personaLog.nombre = Persona.personas[i].nombre
+                Persona.personaLog.usuario = Persona.personas[i].usuario
+                Persona.personaLog.contrasena = Persona.personas[i].contrasena
+                Persona.personaLog.correo = Persona.personas[i].correo
+                if(Persona.personas[i].tipo == "Cliente"){
+                    var clienteLoggedIn = Intent(this, MenuCliente::class.java)
+                    clienteLoggedIn.putExtra("usuario", usuario)
+                    startActivity(clienteLoggedIn)
+                }
+                else{
+                    var traductorLoggedIn = Intent(this, MenuTraductor::class.java)
+                    traductorLoggedIn.putExtra("usuario", usuario)
+                    startActivity(traductorLoggedIn)
+                }
+            }
 
-        if(usuario == userTemp && claveTemp == contrasena){
-            if(tipoTemp == "Cliente"){
-                var clienteLoggedIn = Intent(this, MenuCliente::class.java)
-                clienteLoggedIn.putExtra("usuario", usuario)
-                startActivity(clienteLoggedIn)
-            }
-            else{
-                var traductorLoggedIn = Intent(this, MenuTraductor::class.java)
-                traductorLoggedIn.putExtra("usuario", usuario)
-                startActivity(traductorLoggedIn)
-            }
         }
-        else{
+        if(!found){
             Toast.makeText(this,"No se pudo iniciar sesión, revise el usuario y la contraseña" , Toast.LENGTH_SHORT).show()
+
         }
+
     }
 }

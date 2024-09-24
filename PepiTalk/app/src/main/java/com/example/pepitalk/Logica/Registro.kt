@@ -1,4 +1,4 @@
-package com.example.pepitalk
+package com.example.pepitalk.Logica
 
 import android.Manifest
 import android.app.Activity
@@ -8,58 +8,105 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
+import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.pepitalk.Datos.Data
+import com.example.pepitalk.Datos.Persona
+import com.example.pepitalk.R
 
-class ActualizarReunion : AppCompatActivity() {
+
+class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_actualizar_reunion)
-        val botonActualizarReunion = findViewById<Button>(R.id.buttonActualizarReunion)
-        val botonImagen = findViewById<ImageButton>(R.id.imageButton6)
-        val butInicio = findViewById<ImageButton>(R.id.butInicio)
+        setContentView(R.layout.activity_registro)
+        val botonRegistro = findViewById<Button>(R.id.buttonRegistrar)
+        val botonImagen = findViewById<ImageButton>(R.id.imageButton)
         botonImagen.isEnabled = false
         pedirPermiso(this, arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE), "Se necesita este permiso", Data.MY_PERMISSION_REQUEST_CAMERA)
-        botonActualizarReunion.setOnClickListener(){
+        botonRegistro.setOnClickListener(){
             validarCampos()
         }
         botonImagen.setOnClickListener(){
             escogerImagen(botonImagen)
         }
+    }
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+
+
+    }
+    override fun onNothingSelected(parent: AdapterView<*>?) {
 
     }
 
     private fun validarCampos(){
+        val tipo = findViewById<Spinner>(R.id.spinner)
+        tipo.onItemSelectedListener = this
+        val nombre = findViewById<EditText>(R.id.editTextNombreRegistro)
+        val username = findViewById<EditText>(R.id.editTextUsuarioRegistro)
+        val contrasena = findViewById<EditText>(R.id.editTextPasswordRegistro)
+        val confContrasena = findViewById<EditText>(R.id.editTextConfirmarPasswordRegistro)
+        val correo = findViewById<EditText>(R.id.editTextCorreoRegistro)
 
-        val dia = findViewById<EditText>(R.id.editTextDiaReunion)
-        val hora = findViewById<EditText>(R.id.editTextHoraReunion)
-        val nivel = findViewById<EditText>(R.id.editTextNivelReunion)
-        val lugar = findViewById<EditText>(R.id.editTextLugarReunion)
-        val descripcion = findViewById<EditText>(R.id.editTextDescripcionReunion)
-
-        if(dia.text.toString().isEmpty() ||hora.text.toString().isEmpty() || nivel.text.toString().isEmpty() || lugar.text.toString().isEmpty()|| descripcion.text.toString().isEmpty()){
+        if(nombre.text.toString().isEmpty() ||username.text.toString().isEmpty() || contrasena.text.toString().isEmpty() || confContrasena.text.toString().isEmpty() || correo.text.toString().isEmpty()){
             Toast.makeText(this,"Por favor complete todos los campos" , Toast.LENGTH_SHORT).show()
         }
         else{
-            validarRegistro(dia.text.toString(),hora.text.toString(), nivel.text.toString(), lugar.text.toString(), descripcion.text.toString())
+            validarRegistro(nombre.text.toString(), username.text.toString(), tipo.selectedItem.toString(), contrasena.text.toString(), confContrasena.text.toString(), correo.text.toString())
         }
     }
 
-    private fun validarRegistro(dia: String, hora: String,  nivel: String, lugar: String, descripcion: String){
+    private fun validarRegistro(nombre: String, usuario: String, tipo: String, contrasena: String, confContrasena: String, correo: String){
         //recorrer arreglo con los usuarios
+        val emailRegex = Regex("^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})")
+        var found = false
 
-        var reunionCreado = Intent(this, Reunion::class.java)
-        startActivity(reunionCreado)
-        Toast.makeText(this,"Se ha actualizado su reunion correctamente" , Toast.LENGTH_SHORT).show()
-
+        for( i in 0 until Persona.personas.size){
+            if(usuario == Persona.personas[i].usuario|| correo == Persona.personas[i].correo){
+                found = true
+                Toast.makeText(this,"El usuario ya existe o el correo ya se ha utilizado" , Toast.LENGTH_SHORT).show()
+            }
+        }
+        if(!found){
+            if(contrasena == confContrasena){
+                if(emailRegex.matches(correo)){
+                    var newUser = Persona(tipo, usuario, nombre,contrasena, correo)
+                    Persona.personas.add(newUser)
+                    Persona.personaLog.tipo = tipo
+                    Persona.personaLog.usuario = usuario
+                    Persona.personaLog.nombre = nombre
+                    Persona.personaLog.contrasena = contrasena
+                    Persona.personaLog.correo = correo
+                    if(tipo == "Cliente"){
+                        var clienteRegistrado = Intent(this, MenuCliente::class.java)
+                        startActivity(clienteRegistrado)
+                        Toast.makeText(this,"Se ha registrado correctamente" , Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        var traductorRegistrado = Intent(this, MenuTraductor::class.java)
+                        startActivity(traductorRegistrado)
+                        Toast.makeText(this,"Se ha registrado correctamente" , Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else{
+                    Toast.makeText(this,"El correo no es válido" , Toast.LENGTH_SHORT).show()
+                }
+            }
+            else{
+                Toast.makeText(this,"Las contraseñas no coinciden" , Toast.LENGTH_SHORT).show()
+            }
+        }
 
     }
 
@@ -91,7 +138,7 @@ class ActualizarReunion : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val botonImagen = findViewById<ImageButton>(R.id.imageButton5)
+        val botonImagen = findViewById<ImageButton>(R.id.imageButton)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 Data.MY_PERMISSION_REQUEST_CAMERA -> {
@@ -120,7 +167,7 @@ class ActualizarReunion : AppCompatActivity() {
             ActivityCompat.requestPermissions(context, permisosNoConcedidos.toTypedArray(), idCode)
         } else {
             Toast.makeText(this,"¡Ahora puede agregar una foto a su perfil, grupos o reuniones!" , Toast.LENGTH_SHORT).show()
-            val botonImagen = findViewById<ImageButton>(R.id.imageButton5)
+            val botonImagen = findViewById<ImageButton>(R.id.imageButton)
             botonImagen.isEnabled = true
         }
 
@@ -133,7 +180,7 @@ class ActualizarReunion : AppCompatActivity() {
             when (requestCode) {
                 Data.MY_PERMISSION_REQUEST_CAMERA -> {
                     Toast.makeText(this, "Permisos para la cámara concedidos", Toast.LENGTH_SHORT).show()
-                    val botonImagen = findViewById<ImageButton>(R.id.imageButton5)
+                    val botonImagen = findViewById<ImageButton>(R.id.imageButton)
                     botonImagen.isEnabled = true
                 }
                 Data.MY_PERMISSION_REQUEST_GALLERY -> {

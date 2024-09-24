@@ -1,4 +1,4 @@
-package com.example.pepitalk
+package com.example.pepitalk.Logica
 
 import android.Manifest
 import android.app.Activity
@@ -17,56 +17,54 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.pepitalk.Datos.Data
+import com.example.pepitalk.R
 
-class CrearReunion : AppCompatActivity() {
+class ActualizarGrupo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_crear_reunion)
-        val botonCrearReunion = findViewById<Button>(R.id.buttonCrearReunion)
-        val botonImagen = findViewById<ImageButton>(R.id.imageButton5)
+        setContentView(R.layout.activity_actualizar_grupo)
+        val botonActualizarGrupo = findViewById<Button>(R.id.buttonActualizarGrupo)
+        val botonImagen = findViewById<ImageButton>(R.id.imageButton4)
+        val menuPrincipal = findViewById<ImageButton>(R.id.butInicio)
+        val perfil = findViewById<ImageButton>(R.id.butPerfil)
         botonImagen.isEnabled = false
         pedirPermiso(this, arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE), "Se necesita este permiso", Data.MY_PERMISSION_REQUEST_CAMERA)
-        botonCrearReunion.setOnClickListener(){
+        botonActualizarGrupo.setOnClickListener(){
             validarCampos()
         }
-        botonImagen.setOnClickListener(){
-            escogerImagen(botonImagen)
+        menuPrincipal.setOnClickListener(){
+            irPrincipal()
         }
+        perfil.setOnClickListener(){
+            startActivity(Intent(this, Perfil::class.java))
+        }
+    }
+
+    private fun irPrincipal(){
+        startActivity(Intent(this, MenuCliente::class.java))
     }
 
     private fun validarCampos(){
-        val nombre = findViewById<EditText>(R.id.editTextNombreReunion)
-        val dia = findViewById<EditText>(R.id.editTextDiaReunion)
-        val hora = findViewById<EditText>(R.id.editTextHoraReunion)
-        val idioma = findViewById<EditText>(R.id.editTextIdiomaReunion)
-        val nivel = findViewById<EditText>(R.id.editTextNivelReunion)
-        val lugar = findViewById<EditText>(R.id.editTextLugarReunion)
-        val descripcion = findViewById<EditText>(R.id.editTextDescripcionReunion)
 
-        if(nombre.text.toString().isEmpty() ||dia.text.toString().isEmpty() ||hora.text.toString().isEmpty() || idioma.text.toString().isEmpty() || nivel.text.toString().isEmpty() || lugar.text.toString().isEmpty()|| descripcion.text.toString().isEmpty()){
+        val nivel = findViewById<EditText>(R.id.editTextNivelGrupoAct)
+        val lugar = findViewById<EditText>(R.id.editTextLugarGrupoAct)
+        val descripcion = findViewById<EditText>(R.id.editTextDescripcionGrupoAct)
+
+        if( nivel.text.toString().isEmpty() || lugar.text.toString().isEmpty()|| descripcion.text.toString().isEmpty()){
             Toast.makeText(this,"Por favor complete todos los campos" , Toast.LENGTH_SHORT).show()
         }
         else{
-            validarRegistro(nombre.text.toString(),dia.text.toString(),hora.text.toString(), idioma.text.toString(), nivel.text.toString(), lugar.text.toString(), descripcion.text.toString())
+            validarRegistro(nivel.text.toString(), lugar.text.toString(), descripcion.text.toString())
         }
     }
 
-    private fun validarRegistro(nombre: String, dia: String, hora: String, idioma: String, nivel: String, lugar: String, descripcion: String){
+    private fun validarRegistro(nivel: String, lugar: String, descripcion: String){
         //recorrer arreglo con los usuarios
-        val nombreR = "grupo1234"
 
-        if(nombreR != nombre){
-
-            var reunionCreado = Intent(this, Reunion::class.java)
-            startActivity(reunionCreado)
-            Toast.makeText(this,"Se ha creado su reunion correctamente" , Toast.LENGTH_SHORT).show()
-
-
-        }
-        else{
-            Toast.makeText(this,"Ya existe una reunion con ese nombre" , Toast.LENGTH_SHORT).show()
-        }
+        var grupoActualizar = Intent(this, Grupo::class.java)
+        startActivity(grupoActualizar)
+        Toast.makeText(this,"Se ha actualizado su grupo correctamente" , Toast.LENGTH_SHORT).show()
 
     }
 
@@ -97,7 +95,7 @@ class CrearReunion : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val botonImagen = findViewById<ImageButton>(R.id.imageButton5)
+        val botonImagen = findViewById<ImageButton>(R.id.imageButton4)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 Data.MY_PERMISSION_REQUEST_CAMERA -> {
@@ -126,7 +124,7 @@ class CrearReunion : AppCompatActivity() {
             ActivityCompat.requestPermissions(context, permisosNoConcedidos.toTypedArray(), idCode)
         } else {
             Toast.makeText(this,"¡Ahora puede agregar una foto a su perfil, grupos o reuniones!" , Toast.LENGTH_SHORT).show()
-            val botonImagen = findViewById<ImageButton>(R.id.imageButton5)
+            val botonImagen = findViewById<ImageButton>(R.id.imageButton4)
             botonImagen.isEnabled = true
         }
 
@@ -139,7 +137,7 @@ class CrearReunion : AppCompatActivity() {
             when (requestCode) {
                 Data.MY_PERMISSION_REQUEST_CAMERA -> {
                     Toast.makeText(this, "Permisos para la cámara concedidos", Toast.LENGTH_SHORT).show()
-                    val botonImagen = findViewById<ImageButton>(R.id.imageButton5)
+                    val botonImagen = findViewById<ImageButton>(R.id.imageButton4)
                     botonImagen.isEnabled = true
                 }
                 Data.MY_PERMISSION_REQUEST_GALLERY -> {
@@ -167,4 +165,5 @@ class CrearReunion : AppCompatActivity() {
     private fun arePermissionsGranted(grantResults: IntArray): Boolean {
         return grantResults.all { it == PackageManager.PERMISSION_GRANTED }
     }
+
 }

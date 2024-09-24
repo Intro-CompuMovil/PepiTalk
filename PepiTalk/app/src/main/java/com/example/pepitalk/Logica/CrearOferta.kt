@@ -1,12 +1,14 @@
-package com.example.pepitalk
+package com.example.pepitalk.Logica
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.R
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -17,9 +19,22 @@ class CrearOferta : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_crear_oferta)
         val botonCrearOferta = findViewById<Button>(R.id.buttonCrearOferta)
+        val menuPrincipal = findViewById<ImageButton>(R.id.butInicio)
+        val perfil = findViewById<ImageButton>(R.id.butPerfil)
         botonCrearOferta.setOnClickListener(){
             validarCampos()
         }
+        menuPrincipal.setOnClickListener(){
+            irPrincipal()
+        }
+        perfil.setOnClickListener(){
+            startActivity(Intent(this, Perfil::class.java))
+        }
+    }
+
+    private fun irPrincipal(){
+
+        startActivity(Intent(this, MenuCliente::class.java))
     }
 
     private fun validarCampos(){

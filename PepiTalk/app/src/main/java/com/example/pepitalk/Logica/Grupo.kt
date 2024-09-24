@@ -1,9 +1,13 @@
-package com.example.pepitalk
+package com.example.pepitalk.Logica
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.R
 
 class Grupo  : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,10 +17,14 @@ class Grupo  : AppCompatActivity(){
         val buttonVerMisGrupos = findViewById<Button>(R.id.buttonVerMisGrupos)
         val buttonVerGruposParaUnirme = findViewById<Button>(R.id.buttonVerGruposParaUnirme)
         val buttonCrearGrupo = findViewById<Button>(R.id.buttonCrearGrupo)
+        val menuInicio = findViewById<ImageButton>(R.id.butInicio)
+        val perfil = findViewById<ImageButton>(R.id.butPerfil)
 
         verMisGrupos(buttonVerMisGrupos)
         verGruposParaUnirme(buttonVerGruposParaUnirme)
         crearGrupo(buttonCrearGrupo)
+        irPerfil(perfil, this)
+        menuPrincipal(menuInicio, this)
     }
 
     fun verMisGrupos( buttonVerMisGrupos : Button ){
@@ -37,5 +45,18 @@ class Grupo  : AppCompatActivity(){
             startActivity(irACrearGrupo)
         }
     }
-
+    fun menuPrincipal(menuInicio: ImageButton, context: Context){
+        val irAMenuPrincipal = Intent(this, MenuCliente::class.java)
+        menuInicio.setOnClickListener {
+            startActivity(irAMenuPrincipal)
+            Toast.makeText(this,"Yendo al menú", Toast. LENGTH_LONG).show()
+        }
+    }
+    fun irPerfil(perfil : ImageButton, context : Context){
+        val irAPerfil = Intent(this, Perfil::class.java)
+        perfil.setOnClickListener {
+            startActivity(irAPerfil)
+            Toast.makeText(this,"¡Tu perfil!", Toast. LENGTH_LONG).show()
+        }
+    }
 }

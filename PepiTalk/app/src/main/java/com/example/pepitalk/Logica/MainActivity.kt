@@ -1,4 +1,4 @@
-package com.example.pepitalk
+package com.example.pepitalk.Logica
 
 import android.content.Intent
 import android.os.Bundle
@@ -20,11 +20,11 @@ class MainActivity : AppCompatActivity() {
         val Registrarse = findViewById<Button>(R.id.buttonRegistrarse)
 
         IniciarSesion.setOnClickListener {
-            val intent = Intent(this, Login::class.java)
+            val intent = Intent(this, com.example.pepitalk.Logica.Login::class.java)
             startActivity(intent)
         }
         Registrarse.setOnClickListener {
-            val intent = Intent(this, Registro::class.java)
+            val intent = Intent(this, com.example.pepitalk.Logica.Registro::class.java)
             startActivity(intent)
         }
     }

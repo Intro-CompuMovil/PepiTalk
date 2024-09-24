@@ -1,4 +1,4 @@
-package com.example.pepitalk
+package com.example.pepitalk.Logica
 
 import android.Manifest
 import android.app.Activity
@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.pepitalk.Datos.Data
+import com.example.pepitalk.Datos.Persona
+import com.example.pepitalk.R
 
 class ActualizarCuenta : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +28,8 @@ class ActualizarCuenta : AppCompatActivity() {
         setContentView(R.layout.activity_actualizar_cuenta)
         val botonActualizar = findViewById<Button>(R.id.buttonActualizar)
         val botonImagen = findViewById<ImageButton>(R.id.imageButton2)
+        val menuPrincipal = findViewById<ImageButton>(R.id.butInicio)
+        val perfil = findViewById<ImageButton>(R.id.butPerfil)
         botonImagen.isEnabled = false
         pedirPermiso(this, arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE), "Se necesita este permiso", Data.MY_PERMISSION_REQUEST_CAMERA)
         botonActualizar.setOnClickListener(){
@@ -34,6 +38,22 @@ class ActualizarCuenta : AppCompatActivity() {
         botonImagen.setOnClickListener(){
             escogerImagen(botonImagen)
         }
+        menuPrincipal.setOnClickListener(){
+            irPrincipal()
+        }
+        perfil.setOnClickListener(){
+            startActivity(Intent(this, Perfil::class.java))
+        }
+    }
+    private fun irPrincipal(){
+        //falta diferenciar por tipo
+        if(Persona.personaLog.tipo == "Cliente"){
+            startActivity(Intent(this, MenuCliente::class.java))
+        }
+        else{
+            startActivity(Intent(this, MenuTraductor::class.java))
+        }
+
     }
 
     private fun validarCampos(){
@@ -185,4 +205,6 @@ class ActualizarCuenta : AppCompatActivity() {
     private fun arePermissionsGranted(grantResults: IntArray): Boolean {
         return grantResults.all { it == PackageManager.PERMISSION_GRANTED }
     }
+
+
 }

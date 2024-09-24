@@ -108,9 +108,9 @@
         android:padding="10dp"
         android:hint="Dia: DD/MM/AAAA"
         android:textColorHint="@color/morado"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:background="@drawable/rounded"
-        android:elevation="12dp"/>
+/>
     <EditText
         android:id="@+id/editTextHoraReunionAct"
         android:layout_width="match_parent"
@@ -123,9 +123,9 @@
         android:padding="10dp"
         android:hint="Hora: HH:MM"
         android:textColorHint="@color/morado"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:background="@drawable/rounded"
-        android:elevation="12dp"/>
+/>
 
 
     <EditText
@@ -139,10 +139,10 @@
         android:layout_marginHorizontal="20dp"
         android:padding="10dp"
         android:hint="Nivel recomendado"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textColorHint="@color/morado"
         android:background="@drawable/rounded"
-        android:elevation="12dp"
+
         />
     <EditText
         android:id="@+id/editTextLugarReunionAct"
@@ -154,10 +154,9 @@
         android:layout_marginHorizontal="20dp"
         android:padding="10dp"
         android:hint="Lugar"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textColorHint="@color/morado"
         android:background="@drawable/rounded"
-        android:elevation="12dp"
         />
     <EditText
         android:id="@+id/editTextDescripcionReunionAct"
@@ -170,23 +169,21 @@
         android:layout_marginHorizontal="20dp"
         android:padding="10dp"
         android:hint="Descripción"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textColorHint="@color/morado"
         android:background="@drawable/rounded"
-        android:elevation="12dp"
         />
 
     <Button
         android:id="@+id/buttonActualizarReunion"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="60dp"
         android:layout_marginHorizontal="60dp"
         android:padding="15dp"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:text="Crear"
         android:textColor="@color/morado"
         android:backgroundTint="@color/rosa"

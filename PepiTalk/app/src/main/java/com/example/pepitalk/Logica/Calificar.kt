@@ -1,12 +1,15 @@
-package com.example.pepitalk
+package com.example.pepitalk.Logica
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.R
 
 class Calificar : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,6 +20,17 @@ class Calificar : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         spinner.onItemSelectedListener = this
         val editText = findViewById<EditText>(R.id.editTextComentario)
         val buttonCalificar = findViewById<Button>(R.id.buttonCalificar)
+        val menuPrincipal = findViewById<ImageButton>(R.id.butInicio)
+        val perfil = findViewById<ImageButton>(R.id.butPerfil)
+        buttonCalificar.setOnClickListener(){
+            irPrincipal()
+        }
+        menuPrincipal.setOnClickListener(){
+            irPrincipal()
+        }
+        perfil.setOnClickListener(){
+            startActivity(Intent(this, Perfil::class.java))
+        }
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -25,5 +39,8 @@ class Calificar : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     }
     override fun onNothingSelected(parent: AdapterView<*>?) {
 
+    }
+    private fun irPrincipal(){
+        startActivity(Intent(this, MenuCliente::class.java))
     }
 }
