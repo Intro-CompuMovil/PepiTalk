@@ -1,4 +1,4 @@
-package com.example.pepitalk
+package com.example.pepitalk.Logica
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.R
 
 class MenuCliente : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,15 +16,12 @@ class MenuCliente : AppCompatActivity() {
         val Grupos = findViewById<Button>(R.id.buttonGrupos)
         val Reuniones = findViewById<Button>(R.id.buttonReuniones)
         val Servicios = findViewById<Button>(R.id.buttonServicios)
-        val Perfil = findViewById<ImageButton>(R.id.imageButtonPerfil)
+        val perfil = findViewById<ImageButton>(R.id.butPerfil)
 
         AccionBotonGrupos(Grupos)
         AccionBotonReuniones(Reuniones)
         AccionBotonServicios(Servicios)
-        AccionBotonPerfil(Perfil)
-
-
-
+        AccionBotonPerfil(perfil)
 
     }
     fun AccionBotonGrupos( Grupos : Button){
@@ -44,9 +42,9 @@ class MenuCliente : AppCompatActivity() {
             startActivity(irAServicios)
         }
     }
-    fun AccionBotonPerfil( Perfil : ImageButton) {
+    fun AccionBotonPerfil( perfil : ImageButton) {
         val irAPerfil = Intent(this, Perfil::class.java)
-        Perfil.setOnClickListener{
+        perfil.setOnClickListener{
             startActivity(irAPerfil)
         }
     }

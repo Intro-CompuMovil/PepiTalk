@@ -17,14 +17,14 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/pepitalk"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/pepitalk"
         android:supportsRtl="true"
         android:theme="@style/Theme.PepiTalk"
         tools:targetApi="31">
         <activity
-            android:name=".VerOfertas"
+            android:name=".Logica.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,95 +32,95 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Grupo"
+            android:name=".Logica.Grupo"
             android:exported="false">
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".Logica.Login"
             android:exported="false">
         </activity>
         <activity
-            android:name=".Oferta"
+            android:name=".Logica.Oferta"
             android:exported="false">
         </activity>
         <activity
-            android:name=".Registro"
+            android:name=".Logica.Registro"
             android:exported="false">
         </activity>
         <activity
-            android:name=".Reunion"
+            android:name=".Logica.Reunion"
             android:exported="false">
         </activity>
         <activity
-            android:name=".Ruta"
+            android:name=".Logica.Ruta"
             android:exported="false">
         </activity>
         <activity
-            android:name=".VerOferta"
+            android:name=".Logica.VerOferta"
             android:exported="false">
         </activity>
         <activity
-            android:name=".VerGrupos"
+            android:name=".Logica.VerGrupos"
             android:exported="false">
         </activity>
         <activity
-            android:name=".Perfil"
+            android:name=".Logica.Perfil"
             android:exported="false">
         </activity>
         <activity
-            android:name=".VerReunion"
+            android:name=".Logica.VerReunion"
             android:exported="false">
         </activity>
         <activity
-            android:name=".VerReuniones"
+            android:name=".Logica.VerReuniones"
             android:exported="false">
         </activity>
         <activity
-            android:name=".VerGrupo"
+            android:name=".Logica.VerGrupo"
             android:exported="false">
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".Logica.VerOfertas"
             android:exported="false">
         </activity>
         <activity
-            android:name=".MenuCliente"
+            android:name=".Logica.MenuCliente"
             android:exported="false">
         </activity>
         <activity
-            android:name=".MenuTraductor"
+            android:name=".Logica.MenuTraductor"
             android:exported="false">
         </activity>
         <activity
-            android:name=".ActualizarCuenta"
+            android:name=".Logica.ActualizarCuenta"
             android:exported="false">
         </activity>
         <activity
-            android:name=".ActualizarGrupo"
+            android:name=".Logica.ActualizarGrupo"
             android:exported="false">
         </activity>
         <activity
-            android:name=".ActualizarReunion"
+            android:name=".Logica.ActualizarReunion"
             android:exported="false">
         </activity>
         <activity
-            android:name=".AceptarTraductor"
+            android:name=".Logica.AceptarTraductor"
             android:exported="false">
         </activity>
         <activity
-            android:name=".CrearGrupo"
+            android:name=".Logica.CrearGrupo"
             android:exported="false">
         </activity>
         <activity
-            android:name=".CrearOferta"
+            android:name=".Logica.CrearOferta"
             android:exported="false">
         </activity>
         <activity
-            android:name=".CrearReunion"
+            android:name=".Logica.CrearReunion"
             android:exported="false">
         </activity>
         <activity
-            android:name=".Calificar"
+            android:name=".Logica.Calificar"
             android:exported="false">
         </activity>
     </application>

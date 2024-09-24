@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarCalificar"
@@ -14,7 +15,32 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         />
+    <ImageButton
+        android:id="@+id/butInicio"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:background="@null"
+        app:srcCompat="@drawable/icons8_casa_40"
+        android:paddingLeft="30dp"/>
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="4dp"
+        android:layout_gravity="center">
+
+        <ImageButton
+            android:id="@+id/butPerfil"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/m2"/>
+    </androidx.cardview.widget.CardView>
     <TextView
         android:id="@+id/TituloMenuGrupo"
         android:layout_width="wrap_content"
@@ -22,7 +48,7 @@
         android:text="Calificar"
         android:layout_centerHorizontal="true"
         android:textSize="35sp"
-        android:textColor="@color/blanco"
+        android:textColor="@color/white"
         android:layout_marginTop="25dp"/>
 
     <Spinner

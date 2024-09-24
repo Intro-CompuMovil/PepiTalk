@@ -1,17 +1,28 @@
-package com.example.pepitalk
+package com.example.pepitalk.Logica
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.Datos.Persona
+import com.example.pepitalk.R
 
 class Perfil :  AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_perfil)
+        setupLoggedName()
         setupButtonListeners()
+    }
+
+    private fun setupLoggedName(){
+        val nombre = findViewById<TextView>(R.id.nombre)
+        val correo = findViewById<TextView>(R.id.correo)
+        nombre.setText(Persona.personaLog.nombre)
+        correo.setText(Persona.personaLog.correo)
     }
 
     private fun setupButtonListeners() {
@@ -37,13 +48,13 @@ class Perfil :  AppCompatActivity(){
 
         eliminar.setOnClickListener {
             Toast.makeText(this, "Cuenta eliminada", Toast.LENGTH_LONG).show()
-            val peticion = Intent(this, MainActivity::class.java)
+            val peticion = Intent(this, com.example.pepitalk.Logica.MainActivity::class.java)
             startActivity(peticion)
         }
 
         cerrar.setOnClickListener {
             Toast.makeText(this, "Log out exitoso ", Toast.LENGTH_LONG).show()
-            val peticion = Intent(this, MainActivity::class.java)
+            val peticion = Intent(this, com.example.pepitalk.Logica.MainActivity::class.java)
             startActivity(peticion)
         }
     }

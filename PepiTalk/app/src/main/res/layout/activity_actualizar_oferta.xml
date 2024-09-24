@@ -66,7 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbarActualizarOferta"
-        android:text="¡Cambia tu oferta oferta!"
+        android:text="¡Cambia tu oferta!"
         android:textSize="24sp"
         android:textAlignment="center"
         android:textColor="@color/letraOscura"
@@ -86,9 +86,9 @@
         android:padding="10dp"
         android:hint="Dia: DD/MM/AAAA"
         android:textColorHint="@color/morado"
-        android:textSize="24sp"
+        android:textSize="15sp"
         android:background="@drawable/rounded"
-        android:elevation="12dp"/>
+        />
     <EditText
         android:id="@+id/editTextHoraInicioAct"
         android:layout_width="match_parent"
@@ -101,9 +101,9 @@
         android:padding="10dp"
         android:hint="Hora de inicio: HH:MM"
         android:textColorHint="@color/morado"
-        android:textSize="24sp"
+        android:textSize="15sp"
         android:background="@drawable/rounded"
-        android:elevation="12dp"/>
+        />
 
     <EditText
         android:id="@+id/editTextHoraFinalAct"
@@ -117,9 +117,9 @@
         android:padding="10dp"
         android:hint="Hora final: HH:MM"
         android:textColorHint="@color/morado"
-        android:textSize="24sp"
+        android:textSize="15sp"
         android:background="@drawable/rounded"
-        android:elevation="12dp"/>
+        />
 
 
     <EditText
@@ -132,11 +132,10 @@
         android:layout_marginVertical="10dp"
         android:layout_marginHorizontal="20dp"
         android:padding="10dp"
-        android:hint="Pago"
-        android:textSize="24sp"
+        android:hint="Pago en pesos"
+        android:textSize="15sp"
         android:textColorHint="@color/morado"
         android:background="@drawable/rounded"
-        android:elevation="12dp"
         />
     <EditText
         android:id="@+id/editTextLugarOfertaAct"
@@ -148,10 +147,9 @@
         android:layout_marginHorizontal="20dp"
         android:padding="10dp"
         android:hint="Lugar"
-        android:textSize="24sp"
+        android:textSize="15sp"
         android:textColorHint="@color/morado"
         android:background="@drawable/rounded"
-        android:elevation="12dp"
         />
     <EditText
         android:id="@+id/editTextDescripcionOfertaAct"
@@ -164,27 +162,24 @@
         android:layout_marginHorizontal="20dp"
         android:padding="10dp"
         android:hint="Descripción"
-        android:textSize="24sp"
+        android:textSize="15sp"
         android:textColorHint="@color/morado"
         android:background="@drawable/rounded"
-        android:elevation="12dp"
         />
 
     <Button
         android:id="@+id/buttonActualizarOferta"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="60dp"
         android:layout_marginHorizontal="60dp"
         android:padding="15dp"
-        android:textSize="24sp"
+        android:textSize="15sp"
         android:text="Cambia tu oferta"
         android:textColor="@color/morado"
         android:backgroundTint="@color/rosa"
-        android:elevation="12dp"
         />
 
 

@@ -1,4 +1,4 @@
-package com.example.pepitalk
+package com.example.pepitalk.Logica
 
 import android.content.Intent
 import android.database.Cursor
@@ -7,20 +7,21 @@ import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.R
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.io.InputStream
 
-class VerGrupos : AppCompatActivity(){
+class VerReuniones : AppCompatActivity(){
 
     var mCursor: Cursor? = null
-    var mGruposAdapter: GruposAdapter? = null
+    var mReuniones: ReunionAdapter? = null
     var mlista: ListView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ver_grupos)
+        setContentView(R.layout.activity_ver_reuniones)
         initView()
         setupButtonListeners()
     }
@@ -37,6 +38,7 @@ class VerGrupos : AppCompatActivity(){
                 val peticion = Intent(this, MenuTraductor::class.java)
                 startActivity(peticion)
             }
+
         }
 
         perfil.setOnClickListener {
@@ -48,7 +50,7 @@ class VerGrupos : AppCompatActivity(){
     fun loadJSONFromAsset(): String? {
         var json: String? = null
         try {
-            val isStream: InputStream = assets.open("grupos.json")
+            val isStream: InputStream = assets.open("reuniones.json")
             val size: Int = isStream.available()
             val buffer = ByteArray(size)
             isStream.read(buffer)
@@ -62,14 +64,17 @@ class VerGrupos : AppCompatActivity(){
     }
 
     private fun createCursorFromJsonArray(jsonArray: JSONArray): MatrixCursor {
-        val cursor = MatrixCursor(arrayOf("_id", "nombre", "idioma", "nivel", "descripcion"))
+        val cursor = MatrixCursor(arrayOf("_id", "nombre", "dia", "hora", "idioma", "nivel", "lugar", "descripcion"))
         for (i in 0 until jsonArray.length()) {
             val jsonObject: JSONObject = jsonArray.getJSONObject(i)
             cursor.addRow(arrayOf(
                 i,
                 jsonObject.getString("nombre"),
+                jsonObject.getString("dia"),
+                jsonObject.getString("hora"),
                 jsonObject.getString("idioma"),
                 jsonObject.getString("nivel"),
+                jsonObject.getString("lugar"),
                 jsonObject.getString("descripcion")
             ))
         }
@@ -77,11 +82,11 @@ class VerGrupos : AppCompatActivity(){
     }
 
     fun initView() {
-        mlista = findViewById(R.id.grupos1)
+        mlista = findViewById(R.id.reuniones)
         val json  = JSONObject(loadJSONFromAsset())
-        val personasJson = json.getJSONArray("listaGrupos")
+        val personasJson = json.getJSONArray("listaReuniones")
         mCursor = createCursorFromJsonArray(personasJson)
-        mGruposAdapter = GruposAdapter(this, mCursor!!)
-        mlista?.adapter = mGruposAdapter
+        mReuniones = ReunionAdapter(this, mCursor!!)
+        mlista?.adapter = mReuniones
     }
 }
