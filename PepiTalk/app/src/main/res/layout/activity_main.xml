@@ -34,12 +34,14 @@
         android:id="@+id/textBienvenidos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="¡Bienvenidos!"
+        android:text="¡Bienvenidos\na\nPEPITALK!"
         android:textSize="30sp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/toolbarMain"
-        android:layout_marginTop="30dp"
-        android:textColor="@color/morado"/>
+        android:layout_marginTop="40dp"
+        android:textColor="@color/morado"
+        android:textAlignment="center"
+        android:textStyle="bold"/>
 
     <ImageView
         android:id="@+id/imageView"
@@ -48,7 +50,7 @@
         android:layout_below="@id/textBienvenidos"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        app:srcCompat="@drawable/pepitoempresario"
+        app:srcCompat="@drawable/pepitalk"
         android:background="@null"/>
 
     <Button
@@ -61,10 +63,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="70dp"
-        android:text="Iniciar Sesion"
+        android:layout_marginBottom="40dp"
+        android:text="Iniciar Sesión"
         android:backgroundTint="@color/rosa"
-        android:textColor="@color/morado"/>
+        android:textColor="@color/morado"
+        android:textSize="20dp"/>
 
     <Button
         android:id="@+id/buttonRegistrarse"
@@ -76,10 +79,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="100dp"
         android:text="Registrarse"
         android:backgroundTint="@color/rosa"
-        android:textColor="@color/morado"/>
+        android:textColor="@color/morado"
+        android:textSize="20dp"/>
 
 
 </RelativeLayout>

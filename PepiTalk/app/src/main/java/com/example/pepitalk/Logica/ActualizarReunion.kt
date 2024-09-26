@@ -22,7 +22,6 @@ import com.example.pepitalk.R
 class ActualizarReunion : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_actualizar_reunion)
         val botonActualizarReunion = findViewById<Button>(R.id.buttonActualizarReunion)
         val botonImagen = findViewById<ImageButton>(R.id.imageButton6)

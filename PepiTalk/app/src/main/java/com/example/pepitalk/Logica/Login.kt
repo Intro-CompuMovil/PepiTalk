@@ -13,7 +13,6 @@ import com.example.pepitalk.R
 class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_login)
         val botonIS = findViewById<Button>(R.id.buttonLogin)
         val botonRegistrar = findViewById<Button>(R.id.buttonRegistrateLogin)

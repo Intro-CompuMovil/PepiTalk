@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -31,7 +30,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginRight="0dp"
         android:padding="25dp"
-        android:text="Crear Reunion"
+        android:text="Crear Reunión"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="28sp" />
@@ -72,7 +71,10 @@
         android:textSize="20sp"
         android:textAlignment="center"
         android:textColor="@color/letraOscura"
-        android:padding="10dp"/>
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
 
 
     <ImageButton
@@ -111,8 +113,8 @@
         android:textSize="15sp"
         android:textColorHint="@color/morado"
         android:background="@drawable/rounded"
+        android:layout_marginTop="20dp"/>
 
-        />
     <EditText
         android:id="@+id/editTextDiaReunion"
         android:layout_width="match_parent"

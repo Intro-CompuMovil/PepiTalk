@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pepitalk.R
 
@@ -23,7 +24,12 @@ class Calificar : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         val menuPrincipal = findViewById<ImageButton>(R.id.butInicio)
         val perfil = findViewById<ImageButton>(R.id.butPerfil)
         buttonCalificar.setOnClickListener(){
-            irPrincipal()
+            if(editText.text.toString().isEmpty()){
+                Toast.makeText(this, "Por favor, ingrese un comentario", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                irPrincipal()
+            }
         }
         menuPrincipal.setOnClickListener(){
             irPrincipal()

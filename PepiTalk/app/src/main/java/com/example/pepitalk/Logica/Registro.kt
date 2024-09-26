@@ -28,7 +28,6 @@ import com.example.pepitalk.R
 class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_registro)
         val botonRegistro = findViewById<Button>(R.id.buttonRegistrar)
         val botonImagen = findViewById<ImageButton>(R.id.imageButton)
