@@ -12,7 +12,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-
         android:background="@color/azulOscuro"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
@@ -21,7 +20,7 @@
         android:id="@+id/TituloOferta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Menu Ofertas"
+        android:text="Menú Ofertas"
         android:layout_centerHorizontal="true"
         android:textSize="28sp"
         android:textColor="@color/white"
@@ -54,19 +53,18 @@
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/m2"/>
     </androidx.cardview.widget.CardView>
+
     <TextView
         android:id="@+id/textSeleccionar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Selecciona una Opcion"
+        android:text="Selecciona una Opción"
         android:textSize="30sp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/toolbarMenuOferta"
         android:layout_marginTop="45dp"
-        android:textColor="@color/morado"/>
-
-
-
+        android:textColor="@color/morado"
+        android:textStyle="bold"/>
 
     <Button
         android:id="@+id/buttonVerOfertas"
@@ -77,18 +75,20 @@
         android:layout_centerHorizontal="true"
         android:text="Ver mis Ofertas"
         android:backgroundTint="@color/rosa"
-        android:textColor="@color/morado"/>
+        android:textColor="@color/morado"
+        android:textSize="20dp"/>
 
     <Button
         android:id="@+id/buttonCrearOfertas"
         android:layout_width="300dp"
         android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="150dp"
+        android:layout_marginTop="70dp"
+        android:layout_below="@+id/buttonVerOfertas"
         android:text="Crear Oferta"
         android:backgroundTint="@color/rosa"
-        android:textColor="@color/morado"/>
+        android:textColor="@color/morado"
+        android:textSize="20dp"/>
 
 
 </RelativeLayout>

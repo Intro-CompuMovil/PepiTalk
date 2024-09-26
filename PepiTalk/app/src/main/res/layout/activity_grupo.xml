@@ -57,12 +57,14 @@
         android:id="@+id/textOpciones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Selecciona una Opcion"
+        android:text="Selecciona una Opción"
         android:textSize="30dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/toolbarGrupo"
         android:layout_marginTop="45dp"
-        android:textColor="@color/morado"/>
+        android:textColor="@color/morado"
+        android:textStyle="bold"
+        />
     <Button
         android:id="@+id/buttonVerMisGrupos"
         android:layout_width="300dp"
@@ -72,7 +74,8 @@
         android:layout_below="@id/textOpciones"
         android:backgroundTint="@color/rosa"
         android:textColor="@color/morado"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="50dp"
+        android:textSize="17dp"/>
 
     <Button
         android:id="@+id/buttonVerGruposParaUnirme"
@@ -83,7 +86,8 @@
         android:layout_below="@id/buttonVerMisGrupos"
         android:backgroundTint="@color/rosa"
         android:textColor="@color/morado"
-        android:layout_marginTop="60dp"/>
+        android:layout_marginTop="60dp"
+        android:textSize="17dp"/>
 
     <Button
         android:id="@+id/buttonCrearGrupo"
@@ -94,7 +98,8 @@
         android:layout_below="@id/buttonVerGruposParaUnirme"
         android:backgroundTint="@color/rosa"
         android:textColor="@color/morado"
-        android:layout_marginTop="60dp"/>
+        android:layout_marginTop="60dp"
+        android:textSize="17dp"/>
 
 
 </RelativeLayout>

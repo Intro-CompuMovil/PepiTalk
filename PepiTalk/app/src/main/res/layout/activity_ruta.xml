@@ -57,11 +57,25 @@
     <ImageView
         android:id="@+id/imageViewGPS"
         android:layout_width="322dp"
-        android:layout_height="535dp"
+        android:layout_height="435dp"
         android:layout_below="@id/toolbarRuta"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@drawable/mapa" />
+
+    <Button
+        android:id="@+id/btnDevolverReunion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Volver a la reunión"
+        android:layout_below="@id/imageViewGPS"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:textSize="15dp"
+        android:layout_marginTop="10dp"/>
+
+
 
 
 </RelativeLayout>

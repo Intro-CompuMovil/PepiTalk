@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import com.example.pepitalk.Datos.Persona
@@ -26,10 +27,19 @@ class Ruta : AppCompatActivity() {
         imageViewGPS = foto
         val menuInicio = findViewById<ImageButton>(R.id.butInicio)
         val perfil = findViewById<ImageButton>(R.id.butPerfil)
+        val reunion = findViewById<Button>(R.id.btnDevolverReunion)
         // Solicita el permiso de acceso a la ubicación
         pedirPermiso(Manifest.permission.ACCESS_FINE_LOCATION, "Se necesita este permiso para acceder a tu ubicación.", PERMISSION_REQUEST_ACCESS_FINE_LOCATION)
         irPerfil(perfil, this)
         menuPrincipal(menuInicio, this)
+        devolverReunion(reunion, this)
+    }
+
+    fun devolverReunion(reunion: Button, context: Context){
+        val irAReunion = Intent(this, VerReunion::class.java)
+        reunion.setOnClickListener {
+            startActivity(irAReunion)
+        }
     }
 
     private fun pedirPermiso(permiso: String, justificacion: String, idCode: Int) {

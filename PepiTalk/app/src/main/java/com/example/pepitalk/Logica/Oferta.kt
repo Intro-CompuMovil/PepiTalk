@@ -25,14 +25,14 @@ class Oferta : AppCompatActivity(){
         menuPrincipal(menuInicio, this)
     }
 
-    fun VerOfertas( VerOfertas : Button){
+    fun VerOfertas( VerOferta : Button){
         val irAVerOfertas = Intent(this, VerOfertas::class.java)
-        VerOfertas.setOnClickListener{
+        VerOferta.setOnClickListener{
             startActivity(irAVerOfertas)
         }
     }
     fun CrearOfertas( CrearOfertas : Button){
-        val irACrearOfertas = Intent(this, CrearOfertas::class.java)
+        val irACrearOfertas = Intent(this, CrearOferta::class.java)
         CrearOfertas.setOnClickListener{
             startActivity(irACrearOfertas)
         }

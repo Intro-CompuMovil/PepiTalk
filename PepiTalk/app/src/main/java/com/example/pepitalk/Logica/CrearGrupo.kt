@@ -22,7 +22,6 @@ import com.example.pepitalk.R
 class CrearGrupo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_crear_grupo)
         val botonCrearGrupo = findViewById<Button>(R.id.buttonCrearGrupo)
         val botonImagen = findViewById<ImageButton>(R.id.imageButton3)

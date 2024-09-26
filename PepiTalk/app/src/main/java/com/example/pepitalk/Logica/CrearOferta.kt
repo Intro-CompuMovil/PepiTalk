@@ -16,7 +16,6 @@ import java.time.format.DateTimeFormatter
 class CrearOferta : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_crear_oferta)
         val botonCrearOferta = findViewById<Button>(R.id.buttonCrearOferta)
         val menuPrincipal = findViewById<ImageButton>(R.id.butInicio)

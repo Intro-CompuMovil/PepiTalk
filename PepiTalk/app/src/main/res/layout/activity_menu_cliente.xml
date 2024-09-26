@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
      <com.google.android.material.appbar.MaterialToolbar
          android:id="@+id/toolbarMenuCliente"
@@ -22,7 +21,7 @@
          android:layout_height="wrap_content"
          android:text="Menú Cliente"
          android:layout_centerHorizontal="true"
-         android:textSize="28sp"
+         android:textSize="29sp"
          android:textColor="@color/white"
          android:layout_marginTop="25dp"/>
 
@@ -49,12 +48,13 @@
          android:id="@+id/textSeleccionarOpcion"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:text="Selecciona una Opcion"
+         android:text="Selecciona una Opción"
          android:textSize="30dp"
          android:layout_centerHorizontal="true"
          android:layout_below="@id/toolbarMenuCliente"
          android:layout_marginTop="50dp"
-         android:textColor="@color/morado"/>
+         android:textColor="@color/morado"
+         android:textStyle="bold"/>
 
      <Button
          android:id="@+id/buttonGrupos"
@@ -65,7 +65,8 @@
          android:layout_marginBottom="60dp"
          android:text="Grupos \n \n Ver, manejar y unirse a Grupos"
          android:backgroundTint="@color/rosa"
-         android:textColor="@color/morado"/>
+         android:textColor="@color/morado"
+         android:textSize="15dp"/>
 
      <Button
          android:id="@+id/buttonReuniones"
@@ -76,7 +77,8 @@
          android:layout_marginBottom="60dp"
          android:text="Reuniones \n \n Ver, manejar y Unirse a reuniones"
          android:backgroundTint="@color/rosa"
-         android:textColor="@color/morado"/>
+         android:textColor="@color/morado"
+         android:textSize="15dp"/>
 
      <Button
          android:id="@+id/buttonServicios"
@@ -84,10 +86,11 @@
          android:layout_height="100dp"
          android:layout_alignParentBottom="true"
          android:layout_centerHorizontal="true"
-         android:layout_marginBottom="70dp"
+         android:layout_marginBottom="110dp"
          android:text="Servicios \n\n Contratar interpretes"
          android:backgroundTint="@color/rosa"
-         android:textColor="@color/morado"/>
+         android:textColor="@color/morado"
+         android:textSize="15dp"/>
 
 
 </RelativeLayout>

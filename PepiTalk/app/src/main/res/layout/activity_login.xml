@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
-
-
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarLogin"
@@ -57,7 +54,7 @@
         android:scaleType="centerCrop"
         android:background="@null"
         android:layout_margin="20dp"
-        tools:srcCompat="@drawable/pepitoEmpresario" />
+        app:srcCompat="@drawable/pepitoempresario" />
     <EditText
         android:id="@+id/editTextUsuario"
         android:layout_width="match_parent"
@@ -88,6 +85,7 @@
         android:textColorHint="@color/morado"
         android:background="@drawable/rounded"
         android:elevation="12dp"
+        android:inputType="textPassword"
         />
 
     <Button
@@ -133,8 +131,7 @@
         android:textSize="15sp"
         android:layout_marginHorizontal="90dp"
         android:textStyle="bold"
-        android:textColor="@color/letraOscura"
+        android:textColor="@color/azulOscuro"
         android:backgroundTint="@color/white"/>
-
 
 </RelativeLayout>
