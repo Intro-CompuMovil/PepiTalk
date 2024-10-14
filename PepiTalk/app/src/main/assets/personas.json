@@ -1,0 +1,18 @@
+{
+  "listaPersonas": [
+    {
+      "tipo" : "Cliente",
+      "usuario" : "gabriel13",
+      "nombre" : "Gabriel Espitia",
+      "contrasena" : "clave123",
+      "correo" : "gabriel13@gmail.com"
+    },
+    {
+      "tipo" : "Traductor",
+      "usuario" : "juafra1",
+      "nombre" : "Juanita Franco",
+      "contrasena" : "clave456",
+      "correo" : "juafra1@gmail.com"
+    }
+  ]
+}
