@@ -7,6 +7,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.Datos.Persona
 import com.example.pepitalk.R
 
@@ -21,8 +22,8 @@ class Perfil :  AppCompatActivity(){
     private fun setupLoggedName(){
         val nombre = findViewById<TextView>(R.id.nombre)
         val correo = findViewById<TextView>(R.id.correo)
-        nombre.setText(Persona.personaLog.nombre)
-        correo.setText(Persona.personaLog.correo)
+        nombre.setText(Data.personaLog.nombre)
+        correo.setText(Data.personaLog.correo)
     }
 
     private fun setupButtonListeners() {

@@ -78,8 +78,8 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val emailRegex = Regex("^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})")
         var found = false
 
-        for( i in 0 until Persona.personas.size){
-            if(usuario == Persona.personas[i].usuario|| correo == Persona.personas[i].correo){
+        for( i in 0 until Data.personas.size){
+            if(usuario == Data.personas[i].usuario|| correo == Data.personas[i].correo){
                 found = true
                 Toast.makeText(this,"El usuario ya existe o el correo ya se ha utilizado" , Toast.LENGTH_SHORT).show()
             }
@@ -88,12 +88,12 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             if(contrasena == confContrasena){
                 if(emailRegex.matches(correo)){
                     var newUser = Persona(tipo, usuario, nombre,contrasena, correo)
-                    Persona.personas.add(newUser)
-                    Persona.personaLog.tipo = tipo
-                    Persona.personaLog.usuario = usuario
-                    Persona.personaLog.nombre = nombre
-                    Persona.personaLog.contrasena = contrasena
-                    Persona.personaLog.correo = correo
+                    Data.personas.add(newUser)
+                    Data.personaLog.tipo = tipo
+                    Data.personaLog.usuario = usuario
+                    Data.personaLog.nombre = nombre
+                    Data.personaLog.contrasena = contrasena
+                    Data.personaLog.correo = correo
                     if(tipo == "Cliente"){
                         var clienteRegistrado = Intent(this, MenuCliente::class.java)
                         startActivity(clienteRegistrado)

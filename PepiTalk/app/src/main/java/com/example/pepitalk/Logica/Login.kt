@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.Datos.Persona
 import com.example.pepitalk.R
 
@@ -41,15 +42,15 @@ class Login : AppCompatActivity() {
         //recorrer arreglo con los usuarios
         var found = false
 
-        for( i in 0 until Persona.personas.size){
-            if(usuario == Persona.personas[i].usuario && contrasena == Persona.personas[i].contrasena){
+        for( i in 0 until Data.personas.size){
+            if(usuario == Data.personas[i].usuario && contrasena == Data.personas[i].contrasena){
                 found = true
-                Persona.personaLog.tipo = Persona.personas[i].tipo
-                Persona.personaLog.nombre = Persona.personas[i].nombre
-                Persona.personaLog.usuario = Persona.personas[i].usuario
-                Persona.personaLog.contrasena = Persona.personas[i].contrasena
-                Persona.personaLog.correo = Persona.personas[i].correo
-                if(Persona.personas[i].tipo == "Cliente"){
+                Data.personaLog.tipo = Data.personas[i].tipo
+                Data.personaLog.nombre = Data.personas[i].nombre
+                Data.personaLog.usuario = Data.personas[i].usuario
+                Data.personaLog.contrasena = Data.personas[i].contrasena
+                Data.personaLog.correo = Data.personas[i].correo
+                if(Data.personas[i].tipo == "Cliente"){
                     var clienteLoggedIn = Intent(this, MenuCliente::class.java)
                     clienteLoggedIn.putExtra("usuario", usuario)
                     startActivity(clienteLoggedIn)
