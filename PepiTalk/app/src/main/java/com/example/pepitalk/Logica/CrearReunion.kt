@@ -5,21 +5,29 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.R
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class CrearReunion : AppCompatActivity() {
+
+    private lateinit var currentPhotoPath: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crear_reunion)
@@ -98,7 +106,42 @@ class CrearReunion : AppCompatActivity() {
 
     fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(intent, Data.MY_PERMISSION_REQUEST_CAMERA)
+        val photoFile: File? = try {
+            createImageFile()
+        } catch (ex: IOException) {
+            null
+        }
+        photoFile?.also {
+            val photoURI: Uri = FileProvider.getUriForFile(
+                this,
+                "com.example.pepitalk.fileprovider",
+                it
+            )
+            galleryAddPic()
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+            startActivityForResult(intent, Data.MY_PERMISSION_REQUEST_CAMERA)
+        }
+    }
+
+    private fun createImageFile(): File {
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+            "JPEG_${timeStamp}_",
+            ".jpg",
+            storageDir
+        ).apply {
+            currentPhotoPath = absolutePath
+        }
+    }
+
+    private fun galleryAddPic() {
+        Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).also { mediaScanIntent ->
+            val f = File(currentPhotoPath)
+            val contentUri: Uri = Uri.fromFile(f)
+            mediaScanIntent.data = contentUri
+            sendBroadcast(mediaScanIntent)
+        }
     }
 
     fun openGallery() {
@@ -113,10 +156,13 @@ class CrearReunion : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 Data.MY_PERMISSION_REQUEST_CAMERA -> {
-                    val imageBitmap = data?.extras?.get("data") as Bitmap
 
-                    // Muestra la imagen o guárdala
-                    botonImagen.setImageBitmap(imageBitmap)
+                    val file = File(currentPhotoPath)
+                    if (file.exists()) {
+                        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.fromFile(file))
+                        botonImagen.setImageBitmap(bitmap)
+                    }
+
                 }
                 Data.MY_PERMISSION_REQUEST_GALLERY -> {
                     val selectedImageUri = data?.data
@@ -126,6 +172,7 @@ class CrearReunion : AppCompatActivity() {
             }
         }
     }
+
     private fun pedirPermiso(context: Activity, permisos: Array<String>, justificacion: String, idCode: Int) {
 
         val permisosNoConcedidos = permisos.filter {
