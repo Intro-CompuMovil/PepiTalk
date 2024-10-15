@@ -31,7 +31,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginRight="0dp"
         android:padding="10dp"
-        android:text="Actualizar\n Reunion"
+        android:text="Actualizar\n Reunión"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="28sp" />

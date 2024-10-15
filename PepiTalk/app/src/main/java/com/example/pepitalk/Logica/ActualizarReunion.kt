@@ -6,7 +6,9 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.widget.Button
 import android.widget.EditText
@@ -16,10 +18,18 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.R
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class ActualizarReunion : AppCompatActivity() {
+
+    private lateinit var currentPhotoPath: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_actualizar_reunion)
@@ -90,7 +100,42 @@ class ActualizarReunion : AppCompatActivity() {
 
     fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(intent, Data.MY_PERMISSION_REQUEST_CAMERA)
+        val photoFile: File? = try {
+            createImageFile()
+        } catch (ex: IOException) {
+            null
+        }
+        photoFile?.also {
+            val photoURI: Uri = FileProvider.getUriForFile(
+                this,
+                "com.example.pepitalk.fileprovider",
+                it
+            )
+            galleryAddPic()
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+            startActivityForResult(intent, Data.MY_PERMISSION_REQUEST_CAMERA)
+        }
+    }
+
+    private fun createImageFile(): File {
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+            "JPEG_${timeStamp}_",
+            ".jpg",
+            storageDir
+        ).apply {
+            currentPhotoPath = absolutePath
+        }
+    }
+
+    private fun galleryAddPic() {
+        Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).also { mediaScanIntent ->
+            val f = File(currentPhotoPath)
+            val contentUri: Uri = Uri.fromFile(f)
+            mediaScanIntent.data = contentUri
+            sendBroadcast(mediaScanIntent)
+        }
     }
 
     fun openGallery() {
@@ -101,14 +146,17 @@ class ActualizarReunion : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val botonImagen = findViewById<ImageButton>(R.id.imageButton5)
+        val botonImagen = findViewById<ImageButton>(R.id.imageButton6)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 Data.MY_PERMISSION_REQUEST_CAMERA -> {
-                    val imageBitmap = data?.extras?.get("data") as Bitmap
 
-                    // Muestra la imagen o guárdala
-                    botonImagen.setImageBitmap(imageBitmap)
+                    val file = File(currentPhotoPath)
+                    if (file.exists()) {
+                        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.fromFile(file))
+                        botonImagen.setImageBitmap(bitmap)
+                    }
+
                 }
                 Data.MY_PERMISSION_REQUEST_GALLERY -> {
                     val selectedImageUri = data?.data
@@ -130,7 +178,7 @@ class ActualizarReunion : AppCompatActivity() {
             ActivityCompat.requestPermissions(context, permisosNoConcedidos.toTypedArray(), idCode)
         } else {
             Toast.makeText(this,"¡Ahora puede agregar una foto a su perfil, grupos o reuniones!" , Toast.LENGTH_SHORT).show()
-            val botonImagen = findViewById<ImageButton>(R.id.imageButton5)
+            val botonImagen = findViewById<ImageButton>(R.id.imageButton6)
             botonImagen.isEnabled = true
         }
 
@@ -143,7 +191,7 @@ class ActualizarReunion : AppCompatActivity() {
             when (requestCode) {
                 Data.MY_PERMISSION_REQUEST_CAMERA -> {
                     Toast.makeText(this, "Permisos para la cámara concedidos", Toast.LENGTH_SHORT).show()
-                    val botonImagen = findViewById<ImageButton>(R.id.imageButton5)
+                    val botonImagen = findViewById<ImageButton>(R.id.imageButton6)
                     botonImagen.isEnabled = true
                 }
                 Data.MY_PERMISSION_REQUEST_GALLERY -> {

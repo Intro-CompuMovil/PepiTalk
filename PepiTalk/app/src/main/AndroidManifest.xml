@@ -96,11 +96,11 @@
             android:exported="false">
         </activity>
         <activity
-            android:name=".Logica.ActualizarGrupo"
+            android:name=".Logica.ActualizarReunion"
             android:exported="false">
         </activity>
         <activity
-            android:name=".Logica.ActualizarReunion"
+            android:name=".Logica.ActualizarGrupo"
             android:exported="false">
         </activity>
         <activity
@@ -123,6 +123,17 @@
             android:name=".Logica.Calificar"
             android:exported="false">
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.pepitalk.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>
