@@ -46,7 +46,7 @@ class ActualizarCuenta : AppCompatActivity() {
     }
     private fun irPrincipal(){
         //falta diferenciar por tipo
-        if(Persona.personaLog.tipo == "Cliente"){
+        if(Data.personaLog.tipo == "Cliente"){
             startActivity(Intent(this, MenuCliente::class.java))
         }
         else{
