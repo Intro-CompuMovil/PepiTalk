@@ -54,21 +54,21 @@
             app:srcCompat="@drawable/m2"/>
     </androidx.cardview.widget.CardView>
 
-    <ImageView
-        android:id="@+id/imageViewGPS"
+    <org.osmdroid.views.MapView
+        android:id="@+id/map"
         android:layout_width="322dp"
         android:layout_height="435dp"
         android:layout_below="@id/toolbarRuta"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        app:srcCompat="@drawable/mapa" />
+         />
 
     <Button
         android:id="@+id/btnDevolverReunion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Volver a la reunión"
-        android:layout_below="@id/imageViewGPS"
+        android:layout_below="@id/map"
         android:layout_centerHorizontal="true"
         android:textColor="@color/morado"
         android:backgroundTint="@color/rosa"
