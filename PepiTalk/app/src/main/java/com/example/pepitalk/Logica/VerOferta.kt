@@ -8,6 +8,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.R
 
 
@@ -61,6 +62,7 @@ class VerOferta : AppCompatActivity()  {
         findViewById<TextView>(R.id.horaFinOfe).text = final
         findViewById<TextView>(R.id.lugarOfe).text = place
         findViewById<TextView>(R.id.descripcionOfe).text = descripcion
+
     }
 
     private fun setupButtonListeners() {
@@ -92,7 +94,7 @@ class VerOferta : AppCompatActivity()  {
         }
 
         inicio.setOnClickListener {
-            if(/*es cliente*/true){
+            if(Data.personaLog.tipo == "cliente"){
                 val peticion = Intent(this, MenuCliente::class.java)
                 startActivity(peticion)
             }else{

@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.R
 
 
@@ -111,10 +112,10 @@ class VerReunion : AppCompatActivity() {
         }
 
         inicio.setOnClickListener {
-            if (/*es cliente*/true) {
+            if(Data.personaLog.tipo == "cliente"){
                 val peticion = Intent(this, MenuCliente::class.java)
                 startActivity(peticion)
-            } else {
+            }else{
                 val peticion = Intent(this, MenuTraductor::class.java)
                 startActivity(peticion)
             }

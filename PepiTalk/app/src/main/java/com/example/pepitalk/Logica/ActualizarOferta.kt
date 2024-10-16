@@ -8,6 +8,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.R
 import java.time.LocalDate
 import java.time.LocalTime
@@ -32,7 +33,13 @@ class ActualizarOferta : AppCompatActivity() {
     }
 
     private fun irPrincipal(){
-        startActivity(Intent(this, MenuCliente::class.java))
+        if(Data.personaLog.tipo == "cliente"){
+            val peticion = Intent(this, MenuCliente::class.java)
+            startActivity(peticion)
+        }else{
+            val peticion = Intent(this, MenuTraductor::class.java)
+            startActivity(peticion)
+        }
     }
 
     private fun validarCampos(){

@@ -8,6 +8,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.R
 
 class VerGrupo : AppCompatActivity() {
@@ -95,7 +96,7 @@ class VerGrupo : AppCompatActivity() {
         }
 
         inicio.setOnClickListener {
-            if(/*es cliente*/true){
+            if(Data.personaLog.tipo == "cliente"){
                 val peticion = Intent(this, MenuCliente::class.java)
                 startActivity(peticion)
             }else{
