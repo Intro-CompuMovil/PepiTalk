@@ -6,7 +6,10 @@
       "horaInicio": "10:00",
       "horaFin": "11:00",
       "lugar": "Sala A",
-      "descripcion": "Clase de conversación en español"
+      "descripcion": "Clase de conversación en español",
+      "dueño" : "Juan",
+      "trabajador" : "Maria",
+      "aceptado" : false
     },
     {
       "idioma": "Inglés",
@@ -14,7 +17,10 @@
       "horaInicio": "12:00",
       "horaFin": "13:00",
       "lugar": "Sala B",
-      "descripcion": "Clase de gramática en inglés"
+      "descripcion": "Clase de gramática en inglés",
+      "dueño" : "darwin",
+      "trabajador" : "Pedro",
+      "aceptado" : false
     },
     {
       "idioma": "Francés",
@@ -22,7 +28,10 @@
       "horaInicio": "14:00",
       "horaFin": "15:00",
       "lugar": "Sala C",
-      "descripcion": "Clase de pronunciación en francés"
+      "descripcion": "Clase de pronunciación en francés",
+      "dueño" : "Santiago",
+      "trabajador" : "pablo",
+      "aceptado" : false
     }
   ]
 }
