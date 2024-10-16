@@ -6,13 +6,12 @@
         android:name="android.hardware.camera"
         android:required="false" />
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
 
     <application
         android:allowBackup="true"
@@ -26,104 +25,88 @@
         tools:targetApi="31">
         <activity
             android:name=".Logica.Ruta"
+            android:exported="false" />
+        <activity
+            android:name=".Logica.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Logica.Grupo"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.Login"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.Oferta"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.Registro"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.Reunion"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
-            android:name=".Logica.MainActivity"
-            android:exported="false">
-        </activity>
+            android:name=".Logica.VerCalificaciones"
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.VerOferta"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.VerGrupos"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.Perfil"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.VerReunion"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.VerReuniones"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.VerGrupo"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.VerOfertas"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.MenuCliente"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.MenuTraductor"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.ActualizarCuenta"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.ActualizarReunion"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
+        <activity
+            android:name=".Logica.ActualizarOferta"
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.ActualizarGrupo"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.AceptarTraductor"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.CrearGrupo"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.CrearOferta"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.CrearReunion"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Logica.Calificar"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -134,7 +117,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

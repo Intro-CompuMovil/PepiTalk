@@ -5,9 +5,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.R
 
 class VerGrupo : AppCompatActivity() {
@@ -16,6 +17,45 @@ class VerGrupo : AppCompatActivity() {
         setContentView(R.layout.activity_ver_grupo)
         initializeTextViews()
         setupButtonListeners()
+        if(/*dueño*/true){
+            botonesDueno()
+        }else if(/*unido*/!true){
+            botonesMiembros()
+        }else{
+            //sin unir
+        }
+    }
+
+    private fun botonesDueno(){
+        val reuniones = findViewById<Button>(R.id.btnVerReuniones)
+        val verCali = findViewById<Button>(R.id.btnVerCalificaciones)
+        val crearReunion = findViewById<Button>(R.id.btnCrearReunion)
+        val actualizarGrupo = findViewById<Button>(R.id.btnActualizarGrupo)
+        val eliminarGrupo = findViewById<Button>(R.id.btnEliminarGrupo)
+        val unirse = findViewById<Button>(R.id.btnUnirse)
+
+        unirse.visibility = View.GONE
+
+        reuniones.visibility = View.VISIBLE
+        verCali.visibility = View.VISIBLE
+        crearReunion.visibility = View.VISIBLE
+        actualizarGrupo.visibility = View.VISIBLE
+        eliminarGrupo.visibility = View.VISIBLE
+    }
+
+    private fun botonesMiembros(){
+        val reuniones = findViewById<Button>(R.id.btnVerReuniones)
+        val verCali = findViewById<Button>(R.id.btnVerCalificaciones)
+        val calificar = findViewById<Button>(R.id.btnCalificarGrupo)
+        val salir = findViewById<Button>(R.id.btnSalirGrupo)
+        val unirse = findViewById<Button>(R.id.btnUnirse)
+
+        unirse.visibility = View.GONE
+
+        reuniones.visibility = View.VISIBLE
+        verCali.visibility = View.VISIBLE
+        calificar.visibility = View.VISIBLE
+        salir.visibility = View.VISIBLE
     }
 
     private fun initializeTextViews() {
@@ -23,6 +63,7 @@ class VerGrupo : AppCompatActivity() {
         val idioma = intent.getStringExtra("idioma")
         val nivel = intent.getStringExtra("nivel")
         val descripcion = intent.getStringExtra("descripcion")
+        //inicializar calificación
 
         findViewById<TextView>(R.id.nombre).text = nombre
         findViewById<TextView>(R.id.textNomIdioma).text = idioma
@@ -33,19 +74,29 @@ class VerGrupo : AppCompatActivity() {
     private fun setupButtonListeners() {
         val inicio = findViewById<ImageButton>(R.id.butInicio)
         val perfil = findViewById<ImageButton>(R.id.butPerfil)
+        val verCali = findViewById<Button>(R.id.btnVerCalificaciones)
         val unirse = findViewById<Button>(R.id.btnUnirse)
         val reuniones = findViewById<Button>(R.id.btnVerReuniones)
-        val crearReunion = findViewById<Button>(R.id.btnCrearReunion)
         val calificar = findViewById<Button>(R.id.btnCalificarGrupo)
         val salir = findViewById<Button>(R.id.btnSalirGrupo)
+        val crearReunion = findViewById<Button>(R.id.btnCrearReunion)
+        val actualizarGrupo = findViewById<Button>(R.id.btnActualizarGrupo)
+        val eliminarGrupo = findViewById<Button>(R.id.btnEliminarGrupo)
+
+        verCali.setOnClickListener {
+            val peticion = Intent(this, VerCalificaciones::class.java)
+            startActivity(peticion)
+        }
 
         unirse.setOnClickListener {
             unirse.visibility = View.GONE
-            findViewById<LinearLayout>(R.id.btnGroup).visibility = View.VISIBLE
+            calificar.visibility = View.VISIBLE
+            salir.visibility = View.VISIBLE
+            reuniones.visibility = View.VISIBLE
         }
 
         inicio.setOnClickListener {
-            if(/*es cliente*/true){
+            if(Data.personaLog.tipo == "Cliente"){
                 val peticion = Intent(this, MenuCliente::class.java)
                 startActivity(peticion)
             }else{
@@ -76,6 +127,17 @@ class VerGrupo : AppCompatActivity() {
         }
 
         salir.setOnClickListener {
+            val peticion = Intent(this, VerGrupos::class.java)
+            startActivity(peticion)
+        }
+
+        actualizarGrupo.setOnClickListener {
+            val peticion = Intent(this, ActualizarGrupo::class.java)
+            startActivity(peticion)
+        }
+
+        eliminarGrupo.setOnClickListener {
+            Toast.makeText(this, "Grupo eliminado", Toast.LENGTH_LONG).show()
             val peticion = Intent(this, VerGrupos::class.java)
             startActivity(peticion)
         }

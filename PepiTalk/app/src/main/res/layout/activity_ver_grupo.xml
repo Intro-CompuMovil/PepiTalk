@@ -108,7 +108,7 @@
             android:text="Idioma: "
             android:textStyle="bold"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/textNomIdioma"
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:text=" Ingles"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
@@ -136,7 +136,7 @@
             android:text="Nivel minimo recomendado: "
             android:textStyle="bold"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/textNomNivel"
@@ -144,7 +144,7 @@
             android:layout_height="wrap_content"
             android:text=" B1"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
@@ -155,8 +155,7 @@
         android:layout_below="@+id/nivelGrupo"
         android:gravity="center"
         android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="true"
-        android:paddingBottom="20dp">
+        android:layout_alignParentLeft="true">
 
         <TextView
             android:id="@+id/textDescripcion"
@@ -165,7 +164,7 @@
             android:text="Descripcion: "
             android:textStyle="bold"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/textDescri"
@@ -173,61 +172,131 @@
             android:layout_height="wrap_content"
             android:text=" We learn better together!"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/calificacionGrupo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/descripcion"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:id="@+id/textCalificacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calificación promedio: "
+            android:textStyle="bold"
+            android:textColor="@color/letraOscura"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/textCali"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0"
+            android:textColor="@color/letraOscura"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnVerCalificaciones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver Calificaciones"
+        android:layout_below="@id/calificacionGrupo"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/btnUnirse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Unirse al grupo"
-        android:layout_below="@id/descripcion"
+        android:layout_below="@id/btnVerCalificaciones"
         android:layout_centerHorizontal="true"
         android:textColor="@color/morado"
         android:backgroundTint="@color/rosa"
-        android:textSize="15dp" />
+        android:textSize="18sp" />
 
-    <LinearLayout
-        android:id="@+id/btnGroup"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btnVerReuniones"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@id/descripcion"
+        android:layout_below="@id/btnVerCalificaciones"
         android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:visibility="gone">
+        android:text="Ver Reuniones"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:textSize="18sp"
+        android:visibility="gone"/>
 
-        <Button
-            android:id="@+id/btnVerReuniones"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ver Reuniones"
-            android:textColor="@color/morado"
-            android:backgroundTint="@color/rosa"/>
+    <Button
+        android:id="@+id/btnCalificarGrupo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnVerReuniones"
+        android:layout_centerHorizontal="true"
+        android:text="Calificar Grupo"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:textSize="18sp"
+        android:visibility="gone"/>
 
-        <Button
-            android:id="@+id/btnCrearReunion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Crear Reunion"
-            android:textColor="@color/morado"
-            android:backgroundTint="@color/rosa"/>
+    <Button
+        android:id="@+id/btnSalirGrupo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnCalificarGrupo"
+        android:layout_centerHorizontal="true"
+        android:text="Salir del Grupo"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:textSize="18sp"
+        android:visibility="gone"/>
 
-        <Button
-            android:id="@+id/btnCalificarGrupo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Calificar Grupo"
-            android:textColor="@color/morado"
-            android:backgroundTint="@color/rosa"/>
+    <Button
+        android:id="@+id/btnCrearReunion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnVerReuniones"
+        android:layout_centerHorizontal="true"
+        android:text="Crear Reunion"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:textSize="18sp"
+        android:visibility="gone"/>
 
-        <Button
-            android:id="@+id/btnSalirGrupo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Salir del Grupo"
-            android:textColor="@color/morado"
-            android:backgroundTint="@color/rosa"/>
-    </LinearLayout>
+    <Button
+        android:id="@+id/btnActualizarGrupo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnCrearReunion"
+        android:layout_centerHorizontal="true"
+        android:text="Actualizar Grupo"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:textSize="18sp"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/btnEliminarGrupo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnActualizarGrupo"
+        android:layout_centerHorizontal="true"
+        android:text="Eliminar Grupo"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:textSize="18sp"
+        android:visibility="gone"/>
+
+
 
 </RelativeLayout>

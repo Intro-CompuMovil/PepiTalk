@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.R
 
 class Grupo  : AppCompatActivity(){
@@ -28,13 +29,18 @@ class Grupo  : AppCompatActivity(){
     }
 
     fun verMisGrupos( buttonVerMisGrupos : Button ){
-        val irAMisGrupos = Intent(this, VerGrupos::class.java)
+        val irAMisGrupos = Intent(this, VerGrupos::class.java).apply{
+            putExtra("tipo", "misGrupos")
+        }
         buttonVerMisGrupos.setOnClickListener {
             startActivity(irAMisGrupos)
         }
     }
     fun verGruposParaUnirme( buttonVerGruposParaUnirme : Button ){
-        val irAGruposParaUnirme = Intent(this, VerGrupos::class.java) // a que pantalla va este ??
+
+        val irAGruposParaUnirme = Intent(this, VerGrupos::class.java).apply {
+            putExtra("tipo", "gruposParaUnirme")
+        }
         buttonVerGruposParaUnirme.setOnClickListener {
             startActivity(irAGruposParaUnirme)
         }
@@ -46,10 +52,14 @@ class Grupo  : AppCompatActivity(){
         }
     }
     fun menuPrincipal(menuInicio: ImageButton, context: Context){
-        val irAMenuPrincipal = Intent(this, MenuCliente::class.java)
         menuInicio.setOnClickListener {
-            startActivity(irAMenuPrincipal)
-            Toast.makeText(this,"Yendo al menú", Toast. LENGTH_LONG).show()
+            if(Data.personaLog.tipo == "Cliente"){
+                val peticion = Intent(this, MenuCliente::class.java)
+                startActivity(peticion)
+            }else{
+                val peticion = Intent(this, MenuTraductor::class.java)
+                startActivity(peticion)
+            }
         }
     }
     fun irPerfil(perfil : ImageButton, context : Context){

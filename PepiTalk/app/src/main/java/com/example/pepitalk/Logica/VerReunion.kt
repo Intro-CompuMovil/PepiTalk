@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.R
 
 
@@ -18,6 +18,44 @@ class VerReunion : AppCompatActivity() {
 
         initializeTextViews()
         setupButtonListeners()
+
+        if(/*dueño*/true){
+            botonesDueno()
+        }else if(/*unido*/!true){
+            botonesMiembros()
+        }else{
+            //sin unir
+        }
+    }
+
+    private fun botonesDueno(){
+        val verCali = findViewById<Button>(R.id.btnVerCalificacionesReuniones)
+        val actualizarGrupo = findViewById<Button>(R.id.btnActualizarReunion)
+        val eliminarGrupo = findViewById<Button>(R.id.btnEliminarReunion)
+        val unirse = findViewById<Button>(R.id.btnUnirse)
+        val ruta = findViewById<Button>(R.id.btnRuta)
+
+        unirse.visibility = View.GONE
+
+        verCali.visibility = View.VISIBLE
+        actualizarGrupo.visibility = View.VISIBLE
+        eliminarGrupo.visibility = View.VISIBLE
+        ruta.visibility = View.VISIBLE
+    }
+
+    private fun botonesMiembros(){
+        val calificar = findViewById<Button>(R.id.btnCalificarReunion)
+        val verCali = findViewById<Button>(R.id.btnVerCalificacionesReuniones)
+        val unirse = findViewById<Button>(R.id.btnUnirse)
+        val salir = findViewById<Button>(R.id.btnSalirReunion)
+        val ruta = findViewById<Button>(R.id.btnRuta)
+
+        unirse.visibility = View.GONE
+
+        verCali.visibility = View.VISIBLE
+        calificar.visibility = View.VISIBLE
+        salir.visibility = View.VISIBLE
+        ruta.visibility = View.VISIBLE
     }
 
     private fun initializeTextViews() {
@@ -28,6 +66,7 @@ class VerReunion : AppCompatActivity() {
         val nivel = intent.getStringExtra("nivel")
         val lugar = intent.getStringExtra("lugar")
         val descripcion = intent.getStringExtra("descripcion")
+        //inicializar calificacion
 
         findViewById<TextView>(R.id.nombre).text = nombre
         findViewById<TextView>(R.id.dia).text = dia
@@ -39,23 +78,44 @@ class VerReunion : AppCompatActivity() {
     }
 
     private fun setupButtonListeners() {
+        val verCali = findViewById<Button>(R.id.btnVerCalificacionesReuniones)
         val unirse = findViewById<Button>(R.id.btnUnirse)
-        val inicio = findViewById<ImageButton>(R.id.butInicio)
-        val perfil = findViewById<ImageButton>(R.id.butPerfil)
         val ruta = findViewById<Button>(R.id.btnRuta)
         val calificar = findViewById<Button>(R.id.btnCalificarReunion)
         val salir = findViewById<Button>(R.id.btnSalirReunion)
+        val actualizarReunion = findViewById<Button>(R.id.btnActualizarReunion)
+        val eliminarReunion = findViewById<Button>(R.id.btnEliminarReunion)
+        val inicio = findViewById<ImageButton>(R.id.butInicio)
+        val perfil = findViewById<ImageButton>(R.id.butPerfil)
 
         unirse.setOnClickListener {
             unirse.visibility = View.GONE
-            findViewById<LinearLayout>(R.id.btnGroup).visibility = View.VISIBLE
+            calificar.visibility = View.VISIBLE
+            salir.visibility = View.VISIBLE
+            ruta.visibility = View.VISIBLE
+        }
+
+        actualizarReunion.setOnClickListener {
+            val peticion = Intent(this, ActualizarReunion::class.java)
+            startActivity(peticion)
+        }
+
+        eliminarReunion.setOnClickListener {
+            //eliminar reuniones del json
+            val peticion = Intent(this, VerReuniones::class.java)
+            startActivity(peticion)
+        }
+
+        verCali.setOnClickListener {
+            val peticion = Intent(this, VerCalificaciones::class.java)
+            startActivity(peticion)
         }
 
         inicio.setOnClickListener {
-            if (/*es cliente*/true) {
+            if(Data.personaLog.tipo == "Cliente"){
                 val peticion = Intent(this, MenuCliente::class.java)
                 startActivity(peticion)
-            } else {
+            }else{
                 val peticion = Intent(this, MenuTraductor::class.java)
                 startActivity(peticion)
             }

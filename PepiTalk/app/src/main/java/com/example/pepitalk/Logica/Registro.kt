@@ -87,7 +87,7 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         if(!found){
             if(contrasena == confContrasena){
                 if(emailRegex.matches(correo)){
-                    var newUser = Persona(tipo, usuario, nombre,contrasena, correo)
+                    var newUser = Persona(tipo, usuario, nombre,contrasena, correo, mutableListOf())
                     Data.personas.add(newUser)
                     Data.personaLog.tipo = tipo
                     Data.personaLog.usuario = usuario

@@ -18,7 +18,7 @@
         android:layout_height="100dp"
         android:text="Oferta"
         android:textAlignment="center"
-        android:textSize="28dp"
+        android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:gravity="center" />
@@ -60,7 +60,7 @@
         android:layout_below="@+id/toolbarVerOferta"
         android:textAlignment="center"
         android:textStyle="bold"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:textColor="@color/letraOscura"
         android:paddingTop="40dp"
         android:paddingBottom="10dp"/>
@@ -82,7 +82,7 @@
             android:text="Language: "
             android:textStyle="bold"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/idiomaOfe"
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:text="English"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
@@ -110,7 +110,7 @@
             android:text="Date: "
             android:textStyle="bold"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/fechaOfe"
@@ -118,7 +118,7 @@
             android:layout_height="wrap_content"
             android:text="15/08/2024"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
@@ -138,7 +138,7 @@
             android:text="Starting Hour: "
             android:textStyle="bold"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/horaInicioOfe"
@@ -146,7 +146,7 @@
             android:layout_height="wrap_content"
             android:text="3:30 pm"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
@@ -166,7 +166,7 @@
             android:text="Finishing Hour: "
             android:textStyle="bold"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/horaFinOfe"
@@ -174,7 +174,7 @@
             android:layout_height="wrap_content"
             android:text="5:30 pm"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
@@ -194,7 +194,7 @@
             android:text="Place: "
             android:textStyle="bold"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/lugarOfe"
@@ -202,7 +202,7 @@
             android:layout_height="wrap_content"
             android:text=" Universidad Javeriana"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
@@ -222,7 +222,7 @@
             android:text="Description: "
             android:textStyle="bold"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/descripcionOfe"
@@ -230,7 +230,7 @@
             android:layout_height="wrap_content"
             android:text="An all around tour of this college"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
     </LinearLayout>
 
     <ImageView
@@ -250,19 +250,7 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/morado"
         android:backgroundTint="@color/rosa"
-        android:textSize="15dp"/>
-
-    <Button
-        android:id="@+id/btnCalificarTraductor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Calificar Traductor"
-        android:layout_below="@id/pepitoEmpresario"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/morado"
-        android:backgroundTint="@color/rosa"
-        android:textSize="15dp"
-        android:visibility="gone"/>
+        android:textSize="18sp"/>
 
     <Button
         android:id="@+id/btnRuta"
@@ -273,7 +261,7 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/morado"
         android:backgroundTint="@color/rosa"
-        android:textSize="15dp"
+        android:textSize="18sp"
         android:visibility="gone"/>
 
     <Button
@@ -285,9 +273,43 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/morado"
         android:backgroundTint="@color/rosa"
-        android:textSize="15dp"
+        android:textSize="18sp"
         android:visibility="gone"/>
 
+    <Button
+        android:id="@+id/btnCalificarTraductor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calificar Traductor"
+        android:layout_below="@id/pepitoEmpresario"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:textSize="18sp"
+        android:visibility="gone"/>
 
+    <Button
+        android:id="@+id/btnActualizarContrato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Actualizar Contrato"
+        android:layout_below="@id/btnCalificarTraductor"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:textSize="18sp"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/btnEliminarContrato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Eliminar Contrato"
+        android:layout_below="@id/btnActualizarContrato"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:textSize="18sp"
+        android:visibility="gone"/>
 
 </RelativeLayout>

@@ -52,7 +52,13 @@ class CrearReunion : AppCompatActivity() {
     }
 
     private fun irPrincipal(){
-        startActivity(Intent(this, MenuCliente::class.java))
+        if(Data.personaLog.tipo == "Cliente"){
+            val peticion = Intent(this, MenuCliente::class.java)
+            startActivity(peticion)
+        }else{
+            val peticion = Intent(this, MenuTraductor::class.java)
+            startActivity(peticion)
+        }
     }
 
     private fun validarCampos(){

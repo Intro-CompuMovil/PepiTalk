@@ -33,10 +33,10 @@ class Perfil :  AppCompatActivity(){
         val cerrar = findViewById<Button>(R.id.btnCerrarSesion)
 
         inicio.setOnClickListener {
-            if (/*es cliente*/true) {
+            if(Data.personaLog.tipo == "Cliente"){
                 val peticion = Intent(this, MenuCliente::class.java)
                 startActivity(peticion)
-            } else {
+            }else{
                 val peticion = Intent(this, MenuTraductor::class.java)
                 startActivity(peticion)
             }
@@ -55,7 +55,7 @@ class Perfil :  AppCompatActivity(){
 
         cerrar.setOnClickListener {
             Toast.makeText(this, "Log out exitoso ", Toast.LENGTH_LONG).show()
-            val peticion = Intent(this, com.example.pepitalk.Logica.MainActivity::class.java)
+            val peticion = Intent(this, MainActivity::class.java)
             startActivity(peticion)
         }
     }

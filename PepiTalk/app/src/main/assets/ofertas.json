@@ -5,9 +5,9 @@
       "fecha": "2023-10-01",
       "horaInicio": "10:00",
       "horaFin": "11:00",
-      "lugar": "Sala A",
+      "lugar": "Universidad Javeriana",
       "descripcion": "Clase de conversación en español",
-      "dueño" : "Juan",
+      "dueno" : "Juan",
       "trabajador" : "Maria",
       "aceptado" : false
     },
@@ -16,9 +16,9 @@
       "fecha": "2023-10-02",
       "horaInicio": "12:00",
       "horaFin": "13:00",
-      "lugar": "Sala B",
+      "lugar": "Universidad Piloto",
       "descripcion": "Clase de gramática en inglés",
-      "dueño" : "darwin",
+      "dueno" : "darwin",
       "trabajador" : "Pedro",
       "aceptado" : false
     },
@@ -27,9 +27,9 @@
       "fecha": "2023-10-03",
       "horaInicio": "14:00",
       "horaFin": "15:00",
-      "lugar": "Sala C",
+      "lugar": "Torre Colpatria",
       "descripcion": "Clase de pronunciación en francés",
-      "dueño" : "Santiago",
+      "dueno" : "Santiago",
       "trabajador" : "pablo",
       "aceptado" : false
     }

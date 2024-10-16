@@ -62,9 +62,9 @@
         android:layout_below="@+id/toolbarVerReunion"
         android:textAlignment="center"
         android:textStyle="bold"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:textColor="@color/letraOscura"
-        android:paddingTop="40dp"
+        android:paddingTop="20dp"
         android:paddingBottom="10dp"/>
 
     <androidx.cardview.widget.CardView
@@ -108,7 +108,7 @@
             android:text="Dia: "
             android:textStyle="bold"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/dia"
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:text=" 15/08/2024"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
@@ -136,7 +136,7 @@
             android:text="Hora: "
             android:textStyle="bold"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/hora"
@@ -144,7 +144,7 @@
             android:layout_height="wrap_content"
             android:text=" 3:30 pm"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
@@ -164,7 +164,7 @@
             android:text="Idioma: "
             android:textStyle="bold"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/idioma"
@@ -172,7 +172,7 @@
             android:layout_height="wrap_content"
             android:text=" Portugues"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
@@ -192,7 +192,7 @@
             android:text="Nivel minimo recomendado: "
             android:textStyle="bold"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/nivel"
@@ -200,7 +200,7 @@
             android:layout_height="wrap_content"
             android:text=" B1"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
@@ -220,7 +220,7 @@
             android:text="Lugar: "
             android:textStyle="bold"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/lugar"
@@ -228,7 +228,7 @@
             android:layout_height="wrap_content"
             android:text=" Universidad Javeriana"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
@@ -249,7 +249,7 @@
             android:text="Descripcion: "
             android:textStyle="bold"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/descripcion"
@@ -257,54 +257,89 @@
             android:layout_height="wrap_content"
             android:text=" We learn better together!"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="18sp"/>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnVerCalificacionesReuniones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver Calificaciones"
+        android:layout_below="@id/descripcionReunion"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:textSize="18sp"/>
 
     <Button
         android:id="@+id/btnUnirse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Unirse a la Reunion"
-        android:layout_below="@id/descripcionReunion"
+        android:layout_below="@id/btnVerCalificacionesReuniones"
         android:layout_centerHorizontal="true"
         android:textColor="@color/morado"
         android:backgroundTint="@color/rosa"
-        android:textSize="15dp"/>
+        android:textSize="18sp"/>
 
-    <LinearLayout
-        android:id="@+id/btnGroup"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btnRuta"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@id/descripcionReunion"
+        android:layout_below="@id/btnVerCalificacionesReuniones"
         android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:visibility="gone">
+        android:text="Seguir Ruta"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:textSize="18sp"
+        android:visibility="gone"/>
 
-        <Button
-            android:id="@+id/btnRuta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Seguir Ruta"
-            android:textColor="@color/morado"
-            android:backgroundTint="@color/rosa"/>
+    <Button
+        android:id="@+id/btnCalificarReunion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnRuta"
+        android:layout_centerHorizontal="true"
+        android:text="Calificar Reunion"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:textSize="18sp"
+        android:visibility="gone"/>
 
-        <Button
-            android:id="@+id/btnCalificarReunion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Calificar Reunion"
-            android:textColor="@color/morado"
-            android:backgroundTint="@color/rosa"/>
+    <Button
+        android:id="@+id/btnSalirReunion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnCalificarReunion"
+        android:layout_centerHorizontal="true"
+        android:text="Salir de Reunion"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:textSize="18sp"
+        android:visibility="gone"/>
 
-        <Button
-            android:id="@+id/btnSalirReunion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Salir de Reunion"
-            android:textColor="@color/morado"
-            android:backgroundTint="@color/rosa"/>
+    <Button
+        android:id="@+id/btnActualizarReunion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnRuta"
+        android:layout_centerHorizontal="true"
+        android:text="Actualizar Reunion"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:textSize="18sp"
+        android:visibility="gone"/>
 
-    </LinearLayout>
+    <Button
+        android:id="@+id/btnEliminarReunion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnActualizarReunion"
+        android:layout_centerHorizontal="true"
+        android:text="Eliminar Reunion"
+        android:textColor="@color/morado"
+        android:backgroundTint="@color/rosa"
+        android:textSize="18sp"
+        android:visibility="gone"/>
 
 </RelativeLayout>
