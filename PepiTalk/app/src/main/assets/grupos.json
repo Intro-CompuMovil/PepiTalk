@@ -4,19 +4,28 @@
       "nombre": "Bilingual",
       "idioma": "Ingles",
       "nivel": "B1",
-      "descripcion": "We learn better together!"
+      "descripcion": "We learn better together!",
+      "dueno": "Juan",
+      "integrantes": ["Juan", "Maria", "Pedro"],
+      "calificaciones": [5, 4, 3]
     },
     {
       "nombre": "Français Avancé",
       "idioma": "Francés",
       "nivel": "C1",
-      "descripcion": "Apprenons ensemble!"
+      "descripcion": "Apprenons ensemble!",
+      "dueno": "Maria",
+      "integrantes": ["Maria", "Juan", "Pedro"],
+      "calificaciones": [3, 2, 4]
     },
     {
       "nombre": "Deutsch für Anfänger",
       "idioma": "Alemán",
       "nivel": "A1",
-      "descripcion": "Gemeinsam lernen wir besser!"
+      "descripcion": "Gemeinsam lernen wir besser!",
+      "dueno": "Pedro",
+      "integrantes": ["Pedro", "Maria", "Juan"],
+      "calificaciones": [4, 5, 3]
     }
   ]
 }

@@ -7,7 +7,10 @@
       "idioma": "Portugués",
       "nivel": "B1",
       "lugar": "Universidad Javeriana",
-      "descripcion": "We learn better together!"
+      "descripcion": "We learn better together!",
+      "dueno": "Juan",
+      "integrantes": ["Juan", "Maria", "Pedro"],
+      "calificaciones": [5, 4, 3]
     },
     {
       "nombre": "Reunión de Inglés",
@@ -16,7 +19,10 @@
       "idioma": "Inglés",
       "nivel": "A2",
       "lugar": "Biblioteca Central",
-      "descripcion": "Let's practice English!"
+      "descripcion": "Let's practice English!",
+      "dueno": "Maria",
+      "integrantes": ["David", "Maria", "Pedro"],
+      "calificaciones": [3, 2, 4]
     },
     {
       "nombre": "Reunión de Francés",
@@ -25,7 +31,10 @@
       "idioma": "Francés",
       "nivel": "B2",
       "lugar": "Café de la Esquina",
-      "descripcion": "Parlons français ensemble!"
+      "descripcion": "Parlons français ensemble!",
+      "dueno": "Samuel",
+      "integrantes": ["Samuel", "Santiago", "Sergio"],
+      "calificaciones": [4, 5, 3]
     }
   ]
 }
