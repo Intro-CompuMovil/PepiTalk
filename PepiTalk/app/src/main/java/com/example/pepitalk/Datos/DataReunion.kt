@@ -9,4 +9,5 @@ data class DataReunion(
     var lugar: String,
     var descripcion: String,
     var dueno: String,
-    var integrantes: MutableList<String>)
+    var integrantes: MutableList<String>,
+    var calificaciones: MutableList<DataCalificaciones>)
