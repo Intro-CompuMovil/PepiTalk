@@ -5,14 +5,16 @@
       "usuario" : "gabriel13",
       "nombre" : "Gabriel Espitia",
       "contrasena" : "clave123",
-      "correo" : "gabriel13@gmail.com"
+      "correo" : "gabriel13@gmail.com",
+      "calificaciones": [5, 4, 3]
     },
     {
       "tipo" : "Traductor",
       "usuario" : "juafra1",
       "nombre" : "Juanita Franco",
       "contrasena" : "clave456",
-      "correo" : "juafra1@gmail.com"
+      "correo" : "juafra1@gmail.com",
+      "calificaciones": [3, 2, 4]
     }
   ]
 }
