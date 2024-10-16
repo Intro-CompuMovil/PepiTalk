@@ -47,7 +47,7 @@ class Reunion : AppCompatActivity(){
         }
     }
     fun menuPrincipal(menuInicio: ImageButton, context: Context){
-        if(Data.personaLog.tipo == "cliente"){
+        if(Data.personaLog.tipo == "Cliente"){
             val peticion = Intent(this, MenuCliente::class.java)
             startActivity(peticion)
         }else{

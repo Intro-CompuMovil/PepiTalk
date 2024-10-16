@@ -93,7 +93,7 @@ class Data {
             val jsonString = loadJSONFromAsset(context, "personas.json")
             if (jsonString != null) {
                 val jsonObject = JSONObject(jsonString)
-                val jsonArray = jsonObject.getJSONArray("personas")
+                val jsonArray = jsonObject.getJSONArray("listaPersonas")
 
                 // Limpiamos la lista antes de agregar las nuevas personas
                 personas.clear()
@@ -130,7 +130,7 @@ class Data {
             val jsonString = loadJSONFromAsset(context, "ofertas.json")
             if (jsonString != null) {
                 val jsonObject = JSONObject(jsonString)
-                val jsonArray = jsonObject.getJSONArray("ofertas")
+                val jsonArray = jsonObject.getJSONArray("listaOfertas")
 
                 val calificacionesList = mutableListOf<DataCalificaciones>()
 
@@ -149,7 +149,7 @@ class Data {
                         idioma = ofertaJson.getString("idioma"),
                         fecha = ofertaJson.getString("fecha"),
                         horaInicio = ofertaJson.getString("horaInicio"),
-                        horaFinal = ofertaJson.getString("horaFinal"),
+                        horaFinal = ofertaJson.getString("horaFin"),
                         lugar = ofertaJson.getString("lugar"),
                         descripcion = ofertaJson.getString("descripcion"),
                         dueno = ofertaJson.getString("dueno"),
@@ -165,7 +165,7 @@ class Data {
             val jsonString = loadJSONFromAsset(context, "reuniones.json")
             if (jsonString != null) {
                 val jsonObject = JSONObject(jsonString)
-                val jsonArray = jsonObject.getJSONArray("reuniones")
+                val jsonArray = jsonObject.getJSONArray("listaReuniones")
 
                 // Limpiamos la lista antes de agregar las nuevas reuniones
                 listaReuniones.clear()

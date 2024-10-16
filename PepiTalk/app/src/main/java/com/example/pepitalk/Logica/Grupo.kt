@@ -29,13 +29,18 @@ class Grupo  : AppCompatActivity(){
     }
 
     fun verMisGrupos( buttonVerMisGrupos : Button ){
-        val irAMisGrupos = Intent(this, VerGrupos::class.java)
+        val irAMisGrupos = Intent(this, VerGrupos::class.java).apply{
+            putExtra("tipo", "misGrupos")
+        }
         buttonVerMisGrupos.setOnClickListener {
             startActivity(irAMisGrupos)
         }
     }
     fun verGruposParaUnirme( buttonVerGruposParaUnirme : Button ){
-        val irAGruposParaUnirme = Intent(this, VerGrupos::class.java) // a que pantalla va este ??
+
+        val irAGruposParaUnirme = Intent(this, VerGrupos::class.java).apply {
+            putExtra("tipo", "gruposParaUnirme")
+        }
         buttonVerGruposParaUnirme.setOnClickListener {
             startActivity(irAGruposParaUnirme)
         }
@@ -47,7 +52,7 @@ class Grupo  : AppCompatActivity(){
         }
     }
     fun menuPrincipal(menuInicio: ImageButton, context: Context){
-        if(Data.personaLog.tipo == "cliente"){
+        if(Data.personaLog.tipo == "Cliente"){
             val peticion = Intent(this, MenuCliente::class.java)
             startActivity(peticion)
         }else{

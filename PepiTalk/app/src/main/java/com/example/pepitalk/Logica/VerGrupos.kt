@@ -23,7 +23,10 @@ class VerGrupos : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ver_grupos)
-        initView()
+
+        val tipo = intent.getStringExtra("tipo")
+
+        initView(tipo)
         setupButtonListeners()
     }
 
@@ -32,7 +35,7 @@ class VerGrupos : AppCompatActivity(){
         val perfil = findViewById<ImageButton>(R.id.butPerfil)
 
         inicio.setOnClickListener {
-            if(Data.personaLog.tipo == "cliente"){
+            if(Data.personaLog.tipo == "Cliente"){
                 val peticion = Intent(this, MenuCliente::class.java)
                 startActivity(peticion)
             }else{
@@ -78,7 +81,7 @@ class VerGrupos : AppCompatActivity(){
         return cursor
     }
 
-    fun initView() {
+    fun initView( tipo: String? ) {
         mlista = findViewById(R.id.grupos1)
         val json  = JSONObject(loadJSONFromAsset())
         val personasJson = json.getJSONArray("listaGrupos")

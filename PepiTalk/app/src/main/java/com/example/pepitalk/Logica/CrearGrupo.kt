@@ -52,7 +52,7 @@ class CrearGrupo : AppCompatActivity() {
     }
 
     private fun irPrincipal(){
-        if(Data.personaLog.tipo == "cliente"){
+        if(Data.personaLog.tipo == "Cliente"){
             val peticion = Intent(this, MenuCliente::class.java)
             startActivity(peticion)
         }else{

@@ -27,7 +27,7 @@
             android:name=".Logica.Ruta"
             android:exported="false" />
         <activity
-            android:name=".Logica.VerCalificaciones"
+            android:name=".Logica.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,7 +51,7 @@
             android:name=".Logica.Reunion"
             android:exported="false"></activity>
         <activity
-            android:name=".Logica.MainActivity"
+            android:name=".Logica.VerCalificaciones"
             android:exported="false"></activity>
         <activity
             android:name=".Logica.VerOferta"

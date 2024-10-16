@@ -55,7 +55,7 @@ class Perfil :  AppCompatActivity(){
 
         cerrar.setOnClickListener {
             Toast.makeText(this, "Log out exitoso ", Toast.LENGTH_LONG).show()
-            val peticion = Intent(this, com.example.pepitalk.Logica.MainActivity::class.java)
+            val peticion = Intent(this, MainActivity::class.java)
             startActivity(peticion)
         }
     }
