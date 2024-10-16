@@ -6,5 +6,6 @@ data class DataGrupo(
     var nivel: String,
     var descripcion: String,
     var dueno: String,
+    var lugar: String,
     var integrantes: MutableList<String>,
     var calificaciones: MutableList<DataCalificaciones>)
