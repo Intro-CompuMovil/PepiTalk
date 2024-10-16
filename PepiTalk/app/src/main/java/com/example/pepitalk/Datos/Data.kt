@@ -22,7 +22,6 @@ class Data {
             correo = "pepito@gmail.com",
             calificaciones = mutableListOf(DataCalificaciones(5.0, "Excelente")))
 
-
     //funciones
 
         // Método para cargar JSON desde assets

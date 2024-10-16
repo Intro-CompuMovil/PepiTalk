@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.R
 import org.json.JSONArray
 import org.json.JSONObject
@@ -31,7 +32,7 @@ class VerReuniones : AppCompatActivity(){
         val perfil = findViewById<ImageButton>(R.id.butPerfil)
 
         inicio.setOnClickListener {
-            if(/*es cliente*/true){
+            if(Data.personaLog.tipo == "cliente"){
                 val peticion = Intent(this, MenuCliente::class.java)
                 startActivity(peticion)
             }else{

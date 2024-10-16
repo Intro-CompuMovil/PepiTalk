@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.R
 
 class Grupo  : AppCompatActivity(){
@@ -46,10 +47,12 @@ class Grupo  : AppCompatActivity(){
         }
     }
     fun menuPrincipal(menuInicio: ImageButton, context: Context){
-        val irAMenuPrincipal = Intent(this, MenuCliente::class.java)
-        menuInicio.setOnClickListener {
-            startActivity(irAMenuPrincipal)
-            Toast.makeText(this,"Yendo al menú", Toast. LENGTH_LONG).show()
+        if(Data.personaLog.tipo == "cliente"){
+            val peticion = Intent(this, MenuCliente::class.java)
+            startActivity(peticion)
+        }else{
+            val peticion = Intent(this, MenuTraductor::class.java)
+            startActivity(peticion)
         }
     }
     fun irPerfil(perfil : ImageButton, context : Context){

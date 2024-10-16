@@ -87,6 +87,9 @@
             android:name=".Logica.ActualizarReunion"
             android:exported="false"></activity>
         <activity
+            android:name=".Logica.ActualizarOferta"
+            android:exported="false"></activity>
+        <activity
             android:name=".Logica.ActualizarGrupo"
             android:exported="false"></activity>
         <activity

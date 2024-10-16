@@ -33,10 +33,10 @@ class Perfil :  AppCompatActivity(){
         val cerrar = findViewById<Button>(R.id.btnCerrarSesion)
 
         inicio.setOnClickListener {
-            if (/*es cliente*/true) {
+            if(Data.personaLog.tipo == "cliente"){
                 val peticion = Intent(this, MenuCliente::class.java)
                 startActivity(peticion)
-            } else {
+            }else{
                 val peticion = Intent(this, MenuTraductor::class.java)
                 startActivity(peticion)
             }

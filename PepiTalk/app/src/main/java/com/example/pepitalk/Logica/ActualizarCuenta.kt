@@ -52,14 +52,12 @@ class ActualizarCuenta : AppCompatActivity() {
         }
     }
     private fun irPrincipal(){
-        //falta diferenciar por tipo
         if(Data.personaLog.tipo == "Cliente"){
             startActivity(Intent(this, MenuCliente::class.java))
         }
         else{
             startActivity(Intent(this, MenuTraductor::class.java))
         }
-
     }
 
     private fun validarCampos(){
