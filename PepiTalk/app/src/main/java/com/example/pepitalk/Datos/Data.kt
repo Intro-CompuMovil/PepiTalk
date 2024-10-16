@@ -20,7 +20,7 @@ class Data {
             nombre = "Pepito el Pinguino",
             contrasena = "Pinguino",
             correo = "pepito@gmail.com",
-            calificaciones = mutableListOf(DataCalificaciones(5.0, "Excelente")))
+            calificaciones = mutableListOf())
 
     //funciones
 
@@ -80,6 +80,7 @@ class Data {
                         nivel = grupoJson.getString("nivel"),
                         descripcion = grupoJson.getString("descripcion"),
                         dueno = grupoJson.getString("dueno"),
+                        lugar = grupoJson.getString("lugar"),
                         integrantes = integrantesList,
                         calificaciones = calificacionesList
                     )
@@ -149,7 +150,11 @@ class Data {
                         idioma = ofertaJson.getString("idioma"),
                         fecha = ofertaJson.getString("fecha"),
                         horaInicio = ofertaJson.getString("horaInicio"),
+
+                        recompensa = ofertaJson.getString("recompensa"),
+
                         horaFinal = ofertaJson.getString("horaFin"),
+
                         lugar = ofertaJson.getString("lugar"),
                         descripcion = ofertaJson.getString("descripcion"),
                         dueno = ofertaJson.getString("dueno"),
