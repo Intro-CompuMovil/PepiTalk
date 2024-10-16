@@ -38,7 +38,7 @@ android:padding="16dp">
                 android:layout_marginLeft="160dp"
                 android:layout_marginTop="20dp"
                 android:textStyle="bold"
-                android:textSize="20dp"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/language"
@@ -48,7 +48,7 @@ android:padding="16dp">
                 android:textColor="@color/letraOscura"
                 android:layout_marginLeft="170dp"
                 android:layout_marginTop="65dp"
-                android:textSize="17dp"/>
+                android:textSize="17sp"/>
 
             <TextView
                 android:id="@+id/level"

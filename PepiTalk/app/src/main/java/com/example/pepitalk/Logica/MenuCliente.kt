@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pepitalk.R
 
@@ -13,32 +12,32 @@ class MenuCliente : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu_cliente)
 
-        val Grupos = findViewById<Button>(R.id.buttonGrupos)
-        val Reuniones = findViewById<Button>(R.id.buttonReuniones)
-        val Servicios = findViewById<Button>(R.id.buttonServicios)
+        val GruposButton = findViewById<Button>(R.id.buttonGrupos)
+        val ReunionesButton = findViewById<Button>(R.id.buttonReuniones)
+        val ServiciosButton = findViewById<Button>(R.id.buttonServicios)
         val perfil = findViewById<ImageButton>(R.id.butPerfil)
 
-        AccionBotonGrupos(Grupos)
-        AccionBotonReuniones(Reuniones)
-        AccionBotonServicios(Servicios)
+        AccionBotonGrupos(GruposButton)
+        AccionBotonReuniones(ReunionesButton)
+        AccionBotonServicios(ServiciosButton)
         AccionBotonPerfil(perfil)
 
     }
-    fun AccionBotonGrupos( Grupos : Button){
+    fun AccionBotonGrupos( GruposButton : Button){
         val irAGrupos = Intent(this, Grupo::class.java)
-        Grupos.setOnClickListener {
+        GruposButton.setOnClickListener {
             startActivity(irAGrupos)
         }
     }
-    fun AccionBotonReuniones( Reuniones : Button){
+    fun AccionBotonReuniones( ReunionesButton : Button){
         val irAReuniones = Intent(this, Reunion::class.java)
-        Reuniones.setOnClickListener {
+        ReunionesButton.setOnClickListener {
             startActivity(irAReuniones)
         }
     }
-    fun AccionBotonServicios( Servicios : Button) {
+    fun AccionBotonServicios( ServiciosButton : Button) {
         val irAServicios = Intent(this, Oferta::class.java)
-        Servicios.setOnClickListener {
+        ServiciosButton.setOnClickListener {
             startActivity(irAServicios)
         }
     }
