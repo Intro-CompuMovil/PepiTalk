@@ -5,6 +5,7 @@ data class DataOferta(
     var fecha: String,
     var horaInicio: String,
     var horaFinal: String,
+    var recompensa: String,
     var lugar: String,
     var descripcion: String,
     var dueno: String,
