@@ -7,7 +7,7 @@
       "horaFin": "11:00",
       "lugar": "Universidad Javeriana",
       "descripcion": "Clase de conversación en español",
-      "dueño" : "Juan",
+      "dueno" : "Juan",
       "trabajador" : "Maria",
       "aceptado" : false
     },
@@ -18,7 +18,7 @@
       "horaFin": "13:00",
       "lugar": "Universidad Piloto",
       "descripcion": "Clase de gramática en inglés",
-      "dueño" : "darwin",
+      "dueno" : "darwin",
       "trabajador" : "Pedro",
       "aceptado" : false
     },
@@ -29,7 +29,7 @@
       "horaFin": "15:00",
       "lugar": "Torre Colpatria",
       "descripcion": "Clase de pronunciación en francés",
-      "dueño" : "Santiago",
+      "dueno" : "Santiago",
       "trabajador" : "pablo",
       "aceptado" : false
     }
