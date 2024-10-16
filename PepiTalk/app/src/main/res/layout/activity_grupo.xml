@@ -58,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Selecciona una Opción"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/toolbarGrupo"
         android:layout_marginTop="45dp"
@@ -75,7 +75,7 @@
         android:backgroundTint="@color/rosa"
         android:textColor="@color/morado"
         android:layout_marginTop="50dp"
-        android:textSize="17dp"/>
+        android:textSize="18sp"/>
 
     <Button
         android:id="@+id/buttonVerGruposParaUnirme"
@@ -87,7 +87,7 @@
         android:backgroundTint="@color/rosa"
         android:textColor="@color/morado"
         android:layout_marginTop="60dp"
-        android:textSize="17dp"/>
+        android:textSize="18sp"/>
 
     <Button
         android:id="@+id/buttonCrearGrupo"
@@ -99,7 +99,7 @@
         android:backgroundTint="@color/rosa"
         android:textColor="@color/morado"
         android:layout_marginTop="60dp"
-        android:textSize="17dp"/>
+        android:textSize="18sp"/>
 
 
 </RelativeLayout>

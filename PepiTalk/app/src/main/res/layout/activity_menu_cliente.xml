@@ -60,37 +60,37 @@
          android:id="@+id/buttonGrupos"
          android:layout_width="300dp"
          android:layout_height="100dp"
-         android:layout_above="@id/buttonReuniones"
+         android:layout_below="@id/textSeleccionarOpcion"
          android:layout_centerHorizontal="true"
-         android:layout_marginBottom="60dp"
-         android:text="Grupos \n \n Ver, manejar y unirse a Grupos"
+         android:layout_marginTop="90dp"
+         android:text="GRUPOS \n Ver, manejar y unirse a Grupos"
          android:backgroundTint="@color/rosa"
          android:textColor="@color/morado"
-         android:textSize="15dp"/>
+         android:textSize="18sp"/>
 
      <Button
          android:id="@+id/buttonReuniones"
          android:layout_width="300dp"
          android:layout_height="100dp"
-         android:layout_above="@id/buttonServicios"
+         android:layout_below="@id/buttonGrupos"
          android:layout_centerHorizontal="true"
-         android:layout_marginBottom="60dp"
-         android:text="Reuniones \n \n Ver, manejar y Unirse a reuniones"
+         android:layout_marginTop="60dp"
+         android:text="REUNIONES \n Ver, manejar y Unirse a reuniones"
          android:backgroundTint="@color/rosa"
          android:textColor="@color/morado"
-         android:textSize="15dp"/>
+         android:textSize="18sp"/>
 
      <Button
          android:id="@+id/buttonServicios"
          android:layout_width="300dp"
          android:layout_height="100dp"
-         android:layout_alignParentBottom="true"
+         android:layout_below="@id/buttonReuniones"
          android:layout_centerHorizontal="true"
-         android:layout_marginBottom="110dp"
-         android:text="Servicios \n\n Contratar interpretes"
+         android:text="SERVICIOS\n Contratar interpretes"
          android:backgroundTint="@color/rosa"
+         android:layout_marginTop="60dp"
          android:textColor="@color/morado"
-         android:textSize="15dp"/>
+         android:textSize="18sp"/>
 
 
 </RelativeLayout>

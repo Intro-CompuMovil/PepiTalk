@@ -60,7 +60,8 @@
         android:text="Nombre: Placement"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/toolbarAceptarTraductor"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="30dp"
+        android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/CalificacionTraductor"
@@ -69,7 +70,8 @@
         android:text="Calificacion: la fldsmdbr "
         android:layout_centerHorizontal="true"
         android:layout_below="@id/NombreTraductor"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"/>
 
     <ImageView
         android:id="@+id/imageView"
@@ -89,7 +91,8 @@
         android:layout_centerHorizontal="true"
         android:text="Aceptar"
         android:backgroundTint="@color/rosa"
-        android:textColor="@color/morado"/>
+        android:textColor="@color/morado"
+        android:textSize="18sp"/>
 
     <Button
         android:id="@+id/buttonRechazar"
@@ -100,6 +103,7 @@
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/rosa"
         android:textColor="@color/morado"
-        android:layout_below="@id/buttonAceptar"/>
+        android:layout_below="@id/buttonAceptar"
+        android:textSize="18sp"/>
 
 </RelativeLayout>

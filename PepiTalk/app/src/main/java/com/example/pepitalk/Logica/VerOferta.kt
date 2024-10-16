@@ -18,6 +18,33 @@ class VerOferta : AppCompatActivity()  {
         setContentView(R.layout.activity_ver_oferta)
         initializeTextViews()
         setupButtonListeners()
+        if(/*dueño*/true){
+            botonesDueno()
+        }else if(/*acepto el trabajo*/!true){
+            botonesTraductor()
+        }
+    }
+
+    private fun botonesDueno(){
+        val aceptar = findViewById<Button>(R.id.btnAceptar)
+        val calificar = findViewById<Button>(R.id.btnCalificarTraductor)
+        val actualizar = findViewById<Button>(R.id.btnActualizarContrato)
+        val eliminar = findViewById<Button>(R.id.btnEliminarContrato)
+
+        aceptar.visibility = View.GONE
+        calificar.visibility = View.VISIBLE
+        actualizar.visibility = View.VISIBLE
+        eliminar.visibility = View.VISIBLE
+    }
+
+    private fun botonesTraductor(){
+        val aceptar = findViewById<Button>(R.id.btnAceptar)
+        val rechazar = findViewById<Button>(R.id.btnCancelarContrato)
+        val ruta = findViewById<Button>(R.id.btnRuta)
+
+        aceptar.visibility = View.GONE
+        rechazar.visibility = View.VISIBLE
+        ruta.visibility = View.VISIBLE
     }
 
     private fun initializeTextViews() {
@@ -43,11 +70,25 @@ class VerOferta : AppCompatActivity()  {
         val rechazar = findViewById<Button>(R.id.btnCancelarContrato)
         val calificar = findViewById<Button>(R.id.btnCalificarTraductor)
         val ruta = findViewById<Button>(R.id.btnRuta)
+        val actualizarOferta = findViewById<Button>(R.id.btnActualizarContrato)
+        val eliminarOferta = findViewById<Button>(R.id.btnEliminarContrato)
 
         aceptar.setOnClickListener {
             aceptar.visibility = View.GONE
             ruta.visibility= View.VISIBLE
             rechazar.visibility= View.VISIBLE
+        }
+
+        actualizarOferta.setOnClickListener {
+            val peticion = Intent(this, ActualizarOferta::class.java)
+            startActivity(peticion)
+        }
+
+        eliminarOferta.setOnClickListener {
+            //eliminar del json
+            Toast.makeText(this, "Oferta eliminada", Toast.LENGTH_LONG).show()
+            val peticion = Intent(this, VerOfertas::class.java)
+            startActivity(peticion)
         }
 
         inicio.setOnClickListener {

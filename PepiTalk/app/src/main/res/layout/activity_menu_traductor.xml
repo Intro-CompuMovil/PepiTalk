@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Selecciona una Opción"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/toolbarMenuTraductor"
         android:layout_marginTop="70dp"
@@ -66,10 +66,10 @@
         android:layout_below="@id/textSeleccionarOpcion"
         android:layout_marginTop="110dp"
         android:layout_centerHorizontal="true"
-        android:text="Trabajos \n \n Ver mis trabajos"
+        android:text="TRABAJOS\n Ver mis trabajos"
         android:backgroundTint="@color/rosa"
         android:textColor="@color/morado"
-        android:textSize="16dp"/>
+        android:textSize="18sp"/>
 
     <Button
         android:id="@+id/buttonOfertas"
@@ -77,11 +77,11 @@
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/buttonTrabajos"
-        android:text="Ofertas \n\n Ver mis ofertas"
+        android:text="OFERTAS\n Ver mis ofertas"
         android:backgroundTint="@color/rosa"
         android:textColor="@color/morado"
-        android:layout_marginTop="20dp"
-        android:textSize="16dp"/>
+        android:layout_marginTop="30dp"
+        android:textSize="18sp"/>
 
 
 </RelativeLayout>
