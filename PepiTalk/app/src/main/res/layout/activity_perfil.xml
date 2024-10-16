@@ -20,7 +20,7 @@
         android:layout_height="100dp"
         android:text="Perfil"
         android:textAlignment="center"
-        android:textSize="28dp"
+        android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:gravity="center" />
@@ -70,7 +70,7 @@
         android:layout_below="@+id/imagenPerfil1"
         android:textAlignment="center"
         android:textStyle="bold"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textColor="@color/letraOscura"
         android:paddingTop="20dp"
         android:paddingBottom="10dp"/>
@@ -91,7 +91,7 @@
             android:text="Correo: "
             android:textStyle="bold"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="19sp"/>
 
         <TextView
             android:id="@+id/correo"
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:text=" gabes1604@gmail.com"
             android:textColor="@color/letraOscura"
-            android:textSize="15dp"/>
+            android:textSize="19sp"/>
 
     </LinearLayout>
 
@@ -112,8 +112,8 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/morado"
         android:backgroundTint="@color/rosa"
-        android:textSize="15dp"
-        android:layout_marginTop="15dp"/>
+        android:textSize="18sp"
+        android:layout_marginTop="40dp"/>
 
     <Button
         android:id="@+id/btnEliminar"
@@ -122,9 +122,10 @@
         android:text="Eliminar Cuenta"
         android:layout_below="@id/btnActualizar"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         android:textColor="@color/morado"
         android:backgroundTint="@color/rosa"
-        android:textSize="15dp"/>
+        android:textSize="18sp"/>
 
     <Button
         android:id="@+id/btnCerrarSesion"
@@ -132,9 +133,10 @@
         android:layout_height="wrap_content"
         android:text="Cerrar Sesión"
         android:layout_below="@id/btnEliminar"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
         android:textColor="@color/morado"
         android:backgroundTint="@color/rosa"
-        android:textSize="15dp"/>
+        android:textSize="18sp"/>
 
 </RelativeLayout>

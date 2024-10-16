@@ -1,42 +1,59 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/checkbox_on_background"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.1"
-        app:layout_constraintHeight_percent="0.1" />
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_centerHorizontal="true">
 
-    <TextView
-        android:id="@+id/languageOferta"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Idioma"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintWidth_percent="0.4"
-        android:textColor="@color/letraOscura"
-        android:textSize="17dp"/>
+    <FrameLayout
+        android:layout_width="350dp"
+        android:layout_height="130dp">
 
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Fecha"
-        app:layout_constraintStart_toEndOf="@+id/languageOferta"
-        app:layout_constraintTop_toTopOf="@+id/languageOferta"
-        app:layout_constraintBottom_toBottomOf="@+id/languageOferta"
-        app:layout_constraintWidth_percent="0.4"
-        android:textColor="@color/letraOscura"
-        android:textSize="17dp"/>
+        <View
+            android:id="@+id/colorBox"
+            android:layout_width="350dp"
+            android:layout_height="130dp"
+            android:background="@color/babyblue" />
+
+        <TextView
+            android:id="@+id/languageOferta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Idioma"
+            android:textColor="@color/letraOscura"
+            android:layout_marginLeft="160dp"
+            android:layout_marginTop="40dp"
+            android:textStyle="bold"
+            android:textSize="22dp"/>
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha"
+            android:textColor="@color/letraOscura"
+            android:layout_marginLeft="170dp"
+            android:layout_marginTop="70dp"
+            android:textSize="20dp"/>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="110dp"
+            android:layout_height="80dp"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/pepitoempresario"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"/>
+
+    </FrameLayout>
+</LinearLayout>
+
+
+
+</RelativeLayout>

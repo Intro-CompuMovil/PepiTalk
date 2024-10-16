@@ -59,15 +59,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_above="@id/buttonRegistrarse"
+        android:layout_below="@id/imageView"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginTop="20dp"
         android:text="Iniciar Sesión"
         android:backgroundTint="@color/rosa"
         android:textColor="@color/morado"
-        android:textSize="20dp"/>
+        android:textSize="20sp"/>
 
     <Button
         android:id="@+id/buttonRegistrarse"
@@ -75,15 +75,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_below="@id/buttonIniciarSesion"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginTop="30dp"
         android:text="Registrarse"
         android:backgroundTint="@color/rosa"
         android:textColor="@color/morado"
-        android:textSize="20dp"/>
+        android:textSize="20sp"/>
 
 
 </RelativeLayout>

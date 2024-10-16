@@ -69,12 +69,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbarCrearOferta"
         android:text="¡Haz una oferta!"
-        android:textSize="24sp"
+        android:textSize="30sp"
         android:textAlignment="center"
         android:textColor="@color/letraOscura"
-        android:padding="25dp"/>
-
-
+        android:padding="25dp"
+        android:textStyle="bold"/>
 
 
     <EditText
@@ -89,7 +88,7 @@
         android:padding="10dp"
         android:hint="Idioma"
         android:textColorHint="@color/morado"
-        android:textSize="15sp"
+        android:textSize="18sp"
         android:background="@drawable/rounded"
     />
     <EditText
@@ -104,7 +103,7 @@
         android:padding="10dp"
         android:hint="Dia: DD/MM/AAAA"
         android:textColorHint="@color/morado"
-        android:textSize="15sp"
+        android:textSize="18sp"
         android:background="@drawable/rounded"
     />
     <EditText
@@ -119,7 +118,7 @@
         android:padding="10dp"
         android:hint="Hora de inicio: HH:MM"
         android:textColorHint="@color/morado"
-        android:textSize="15sp"
+        android:textSize="18sp"
         android:background="@drawable/rounded"
     />
 
@@ -135,7 +134,7 @@
         android:padding="10dp"
         android:hint="Hora final: HH:MM"
         android:textColorHint="@color/morado"
-        android:textSize="15sp"
+        android:textSize="18sp"
         android:background="@drawable/rounded"
     />
 
@@ -151,7 +150,7 @@
         android:layout_marginHorizontal="20dp"
         android:padding="10dp"
         android:hint="Valor en pesos colombianos"
-        android:textSize="15sp"
+        android:textSize="18sp"
         android:textColorHint="@color/morado"
         android:background="@drawable/rounded"
         />
@@ -165,7 +164,7 @@
         android:layout_marginHorizontal="20dp"
         android:padding="10dp"
         android:hint="Lugar"
-        android:textSize="15sp"
+        android:textSize="18sp"
         android:textColorHint="@color/morado"
         android:background="@drawable/rounded"
         />
@@ -180,7 +179,7 @@
         android:layout_marginHorizontal="20dp"
         android:padding="10dp"
         android:hint="Descripción"
-        android:textSize="15sp"
+        android:textSize="18sp"
         android:textColorHint="@color/morado"
         android:background="@drawable/rounded"
         />
@@ -194,14 +193,10 @@
         android:layout_marginBottom="60dp"
         android:layout_marginHorizontal="60dp"
         android:padding="15dp"
-        android:textSize="15sp"
+        android:textSize="18sp"
         android:text="Publica tu oferta"
         android:textColor="@color/morado"
         android:backgroundTint="@color/rosa"
         />
-
-
-
-
 
 </RelativeLayout>
