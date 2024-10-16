@@ -1,0 +1,53 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/btn_star_big_on"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.1"
+        app:layout_constraintHeight_percent="0.1" />
+
+    <TextView
+        android:id="@+id/calificacion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Calificación"
+        android:textColor="@color/letraOscura"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <TextView
+        android:id="@+id/tituloComentario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Comentario: "
+        android:textColor="@color/letraOscura"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <TextView
+        android:id="@+id/comentarioCalificacion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="comment"
+        app:layout_constraintStart_toEndOf="@+id/tituloComentario"
+        app:layout_constraintTop_toTopOf="@+id/tituloComentario"
+        app:layout_constraintBottom_toBottomOf="@+id/tituloComentario"
+        app:layout_constraintWidth_percent="0.7"
+        android:textColor="@color/letraOscura"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

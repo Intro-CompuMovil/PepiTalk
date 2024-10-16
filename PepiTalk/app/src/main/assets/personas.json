@@ -15,6 +15,38 @@
       "contrasena" : "clave456",
       "correo" : "juafra1@gmail.com",
       "calificaciones": [3, 2, 4]
+    },
+    {
+      "tipo" : "Cliente",
+      "usuario" : "andres88",
+      "nombre" : "Andres Ruge",
+      "contrasena" : "clave789",
+      "correo" : "andres88@gmail.com",
+      "calificaciones": [5, 4, 3]
+    },
+    {
+      "tipo" : "Cliente",
+      "usuario" : "nmonta17",
+      "nombre" : "Nicolas Montañez",
+      "contrasena" : "necocli",
+      "correo" : "nmonta17@gmail.com",
+      "calificaciones": [5, 4, 3]
+    },
+    {
+      "tipo" : "Cliente",
+      "usuario" : "pepito",
+      "nombre" : "Pepito Pérez",
+      "contrasena" : "pepito123",
+      "correo" : "pepito@gmail.com",
+      "calificaciones": [5, 4, 3]
+    },
+    {
+      "tipo" : "Traductor",
+      "usuario" : "carlos84",
+      "nombre" : "Carlos Carman",
+      "contrasena" : "carlos123",
+      "correo" : "carlos@gmail.com",
+      "calificaciones": [3, 2, 4]
     }
   ]
 }
