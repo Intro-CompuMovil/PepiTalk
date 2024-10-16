@@ -74,7 +74,7 @@ class Data {
                     }
 
                     // Creamos un nuevo objeto DataGrupo y lo añadimos a la lista
-                    val grupo = DataGrupo(
+                    val grupo1 = DataGrupo(
                         nombre = grupoJson.getString("nombre"),
                         idioma = grupoJson.getString("idioma"),
                         nivel = grupoJson.getString("nivel"),
@@ -84,7 +84,7 @@ class Data {
                         calificaciones = calificacionesList
                     )
 
-                    listaGrupos.add(grupo)  // Añadimos el grupo a la lista
+                    listaGrupos.add(grupo1)  // Añadimos el grupo a la lista
                 }
             }
         }

@@ -40,12 +40,14 @@ class Oferta : AppCompatActivity(){
     }
 
     fun menuPrincipal(menuInicio: ImageButton, context: Context){
-        if(Data.personaLog.tipo == "Cliente"){
-            val peticion = Intent(this, MenuCliente::class.java)
-            startActivity(peticion)
-        }else{
-            val peticion = Intent(this, MenuTraductor::class.java)
-            startActivity(peticion)
+        menuInicio.setOnClickListener {
+            if(Data.personaLog.tipo == "Cliente"){
+                val peticion = Intent(this, MenuCliente::class.java)
+                startActivity(peticion)
+            }else{
+                val peticion = Intent(this, MenuTraductor::class.java)
+                startActivity(peticion)
+            }
         }
     }
     fun irPerfil(perfil : ImageButton, context : Context){
