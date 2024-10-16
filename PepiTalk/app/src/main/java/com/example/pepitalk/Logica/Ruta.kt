@@ -9,8 +9,13 @@ import androidx.core.content.ContextCompat
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.location.Location
 import android.preference.PreferenceManager
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import com.example.pepitalk.Datos.Data
@@ -41,6 +46,10 @@ class Ruta : AppCompatActivity() {
     private var endPoint: GeoPoint? = null
     private var roadOverlay: Polyline? = null
 
+    private lateinit var sensorManager: SensorManager
+    private lateinit var lightSensor: Sensor
+    private lateinit var lightSensorListener: SensorEventListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this))
@@ -60,10 +69,34 @@ class Ruta : AppCompatActivity() {
         val perfil = findViewById<ImageButton>(R.id.butPerfil)
         val reunion = findViewById<Button>(R.id.btnDevolverReunion)
         // Solicita el permiso de acceso a la ubicación
+        //Sensores
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)!!
+        //listener
+        luzSensor()
 
         irPerfil(perfil, this)
         menuPrincipal(menuInicio, this)
         devolverReunion(reunion, this)
+    }
+
+    private fun luzSensor(){
+        lightSensorListener = object : SensorEventListener {
+            override fun onSensorChanged(event: SensorEvent) {
+                if (map != null) {
+                    if (event.values[0] < 5000) {
+                        Log.i("MAPS", "DARK MAP " + event.values[0])
+                        map.setTileSource(TileSourceFactory.USGS_SAT)
+                    } else {
+                        Log.i("MAPS", "LIGHT MAP " + event.values[0])
+                        map.setTileSource(TileSourceFactory.MAPNIK)
+                    }
+                }
+                map.invalidate()
+            }
+            override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
+        }
+        sensorManager.registerListener(lightSensorListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
     private fun obtenerUbicacionActual() {
@@ -215,5 +248,7 @@ class Ruta : AppCompatActivity() {
             map.invalidate()
         }
     }
+
+
 
 }
