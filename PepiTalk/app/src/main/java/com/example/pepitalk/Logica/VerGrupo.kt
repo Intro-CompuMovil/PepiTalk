@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pepitalk.Datos.Data
+import com.example.pepitalk.Datos.DataCalificaciones
 import com.example.pepitalk.R
 
 class VerGrupo : AppCompatActivity() {
@@ -17,12 +18,17 @@ class VerGrupo : AppCompatActivity() {
         setContentView(R.layout.activity_ver_grupo)
         initializeTextViews()
         setupButtonListeners()
-        if(/*dueño*/true){
+    }
+
+    private fun roles(dueno: String?, integrantes: String?){
+        if(dueno == Data.personaLog.usuario){
             botonesDueno()
-        }else if(/*unido*/!true){
-            botonesMiembros()
-        }else{
-            //sin unir
+        }else if (integrantes != null) {
+            if(integrantes.contains(Data.personaLog.usuario)){
+                botonesMiembros()
+            }else{
+
+            }
         }
     }
 
@@ -35,7 +41,6 @@ class VerGrupo : AppCompatActivity() {
         val unirse = findViewById<Button>(R.id.btnUnirse)
 
         unirse.visibility = View.GONE
-
         reuniones.visibility = View.VISIBLE
         verCali.visibility = View.VISIBLE
         crearReunion.visibility = View.VISIBLE
@@ -51,7 +56,6 @@ class VerGrupo : AppCompatActivity() {
         val unirse = findViewById<Button>(R.id.btnUnirse)
 
         unirse.visibility = View.GONE
-
         reuniones.visibility = View.VISIBLE
         verCali.visibility = View.VISIBLE
         calificar.visibility = View.VISIBLE
@@ -63,12 +67,43 @@ class VerGrupo : AppCompatActivity() {
         val idioma = intent.getStringExtra("idioma")
         val nivel = intent.getStringExtra("nivel")
         val descripcion = intent.getStringExtra("descripcion")
-        //inicializar calificación
+        val calificacionesString = intent.getStringExtra("calificaciones")
+        val integrantes = intent.getStringExtra("integrantes")
+        val dueno = intent.getStringExtra("dueno")
+
+        val calificaciones = parseCalificaciones(calificacionesString)
+        val promedio = calcularPromedio(calificaciones)
 
         findViewById<TextView>(R.id.nombre).text = nombre
         findViewById<TextView>(R.id.textNomIdioma).text = idioma
         findViewById<TextView>(R.id.textNomNivel).text = nivel
         findViewById<TextView>(R.id.textDescri).text = descripcion
+        findViewById<TextView>(R.id.textCali).text = promedio.toString()
+
+        roles(dueno, integrantes)
+    }
+
+    private fun parseCalificaciones(calificacionesString: String?): List<DataCalificaciones> {
+        if (calificacionesString.isNullOrEmpty()) return emptyList()
+
+        return calificacionesString
+            .removeSurrounding("[", "]")
+            .split("),")
+            .mapNotNull {
+                val parts = it.removeSurrounding("DataCalificaciones(", ")").split(", comentario=")
+                val nota = parts[0].split("=")[1].toDoubleOrNull()
+                val comentario = parts[1]
+                if (nota != null) DataCalificaciones(nota, comentario) else null
+            }
+    }
+
+    private fun calcularPromedio(calificaciones: List<DataCalificaciones>): Double {
+        val notas = calificaciones.map { it.nota }
+        return if (notas.isNotEmpty()) {
+            notas.average()
+        } else {
+            0.0
+        }
     }
 
     private fun setupButtonListeners() {
@@ -127,7 +162,7 @@ class VerGrupo : AppCompatActivity() {
         }
 
         salir.setOnClickListener {
-            val peticion = Intent(this, VerGrupos::class.java)
+            val peticion = Intent(this, Grupo::class.java)
             startActivity(peticion)
         }
 
@@ -138,7 +173,7 @@ class VerGrupo : AppCompatActivity() {
 
         eliminarGrupo.setOnClickListener {
             Toast.makeText(this, "Grupo eliminado", Toast.LENGTH_LONG).show()
-            val peticion = Intent(this, VerGrupos::class.java)
+            val peticion = Intent(this, Grupo::class.java)
             startActivity(peticion)
         }
     }

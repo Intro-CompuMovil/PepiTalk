@@ -8,11 +8,8 @@ import android.widget.ImageButton
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pepitalk.Datos.Data
+import com.example.pepitalk.Datos.DataGrupo
 import com.example.pepitalk.R
-import org.json.JSONArray
-import org.json.JSONObject
-import java.io.IOException
-import java.io.InputStream
 
 class VerGrupos : AppCompatActivity(){
 
@@ -50,42 +47,51 @@ class VerGrupos : AppCompatActivity(){
         }
     }
 
-    fun loadJSONFromAsset(): String? {
-        var json: String? = null
-        try {
-            val isStream: InputStream = assets.open("grupos.json")
-            val size: Int = isStream.available()
-            val buffer = ByteArray(size)
-            isStream.read(buffer)
-            isStream.close()
-            json = String(buffer, Charsets.UTF_8)
-        } catch (ex: IOException) {
-            ex.printStackTrace()
-            return null
-        }
-        return json
-    }
+    private fun createCursor(tipo: String?): MatrixCursor {
+        val cursor = MatrixCursor(arrayOf("_id", "nombre", "idioma", "nivel", "descripcion", "dueno", "integrantes", "calificaciones"))
 
-    private fun createCursorFromJsonArray(jsonArray: JSONArray): MatrixCursor {
-        val cursor = MatrixCursor(arrayOf("_id", "nombre", "idioma", "nivel", "descripcion"))
-        for (i in 0 until jsonArray.length()) {
-            val jsonObject: JSONObject = jsonArray.getJSONObject(i)
-            cursor.addRow(arrayOf(
-                i,
-                jsonObject.getString("nombre"),
-                jsonObject.getString("idioma"),
-                jsonObject.getString("nivel"),
-                jsonObject.getString("descripcion")
-            ))
+        if (tipo == "misGrupos") {
+            var group = DataGrupo("","","","","", mutableListOf(), mutableListOf())
+            for (i in 0 until Data.listaGrupos.size) {
+                if (Data.personaLog.usuario == Data.listaGrupos[i].dueno || Data.listaGrupos[i].integrantes.contains(Data.personaLog.usuario)) {
+                    group = Data.listaGrupos[i]
+                    cursor.addRow(arrayOf(
+                        i,
+                        group.nombre,
+                        group.idioma,
+                        group.nivel,
+                        group.descripcion,
+                        group.dueno,
+                        group.integrantes,
+                        group.calificaciones
+                    ))
+                }
+            }
+        } else if (tipo == "gruposParaUnirme") {
+            var group = DataGrupo("","","","","", mutableListOf(), mutableListOf())
+            for (i in 0 until Data.listaGrupos.size) {
+                if (Data.personaLog.usuario != Data.listaGrupos[i].dueno && !Data.listaGrupos[i].integrantes.contains(Data.personaLog.usuario)) {
+                    group = Data.listaGrupos[i]
+                    cursor.addRow(arrayOf(
+                        i,
+                        group.nombre,
+                        group.idioma,
+                        group.nivel,
+                        group.descripcion,
+                        group.dueno,
+                        group.integrantes,
+                        group.calificaciones
+                    ))
+                }
+            }
         }
+
         return cursor
     }
 
     fun initView( tipo: String? ) {
         mlista = findViewById(R.id.grupos1)
-        val json  = JSONObject(loadJSONFromAsset())
-        val personasJson = json.getJSONArray("listaGrupos")
-        mCursor = createCursorFromJsonArray(personasJson)
+        mCursor = createCursor(tipo)
         mGruposAdapter = GruposAdapter(this, mCursor!!)
         mlista?.adapter = mGruposAdapter
     }

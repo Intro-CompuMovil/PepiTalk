@@ -64,13 +64,13 @@
         android:textStyle="bold"
         android:textSize="30sp"
         android:textColor="@color/letraOscura"
-        android:paddingTop="20dp"
+        android:paddingTop="10dp"
         android:paddingBottom="10dp"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/imagenReunion1"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/nombre"
         app:cardCornerRadius="15dp"
@@ -239,8 +239,7 @@
         android:layout_below="@+id/lugarReunion"
         android:gravity="center"
         android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="true"
-        android:paddingBottom="20dp">
+        android:layout_alignParentLeft="true">
 
         <TextView
             android:id="@+id/textDescripcion"
@@ -260,12 +259,40 @@
             android:textSize="18sp"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/calificacionReunion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/descripcionReunion"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:id="@+id/textCalificacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calificación promedio: "
+            android:textStyle="bold"
+            android:textColor="@color/letraOscura"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/textCali"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0"
+            android:textColor="@color/letraOscura"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
     <Button
         android:id="@+id/btnVerCalificacionesReuniones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ver Calificaciones"
-        android:layout_below="@id/descripcionReunion"
+        android:layout_below="@id/calificacionReunion"
         android:layout_centerHorizontal="true"
         android:textColor="@color/morado"
         android:backgroundTint="@color/rosa"

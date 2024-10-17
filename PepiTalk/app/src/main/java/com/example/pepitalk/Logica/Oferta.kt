@@ -27,7 +27,9 @@ class Oferta : AppCompatActivity(){
     }
 
     fun VerOfertas( VerOferta : Button){
-        val irAVerOfertas = Intent(this, VerOfertas::class.java)
+        val irAVerOfertas = Intent(this, VerOfertas::class.java).apply {
+            putExtra("tipo", "misOfertas")
+        }
         VerOferta.setOnClickListener{
             startActivity(irAVerOfertas)
         }

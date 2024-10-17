@@ -22,7 +22,10 @@ class VerOfertas : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ver_ofertas)
-        initView()
+
+        val tipo = intent.getStringExtra("tipo")
+
+        initView(tipo)
         setupButtonListeners()
     }
 
@@ -46,44 +49,73 @@ class VerOfertas : AppCompatActivity(){
         }
     }
 
-    fun loadJSONFromAsset(): String? {
-        var json: String? = null
-        try {
-            val isStream: InputStream = assets.open("ofertas.json")
-            val size: Int = isStream.available()
-            val buffer = ByteArray(size)
-            isStream.read(buffer)
-            isStream.close()
-            json = String(buffer, Charsets.UTF_8)
-        } catch (ex: IOException) {
-            ex.printStackTrace()
-            return null
-        }
-        return json
-    }
+    private fun createCursor(tipo: String?): MatrixCursor {
+        val cursor = MatrixCursor(arrayOf("_id", "idioma", "fecha", "horaInicio", "horaFinal", "lugar", "descripcion", "dueno", "trabajador", "aceptado"))
 
-    private fun createCursorFromJsonArray(jsonArray: JSONArray): MatrixCursor {
-        val cursor = MatrixCursor(arrayOf("_id", "idioma", "fecha", "horaInicio", "horaFin", "lugar", "descripcion"))
-        for (i in 0 until jsonArray.length()) {
-            val jsonObject: JSONObject = jsonArray.getJSONObject(i)
-            cursor.addRow(arrayOf(
-                i,
-                jsonObject.getString("idioma"),
-                jsonObject.getString("fecha"),
-                jsonObject.getString("horaInicio"),
-                jsonObject.getString("horaFin"),
-                jsonObject.getString("lugar"),
-                jsonObject.getString("descripcion")
-            ))
-        }
+        if (tipo == "misOfertas") {
+                for (i in 0 until Data.listaOfertas.size) {
+                    val oferta = Data.listaOfertas[i]
+                    if (Data.personaLog.usuario == oferta.dueno && Data.personaLog.tipo == "Cliente") {
+                        cursor.addRow(arrayOf(
+                            i,
+                            oferta.idioma,
+                            oferta.fecha,
+                            oferta.horaInicio,
+                            oferta.horaFinal,
+                            oferta.lugar,
+                            oferta.descripcion,
+                            oferta.dueno,
+                            oferta.trabajador,
+                            oferta.aceptado
+                        ))
+                    }
+                }
+            }
+            else if(tipo == "misTrabajos" ) {
+                for (i in 0 until Data.listaOfertas.size) {
+                    val oferta = Data.listaOfertas[i]
+                    if (Data.personaLog.usuario == oferta.trabajador && Data.personaLog.tipo == "Traductor") {
+                        cursor.addRow(arrayOf(
+                            i,
+                            oferta.idioma,
+                            oferta.fecha,
+                            oferta.horaInicio,
+                            oferta.horaFinal,
+                            oferta.lugar,
+                            oferta.descripcion,
+                            oferta.dueno,
+                            oferta.trabajador,
+                            oferta.aceptado
+                        ))
+                    }
+                }
+            }
+            else if(tipo == "aceptarOfertas" ){
+                for (i in 0 until Data.listaOfertas.size) {
+                    val oferta = Data.listaOfertas[i]
+                    if (Data.personaLog.tipo == "Traductor" && oferta.trabajador.isEmpty()) {
+                        cursor.addRow(arrayOf(
+                            i,
+                            oferta.idioma,
+                            oferta.fecha,
+                            oferta.horaInicio,
+                            oferta.horaFinal,
+                            oferta.lugar,
+                            oferta.descripcion,
+                            oferta.dueno,
+                            oferta.trabajador,
+                            oferta.aceptado
+                        ))
+                    }
+                }
+            }
+
         return cursor
     }
 
-    fun initView() {
+    fun initView(tipo : String?) {
         mlista = findViewById(R.id.ofertas)
-        val json  = JSONObject(loadJSONFromAsset())
-        val personasJson = json.getJSONArray("listaOfertas")
-        mCursor = createCursorFromJsonArray(personasJson)
+        mCursor = createCursor(tipo)
         mOfertasAdapter = OfertasAdapter(this, mCursor!!)
         mlista?.adapter = mOfertasAdapter
     }

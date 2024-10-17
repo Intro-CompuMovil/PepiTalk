@@ -22,13 +22,17 @@ class MenuTraductor : AppCompatActivity(){
 
     }
     fun AccionBotonTrabajos( Trabajos : Button){
-        val irATrabajos = Intent(this, VerOfertas::class.java)
+        val irATrabajos = Intent(this, VerOfertas::class.java).apply {
+            putExtra("tipo", "misTrabajos")
+        }
         Trabajos.setOnClickListener {
             startActivity(irATrabajos)
         }
     }
     fun AccionBotonOfertas( Ofertas : Button){
-        val irAOfertas = Intent(this, VerOfertas::class.java)
+        val irAOfertas = Intent(this, VerOfertas::class.java).apply {
+            putExtra("tipo", "aceptarOfertas")
+        }
         Ofertas.setOnClickListener{
             startActivity(irAOfertas)
         }

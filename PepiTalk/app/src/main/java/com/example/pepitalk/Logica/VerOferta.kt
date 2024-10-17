@@ -19,10 +19,15 @@ class VerOferta : AppCompatActivity()  {
         setContentView(R.layout.activity_ver_oferta)
         initializeTextViews()
         setupButtonListeners()
-        if(/*dueño*/true){
+    }
+
+    private fun roles(dueno: String?, trabajador: String?){
+        if(dueno == Data.personaLog.usuario){
             botonesDueno()
-        }else if(/*acepto el trabajo*/!true){
+        }else if (Data.personaLog.usuario == trabajador) {
             botonesTraductor()
+        }else{
+
         }
     }
 
@@ -55,6 +60,8 @@ class VerOferta : AppCompatActivity()  {
         val final = intent.getStringExtra("horaFin")
         val place = intent.getStringExtra("lugar")
         val descripcion = intent.getStringExtra("descripcion")
+        val dueno = intent.getStringExtra("dueno")
+        val trabajador = intent.getStringExtra("trabajador")
 
         findViewById<TextView>(R.id.idiomaOfe).text = language
         findViewById<TextView>(R.id.fechaOfe).text = date
@@ -63,6 +70,7 @@ class VerOferta : AppCompatActivity()  {
         findViewById<TextView>(R.id.lugarOfe).text = place
         findViewById<TextView>(R.id.descripcionOfe).text = descripcion
 
+        roles(dueno, trabajador)
     }
 
     private fun setupButtonListeners() {
@@ -89,7 +97,7 @@ class VerOferta : AppCompatActivity()  {
         eliminarOferta.setOnClickListener {
             //eliminar del json
             Toast.makeText(this, "Oferta eliminada", Toast.LENGTH_LONG).show()
-            val peticion = Intent(this, VerOfertas::class.java)
+            val peticion = Intent(this, Oferta::class.java)
             startActivity(peticion)
         }
 
@@ -110,7 +118,7 @@ class VerOferta : AppCompatActivity()  {
 
         rechazar.setOnClickListener {
             Toast.makeText(this, "Oferta rechazada", Toast.LENGTH_LONG).show()
-            val peticion = Intent(this, VerOfertas::class.java)
+            val peticion = Intent(this, MenuTraductor::class.java)
             startActivity(peticion)
         }
 
