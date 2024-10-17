@@ -51,7 +51,7 @@ class VerGrupos : AppCompatActivity(){
         val cursor = MatrixCursor(arrayOf("_id", "nombre", "idioma", "nivel", "descripcion", "dueno", "integrantes", "calificaciones"))
 
         if (tipo == "misGrupos") {
-            var group = DataGrupo("","","","","", mutableListOf(), mutableListOf())
+            var group = DataGrupo("","","","","", "",mutableListOf(), mutableListOf())
             for (i in 0 until Data.listaGrupos.size) {
                 if (Data.personaLog.usuario == Data.listaGrupos[i].dueno || Data.listaGrupos[i].integrantes.contains(Data.personaLog.usuario)) {
                     group = Data.listaGrupos[i]
@@ -68,7 +68,7 @@ class VerGrupos : AppCompatActivity(){
                 }
             }
         } else if (tipo == "gruposParaUnirme") {
-            var group = DataGrupo("","","","","", mutableListOf(), mutableListOf())
+            var group = DataGrupo("","","","","", "",mutableListOf(), mutableListOf())
             for (i in 0 until Data.listaGrupos.size) {
                 if (Data.personaLog.usuario != Data.listaGrupos[i].dueno && !Data.listaGrupos[i].integrantes.contains(Data.personaLog.usuario)) {
                     group = Data.listaGrupos[i]

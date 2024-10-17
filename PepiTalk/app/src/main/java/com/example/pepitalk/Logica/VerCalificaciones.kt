@@ -19,14 +19,13 @@ class VerCalificaciones : AppCompatActivity() {
     var mCursor: Cursor? = null
     var mCalificacionesAdapter: CalificacionesAdapter? = null
     var mlista: ListView? = null
-    var tipo: String = "grupo"
-    var identificador: String = "Bilingual"
+    var tipo: String = ""
+    var identificador: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ver_calificaciones)
-        val nombre = findViewById<TextView>(R.id.nombre)
-        nombre.setText(identificador)
+
 
         initView()
         setupButtonListeners()
@@ -54,7 +53,11 @@ class VerCalificaciones : AppCompatActivity() {
 
     private fun createCursor() :MatrixCursor{
         val cursor = MatrixCursor(arrayOf("_id","nota", "comentario"))
-
+        var bundle = intent.getBundleExtra("bundle")!!
+        tipo = bundle.getString("tipo")!!
+        identificador = bundle.getString("nombre")!!
+        val nombre = findViewById<TextView>(R.id.nombre)
+        nombre.setText(identificador)
         if(tipo == "grupo"){
             var group = DataGrupo("","","","","", "",mutableListOf(), mutableListOf())
             for(i in 0 until Data.listaGrupos.size){
