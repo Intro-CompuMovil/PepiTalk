@@ -69,18 +69,22 @@ class ReunionAdapter (context: Context, cursor: Cursor) : CursorAdapter(context,
             .split("),")
             .mapNotNull {
                 val parts = it.removeSurrounding("DataCalificaciones(", ")").split(", comentario=")
-                val nota = parts[0].split("=")[1].toDoubleOrNull()
-                val comentario = parts[1]
-                if (nota != null) DataCalificaciones(nota, comentario) else null
+                if (parts.size == 2) {
+                    val nota = parts[0].split("=")[1].toDoubleOrNull()
+                    val comentario = parts[1]
+                    if (nota != null) DataCalificaciones(nota, comentario) else null
+                } else {
+                    null
+                }
             }
     }
 
-    private fun calcularPromedio(calificaciones: List<DataCalificaciones>): Double {
+    private fun calcularPromedio(calificaciones: List<DataCalificaciones>): String {
         val notas = calificaciones.map { it.nota }
         return if (notas.isNotEmpty()) {
-            notas.average()
+            String.format("%.1f", notas.average())
         } else {
-            0.0
+            "0.0"
         }
     }
 }
