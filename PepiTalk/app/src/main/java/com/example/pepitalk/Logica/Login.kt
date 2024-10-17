@@ -50,6 +50,7 @@ class Login : AppCompatActivity() {
                 Data.personaLog.usuario = Data.personas[i].usuario
                 Data.personaLog.contrasena = Data.personas[i].contrasena
                 Data.personaLog.correo = Data.personas[i].correo
+                Data.personaLog.calificaciones = Data.personas[i].calificaciones
                 if(Data.personas[i].tipo == "Cliente"){
                     var clienteLoggedIn = Intent(this, MenuCliente::class.java)
                     clienteLoggedIn.putExtra("usuario", usuario)

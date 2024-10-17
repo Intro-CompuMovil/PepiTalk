@@ -9,8 +9,15 @@ import androidx.core.content.ContextCompat
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.preference.PreferenceManager
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import com.example.pepitalk.Datos.Data
@@ -31,6 +38,8 @@ import org.osmdroid.views.overlay.Polyline
 import org.osmdroid.bonuspack.routing.OSRMRoadManager
 import org.osmdroid.bonuspack.routing.Road
 import org.osmdroid.bonuspack.routing.RoadManager
+import java.io.IOException
+import java.util.Locale
 
 class Ruta : AppCompatActivity() {
 
@@ -40,6 +49,12 @@ class Ruta : AppCompatActivity() {
     private var startPoint: GeoPoint? = null
     private var endPoint: GeoPoint? = null
     private var roadOverlay: Polyline? = null
+
+    private lateinit var sensorManager: SensorManager
+    private lateinit var lightSensor: Sensor
+    private lateinit var lightSensorListener: SensorEventListener
+    private var endLat = 0.0
+    private var endLng = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,10 +75,34 @@ class Ruta : AppCompatActivity() {
         val perfil = findViewById<ImageButton>(R.id.butPerfil)
         val reunion = findViewById<Button>(R.id.btnDevolverReunion)
         // Solicita el permiso de acceso a la ubicación
+        //Sensores
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)!!
+        //listener
+        luzSensor()
 
         irPerfil(perfil, this)
         menuPrincipal(menuInicio, this)
         devolverReunion(reunion, this)
+    }
+
+    private fun luzSensor(){
+        lightSensorListener = object : SensorEventListener {
+            override fun onSensorChanged(event: SensorEvent) {
+                if (map != null) {
+                    if (event.values[0] < 5000) {
+                        Log.i("MAPS", "DARK MAP " + event.values[0])
+                        map.setTileSource(TileSourceFactory.USGS_SAT)
+                    } else {
+                        Log.i("MAPS", "LIGHT MAP " + event.values[0])
+                        map.setTileSource(TileSourceFactory.MAPNIK)
+                    }
+                }
+                map.invalidate()
+            }
+            override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
+        }
+        sensorManager.registerListener(lightSensorListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
     private fun obtenerUbicacionActual() {
@@ -86,8 +125,8 @@ class Ruta : AppCompatActivity() {
 
 
     private fun setupMap() {
-        val endLat = 37.768009  //TIENEN QUE LLEGAR DE OTRA PANTALLA
-        val endLng = -122.387787
+
+        obtenerCoordenadasPorNombre("Chase center")
         endPoint = GeoPoint(endLat, endLng)
 
         val startMarker = Marker(map)
@@ -213,6 +252,26 @@ class Ruta : AppCompatActivity() {
             }
             map.overlays.add(roadOverlay)
             map.invalidate()
+        }
+    }
+
+    private fun obtenerCoordenadasPorNombre(nombreLugar: String) {
+        val geocoder = Geocoder(this, Locale.getDefault())
+        try {
+            // Geocoding: convertir el nombre del lugar a coordenadas
+            val direcciones: List<Address>? = geocoder.getFromLocationName(nombreLugar, 1)
+
+            if (!direcciones.isNullOrEmpty()) {
+                val direccion = direcciones[0]
+                endLat = direccion.latitude
+                endLng = direccion.longitude
+                Log.i("Geocoding", "Ubicación de $nombreLugar: Latitud: $endLat, Longitud: $endLng")
+            } else {
+                Log.e("Geocoding", "No se encontraron resultados para el lugar: $nombreLugar")
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Log.e("Geocoding", "Error al obtener coordenadas: ${e.message}")
         }
     }
 

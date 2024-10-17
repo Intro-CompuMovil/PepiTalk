@@ -6,7 +6,7 @@
       "nombre" : "Gabriel Espitia",
       "contrasena" : "clave123",
       "correo" : "gabriel13@gmail.com",
-      "calificaciones": [5, 4, 3]
+      "calificaciones": []
     },
     {
       "tipo" : "Traductor",
@@ -14,7 +14,10 @@
       "nombre" : "Juanita Franco",
       "contrasena" : "clave456",
       "correo" : "juafra1@gmail.com",
-      "calificaciones": [3, 2, 4]
+      "calificaciones": [
+        {"nota": 5, "comentario": "Super!!"},
+        {"nota": 4, "comentario": "Estuvo good"},
+        {"nota": 5, "comentario": "LA RE BUENA"}]
     },
     {
       "tipo" : "Cliente",
@@ -22,7 +25,7 @@
       "nombre" : "Andres Ruge",
       "contrasena" : "clave789",
       "correo" : "andres88@gmail.com",
-      "calificaciones": [5, 4, 3]
+      "calificaciones": []
     },
     {
       "tipo" : "Cliente",
@@ -30,7 +33,7 @@
       "nombre" : "Nicolas Montañez",
       "contrasena" : "necocli",
       "correo" : "nmonta17@gmail.com",
-      "calificaciones": [5, 4, 3]
+      "calificaciones": []
     },
     {
       "tipo" : "Cliente",
@@ -38,7 +41,7 @@
       "nombre" : "Pepito Pérez",
       "contrasena" : "pepito123",
       "correo" : "pepito@gmail.com",
-      "calificaciones": [5, 4, 3]
+      "calificaciones": []
     },
     {
       "tipo" : "Traductor",
@@ -46,7 +49,10 @@
       "nombre" : "Carlos Carman",
       "contrasena" : "carlos123",
       "correo" : "carlos@gmail.com",
-      "calificaciones": [3, 2, 4]
+      "calificaciones": [
+        {"nota": 3, "comentario": "No fue el mejor"},
+        {"nota": 4, "comentario": "Aceptable"},
+        {"nota": 3, "comentario": "Normal"}]
     }
   ]
 }
