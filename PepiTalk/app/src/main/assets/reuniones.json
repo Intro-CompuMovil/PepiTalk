@@ -8,9 +8,12 @@
       "nivel": "B1",
       "lugar": "Universidad Javeriana",
       "descripcion": "We learn better together!",
-      "dueno": "Juan",
-      "integrantes": ["Juan", "Maria", "Pedro"],
-      "calificaciones": [5, 4, 3]
+      "dueno": "gabriel13",
+      "integrantes": ["gabriel13", "andres88", "pepito", "nmonta17"],
+      "calificaciones": [
+        {"nota": 5, "comentario": "La mejor reuniooon!!"},
+        {"nota": 4, "comentario": "Todo bien"},
+        {"nota": 3, "comentario": "Normal"}]
     },
     {
       "nombre": "Reunión de Inglés",
@@ -18,11 +21,14 @@
       "hora": "5:00 pm",
       "idioma": "Inglés",
       "nivel": "A2",
-      "lugar": "Biblioteca Central",
+      "lugar": "Centro Comercial Andino",
       "descripcion": "Let's practice English!",
-      "dueno": "Maria",
-      "integrantes": ["David", "Maria", "Pedro"],
-      "calificaciones": [3, 2, 4]
+      "dueno": "andres88",
+      "integrantes": ["andres88", "nmonta17", "pepito"],
+      "calificaciones": [
+        {"nota": 5, "comentario": "Super!!"},
+        {"nota": 4, "comentario": "Estuvo good"},
+        {"nota": 5, "comentario": "LA RE BUENA"}]
     },
     {
       "nombre": "Reunión de Francés",
@@ -30,11 +36,14 @@
       "hora": "2:00 pm",
       "idioma": "Francés",
       "nivel": "B2",
-      "lugar": "Café de la Esquina",
+      "lugar": "Universidad Piloto",
       "descripcion": "Parlons français ensemble!",
-      "dueno": "Samuel",
-      "integrantes": ["Samuel", "Santiago", "Sergio"],
-      "calificaciones": [4, 5, 3]
+      "dueno": "pepito",
+      "integrantes": ["gabriel13", "andres88", "pepito"],
+      "calificaciones": [
+        {"nota": 3, "comentario": "No fue la mejor"},
+        {"nota": 4, "comentario": "Todo bien"},
+        {"nota": 3, "comentario": "Normal"}]
     }
   ]
 }

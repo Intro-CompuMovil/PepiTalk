@@ -70,8 +70,8 @@ class Data {
 
                     // Llenamos la lista de calificaciones
                     for (j in 0 until calificacionesArray.length()) {
-                        val calificacion = calificacionesArray.getInt(j)
-                        calificacionesList.add(DataCalificaciones(calificacion.toDouble(),"Comentario opcional"))
+                        val calificacion = calificacionesArray.getJSONObject(j)
+                        calificacionesList.add(DataCalificaciones(calificacion.getDouble("nota"),calificacion.getString("comentario")))
                     }
 
                     // Creamos un nuevo objeto DataGrupo y lo añadimos a la lista
@@ -95,7 +95,7 @@ class Data {
             val jsonString = loadJSONFromAsset(context, "personas.json")
             if (jsonString != null) {
                 val jsonObject = JSONObject(jsonString)
-                val jsonArray = jsonObject.getJSONArray("personas")
+                val jsonArray = jsonObject.getJSONArray("listaPersonas")
 
                 // Limpiamos la lista antes de agregar las nuevas personas
                 personas.clear()
@@ -108,8 +108,8 @@ class Data {
 
                     // Llenamos la lista de calificaciones
                     for (j in 0 until calificacionesArray.length()) {
-                        val calificacion = calificacionesArray.getInt(j)
-                        calificacionesList.add(DataCalificaciones(calificacion.toDouble(),"Comentario opcional"))
+                        val calificacion = calificacionesArray.getJSONObject(j)
+                        calificacionesList.add(DataCalificaciones(calificacion.getDouble("nota"),calificacion.getString("comentario")))
                     }
 
                     // Creamos un nuevo objeto Persona y lo añadimos a la lista
@@ -132,7 +132,7 @@ class Data {
             val jsonString = loadJSONFromAsset(context, "ofertas.json")
             if (jsonString != null) {
                 val jsonObject = JSONObject(jsonString)
-                val jsonArray = jsonObject.getJSONArray("ofertas")
+                val jsonArray = jsonObject.getJSONArray("listaOfertas")
 
                 val calificacionesList = mutableListOf<DataCalificaciones>()
 
@@ -151,7 +151,7 @@ class Data {
                         idioma = ofertaJson.getString("idioma"),
                         fecha = ofertaJson.getString("fecha"),
                         horaInicio = ofertaJson.getString("horaInicio"),
-                        horaFinal = ofertaJson.getString("horaFinal"),
+                        horaFinal = ofertaJson.getString("horaFin"),
                         recompensa = ofertaJson.getString("recompensa"),
                         lugar = ofertaJson.getString("lugar"),
                         descripcion = ofertaJson.getString("descripcion"),
@@ -168,7 +168,7 @@ class Data {
             val jsonString = loadJSONFromAsset(context, "reuniones.json")
             if (jsonString != null) {
                 val jsonObject = JSONObject(jsonString)
-                val jsonArray = jsonObject.getJSONArray("reuniones")
+                val jsonArray = jsonObject.getJSONArray("listaReuniones")
 
                 // Limpiamos la lista antes de agregar las nuevas reuniones
                 listaReuniones.clear()
@@ -191,8 +191,8 @@ class Data {
 
                     // Llenamos la lista de calificaciones
                     for (j in 0 until calificacionesArray.length()) {
-                        val calificacion = calificacionesArray.getInt(j)
-                        calificacionesList.add(DataCalificaciones(calificacion.toDouble(),"Comentario opcional"))
+                        val calificacion = calificacionesArray.getJSONObject(j)
+                        calificacionesList.add(DataCalificaciones(calificacion.getDouble("nota"),calificacion.getString("comentario")))
                     }
 
                     // Creamos un nuevo objeto DataReunion y lo añadimos a la lista

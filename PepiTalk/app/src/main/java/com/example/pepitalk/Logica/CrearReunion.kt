@@ -18,7 +18,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.pepitalk.Datos.Data
+import com.example.pepitalk.Datos.DataReunion
 import com.example.pepitalk.R
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -77,11 +80,11 @@ class CrearReunion : AppCompatActivity() {
         val nombreR = "grupo1234"
 
         if(nombreR != nombre){
-
+            Data.listaReuniones.add(DataReunion(nombre, dia, hora, idioma, nivel, lugar, descripcion, Data.personaLog.usuario, mutableListOf(Data.personaLog.usuario), mutableListOf()))
+            actualizarJson()
             var reunionCreado = Intent(this, Reunion::class.java)
             startActivity(reunionCreado)
             Toast.makeText(this,"Se ha creado su reunion correctamente" , Toast.LENGTH_SHORT).show()
-
 
         }
         else{
@@ -89,6 +92,41 @@ class CrearReunion : AppCompatActivity() {
         }
 
     }
+    private fun actualizarJson() {
+        // Crear un objeto JSON para almacenar todas las reuniones
+        val jsonObjectReunion= JSONObject()
+        val jsonArray = JSONArray()
+        // Recorrer la lista de reuniones y agregar cada reunión al JSONArray
+        for (reunion in Data.listaReuniones) {
+            val reunionJson = JSONObject()
+            reunionJson.put("nombre", reunion.nombre)
+            reunionJson.put("dia", reunion.dia)
+            reunionJson.put("hora", reunion.hora)
+            reunionJson.put("idioma", reunion.idioma)
+            reunionJson.put("nivel", reunion.nivel)
+            reunionJson.put("lugar", reunion.lugar)
+            reunionJson.put("descripcion", reunion.descripcion)
+            reunionJson.put("dueno", reunion.dueno)
+            reunionJson.put("integrantes", JSONArray(reunion.integrantes))
+            reunionJson.put("calificaciones", JSONArray(reunion.calificaciones.map { it.nota }))
+
+            jsonArray.put(reunionJson)
+        }
+
+        // Agregar el JSONArray al objeto JSON
+        jsonObjectReunion.put("reuniones", jsonArray)
+
+        // Escribir el objeto JSON actualizado en el archivo
+        guardarJsonEnArchivo(jsonObjectReunion.toString())
+    }
+
+    private fun guardarJsonEnArchivo(json: String ) {
+        val file = File(filesDir, "reunion.json")
+        file.bufferedWriter().use { writer ->
+            writer.write(json)
+        }
+    }
+
 
     private fun escogerImagen(botonImagen: ImageButton){
         val options = arrayOf("Tomar foto", "Seleccionar de galería")

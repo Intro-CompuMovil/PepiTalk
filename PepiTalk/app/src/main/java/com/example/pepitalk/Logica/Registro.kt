@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Button
@@ -23,6 +24,8 @@ import androidx.core.content.FileProvider
 import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.Datos.Persona
 import com.example.pepitalk.R
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -39,24 +42,30 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val botonRegistro = findViewById<Button>(R.id.buttonRegistrar)
         val botonImagen = findViewById<ImageButton>(R.id.imageButton)
         botonImagen.isEnabled = false
-        pedirPermiso(this, arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE), "Se necesita este permiso", Data.MY_PERMISSION_REQUEST_CAMERA)
-        botonRegistro.setOnClickListener(){
+        pedirPermiso(
+            this,
+            arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE),
+            "Se necesita este permiso",
+            Data.MY_PERMISSION_REQUEST_CAMERA
+        )
+        botonRegistro.setOnClickListener() {
             validarCampos()
         }
-        botonImagen.setOnClickListener(){
+        botonImagen.setOnClickListener() {
             escogerImagen(botonImagen)
         }
     }
+
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
 
-
     }
+
     override fun onNothingSelected(parent: AdapterView<*>?) {
 
     }
 
-    private fun validarCampos(){
+    private fun validarCampos() {
         val tipo = findViewById<Spinner>(R.id.spinner)
         tipo.onItemSelectedListener = this
         val nombre = findViewById<EditText>(R.id.editTextNombreRegistro)
@@ -65,53 +74,115 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val confContrasena = findViewById<EditText>(R.id.editTextConfirmarPasswordRegistro)
         val correo = findViewById<EditText>(R.id.editTextCorreoRegistro)
 
-        if(nombre.text.toString().isEmpty() ||username.text.toString().isEmpty() || contrasena.text.toString().isEmpty() || confContrasena.text.toString().isEmpty() || correo.text.toString().isEmpty()){
-            Toast.makeText(this,"Por favor complete todos los campos" , Toast.LENGTH_SHORT).show()
-        }
-        else{
-            validarRegistro(nombre.text.toString(), username.text.toString(), tipo.selectedItem.toString(), contrasena.text.toString(), confContrasena.text.toString(), correo.text.toString())
+        if (nombre.text.toString().isEmpty() || username.text.toString()
+                .isEmpty() || contrasena.text.toString().isEmpty() || confContrasena.text.toString()
+                .isEmpty() || correo.text.toString().isEmpty()
+        ) {
+            Toast.makeText(this, "Por favor complete todos los campos", Toast.LENGTH_SHORT).show()
+        } else {
+            validarRegistro(
+                nombre.text.toString(),
+                username.text.toString(),
+                tipo.selectedItem.toString(),
+                contrasena.text.toString(),
+                confContrasena.text.toString(),
+                correo.text.toString()
+            )
         }
     }
 
-    private fun validarRegistro(nombre: String, usuario: String, tipo: String, contrasena: String, confContrasena: String, correo: String){
+    private fun validarRegistro(
+        nombre: String,
+        usuario: String,
+        tipo: String,
+        contrasena: String,
+        confContrasena: String,
+        correo: String
+    ) {
         //recorrer arreglo con los usuarios
         val emailRegex = Regex("^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})")
         var found = false
 
-        for( i in 0 until Data.personas.size){
-            if(usuario == Data.personas[i].usuario|| correo == Data.personas[i].correo){
+        for (i in 0 until Data.personas.size) {
+            if (usuario == Data.personas[i].usuario || correo == Data.personas[i].correo) {
                 found = true
-                Toast.makeText(this,"El usuario ya existe o el correo ya se ha utilizado" , Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "El usuario ya existe o el correo ya se ha utilizado",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
-        if(!found){
-            if(contrasena == confContrasena){
-                if(emailRegex.matches(correo)){
-                    var newUser = Persona(tipo, usuario, nombre,contrasena, correo)
-                    Data.personas.add(newUser)
+        if (!found) {
+            if (contrasena == confContrasena) {
+                if (emailRegex.matches(correo)) {
+                    var newUser =
+                        Persona(tipo, usuario, nombre, contrasena, correo, mutableListOf())
                     Data.personaLog.tipo = tipo
                     Data.personaLog.usuario = usuario
                     Data.personaLog.nombre = nombre
                     Data.personaLog.contrasena = contrasena
                     Data.personaLog.correo = correo
-                    if(tipo == "Cliente"){
+
+                    Data.personas.add(newUser)
+                    actualizarJson()
+                    if (tipo == "Cliente") {
                         var clienteRegistrado = Intent(this, MenuCliente::class.java)
                         startActivity(clienteRegistrado)
-                        Toast.makeText(this,"Se ha registrado correctamente" , Toast.LENGTH_SHORT).show()
-                    }
-                    else{
+                        Toast.makeText(this, "Se ha registrado correctamente", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
                         var traductorRegistrado = Intent(this, MenuTraductor::class.java)
                         startActivity(traductorRegistrado)
-                        Toast.makeText(this,"Se ha registrado correctamente" , Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Se ha registrado correctamente", Toast.LENGTH_SHORT)
+                            .show()
                     }
+                } else {
+                    Toast.makeText(this, "El correo no es válido", Toast.LENGTH_SHORT).show()
                 }
-                else{
-                    Toast.makeText(this,"El correo no es válido" , Toast.LENGTH_SHORT).show()
-                }
+            } else {
+                Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
             }
-            else{
-                Toast.makeText(this,"Las contraseñas no coinciden" , Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    private fun actualizarJson() {
+        // Crear un objeto JSON para almacenar todas las personas
+        val jsonObjectPersonas = JSONObject()
+        val jsonArray = JSONArray()
+
+        // Recorrer la lista de personas y agregar cada persona al JSONArray
+        for (persona in Data.personas) {
+            val personaJson = JSONObject()
+            personaJson.put("tipo", persona.tipo)
+            personaJson.put("usuario", persona.usuario)
+            personaJson.put("nombre", persona.nombre)
+            personaJson.put("contrasena", persona.contrasena)
+            personaJson.put("correo", persona.correo)
+            personaJson.put("calificaciones", JSONArray(persona.calificaciones.map { it.nota }))
+
+            jsonArray.put(personaJson)
+        }
+
+        // Agregar el JSONArray al objeto JSON
+        jsonObjectPersonas.put("personas", jsonArray)
+
+        // Escribir el objeto JSON actualizado en el archivo
+        guardarJsonEnArchivo(jsonObjectPersonas.toString(), "personas.json")
+    }
+
+    private fun guardarJsonEnArchivo(json: String, fileName: String) {
+        try{
+            val file = File(filesDir, fileName)
+            Log.d("FilePath", "Saving JSON to: ${file.absolutePath}")
+            file.bufferedWriter().use { writer ->
+                writer.write(json)
             }
+            Log.d("FilePath", "JSON saved successfully to: ${file.absolutePath}")
+        } catch (e: IOException)
+        {
+            Log.e("FilePath", "Error saving JSON to file", e)
         }
 
     }
