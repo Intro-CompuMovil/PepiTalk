@@ -23,9 +23,12 @@ class OfertasAdapter (context: Context, cursor: Cursor) : CursorAdapter(context,
         val idioma = cursor.getString(cursor.getColumnIndexOrThrow("idioma"))
         val fecha = cursor.getString(cursor.getColumnIndexOrThrow("fecha"))
         val horaInicio = cursor.getString(cursor.getColumnIndexOrThrow("horaInicio"))
-        val horaFin = cursor.getString(cursor.getColumnIndexOrThrow("horaFin"))
+        val horaFin = cursor.getString(cursor.getColumnIndexOrThrow("horaFinal"))
         val lugar = cursor.getString(cursor.getColumnIndexOrThrow("lugar"))
         val descripcion = cursor.getString(cursor.getColumnIndexOrThrow("descripcion"))
+        val dueno = cursor.getString(cursor.getColumnIndexOrThrow("dueno"))
+        val trabajador = cursor.getString(cursor.getColumnIndexOrThrow("trabajador"))
+        val aceptado = cursor.getString(cursor.getColumnIndexOrThrow("aceptado"))
 
         idiomaTextView.text = idioma
         diaTextView.text = fecha
@@ -35,9 +38,12 @@ class OfertasAdapter (context: Context, cursor: Cursor) : CursorAdapter(context,
                 putExtra("idioma", idioma)
                 putExtra("fecha", fecha)
                 putExtra("horaInicio", horaInicio)
-                putExtra("horaFin", horaFin)
+                putExtra("horaFinal", horaFin)
                 putExtra("lugar", lugar)
                 putExtra("descripcion", descripcion)
+                putExtra("dueno", dueno)
+                putExtra("trabajador", trabajador)
+                putExtra("aceptado", aceptado)
             }
             context.startActivity(intent)
         }

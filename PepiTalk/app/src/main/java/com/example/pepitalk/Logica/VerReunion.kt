@@ -8,6 +8,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pepitalk.Datos.Data
+import com.example.pepitalk.Datos.DataCalificaciones
 import com.example.pepitalk.R
 
 
@@ -15,16 +16,19 @@ class VerReunion : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ver_reunion)
-
         initializeTextViews()
         setupButtonListeners()
+    }
 
-        if(/*dueño*/true){
+    private fun roles(dueno: String?, integrantes: String?){
+        if(dueno == Data.personaLog.usuario){
             botonesDueno()
-        }else if(/*unido*/!true){
-            botonesMiembros()
-        }else{
-            //sin unir
+        }else if (integrantes != null) {
+            if(integrantes.contains(Data.personaLog.usuario)){
+                botonesMiembros()
+            }else{
+
+            }
         }
     }
 
@@ -66,7 +70,12 @@ class VerReunion : AppCompatActivity() {
         val nivel = intent.getStringExtra("nivel")
         val lugar = intent.getStringExtra("lugar")
         val descripcion = intent.getStringExtra("descripcion")
-        //inicializar calificacion
+        val calificacionesString = intent.getStringExtra("calificaciones")
+        val integrantes = intent.getStringExtra("integrantes")
+        val dueno = intent.getStringExtra("dueno")
+
+        val calificaciones = parseCalificaciones(calificacionesString)
+        val promedio = calcularPromedio(calificaciones)
 
         findViewById<TextView>(R.id.nombre).text = nombre
         findViewById<TextView>(R.id.dia).text = dia
@@ -75,6 +84,32 @@ class VerReunion : AppCompatActivity() {
         findViewById<TextView>(R.id.nivel).text = nivel
         findViewById<TextView>(R.id.lugar).text = lugar
         findViewById<TextView>(R.id.descripcion).text = descripcion
+        findViewById<TextView>(R.id.textCali).text = promedio.toString()
+
+        roles(dueno, integrantes)
+    }
+
+    private fun parseCalificaciones(calificacionesString: String?): List<DataCalificaciones> {
+        if (calificacionesString.isNullOrEmpty()) return emptyList()
+
+        return calificacionesString
+            .removeSurrounding("[", "]")
+            .split("),")
+            .mapNotNull {
+                val parts = it.removeSurrounding("DataCalificaciones(", ")").split(", comentario=")
+                val nota = parts[0].split("=")[1].toDoubleOrNull()
+                val comentario = parts[1]
+                if (nota != null) DataCalificaciones(nota, comentario) else null
+            }
+    }
+
+    private fun calcularPromedio(calificaciones: List<DataCalificaciones>): Double {
+        val notas = calificaciones.map { it.nota }
+        return if (notas.isNotEmpty()) {
+            notas.average()
+        } else {
+            0.0
+        }
     }
 
     private fun setupButtonListeners() {
@@ -102,7 +137,7 @@ class VerReunion : AppCompatActivity() {
 
         eliminarReunion.setOnClickListener {
             //eliminar reuniones del json
-            val peticion = Intent(this, VerReuniones::class.java)
+            val peticion = Intent(this, Reunion::class.java)
             startActivity(peticion)
         }
 
@@ -137,7 +172,7 @@ class VerReunion : AppCompatActivity() {
         }
 
         salir.setOnClickListener {
-            val peticion = Intent(this, VerReuniones::class.java)
+            val peticion = Intent(this, Reunion::class.java)
             startActivity(peticion)
         }
     }

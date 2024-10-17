@@ -23,7 +23,10 @@ class VerReuniones : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ver_reuniones)
-        initView()
+
+        val tipo = intent.getStringExtra("tipo")
+
+        initView(tipo)
         setupButtonListeners()
     }
 
@@ -48,45 +51,55 @@ class VerReuniones : AppCompatActivity(){
         }
     }
 
-    fun loadJSONFromAsset(): String? {
-        var json: String? = null
-        try {
-            val isStream: InputStream = assets.open("reuniones.json")
-            val size: Int = isStream.available()
-            val buffer = ByteArray(size)
-            isStream.read(buffer)
-            isStream.close()
-            json = String(buffer, Charsets.UTF_8)
-        } catch (ex: IOException) {
-            ex.printStackTrace()
-            return null
-        }
-        return json
-    }
+    private fun createCursor(tipo: String?): MatrixCursor {
+        val cursor = MatrixCursor(arrayOf("_id", "nombre", "dia", "hora", "idioma", "nivel", "lugar", "descripcion", "dueno", "integrantes", "calificaciones"))
 
-    private fun createCursorFromJsonArray(jsonArray: JSONArray): MatrixCursor {
-        val cursor = MatrixCursor(arrayOf("_id", "nombre", "dia", "hora", "idioma", "nivel", "lugar", "descripcion"))
-        for (i in 0 until jsonArray.length()) {
-            val jsonObject: JSONObject = jsonArray.getJSONObject(i)
-            cursor.addRow(arrayOf(
-                i,
-                jsonObject.getString("nombre"),
-                jsonObject.getString("dia"),
-                jsonObject.getString("hora"),
-                jsonObject.getString("idioma"),
-                jsonObject.getString("nivel"),
-                jsonObject.getString("lugar"),
-                jsonObject.getString("descripcion")
-            ))
+        if (tipo == "misReuniones") {
+            for (i in 0 until Data.listaReuniones.size) {
+                val reunion = Data.listaReuniones[i]
+                if (Data.personaLog.usuario == reunion.dueno || reunion.integrantes.contains(Data.personaLog.usuario)) {
+                    cursor.addRow(arrayOf(
+                        i,
+                        reunion.nombre,
+                        reunion.dia,
+                        reunion.hora,
+                        reunion.idioma,
+                        reunion.nivel,
+                        reunion.lugar,
+                        reunion.descripcion,
+                        reunion.dueno,
+                        reunion.integrantes.joinToString(","),
+                        reunion.calificaciones.joinToString(",") { "DataCalificaciones(nota=${it.nota}, comentario=${it.comentario})" }
+                    ))
+                }
+            }
+        } else if (tipo == "reunionesParaUnirme") {
+            for (i in 0 until Data.listaReuniones.size) {
+                val reunion = Data.listaReuniones[i]
+                if (Data.personaLog.usuario != reunion.dueno && !reunion.integrantes.contains(Data.personaLog.usuario)) {
+                    cursor.addRow(arrayOf(
+                        i,
+                        reunion.nombre,
+                        reunion.dia,
+                        reunion.hora,
+                        reunion.idioma,
+                        reunion.nivel,
+                        reunion.lugar,
+                        reunion.descripcion,
+                        reunion.dueno,
+                        reunion.integrantes,
+                        reunion.calificaciones
+                    ))
+                }
+            }
         }
+
         return cursor
     }
 
-    fun initView() {
+    fun initView(tipo : String?) {
         mlista = findViewById(R.id.reuniones)
-        val json  = JSONObject(loadJSONFromAsset())
-        val personasJson = json.getJSONArray("listaReuniones")
-        mCursor = createCursorFromJsonArray(personasJson)
+        mCursor = createCursor(tipo)
         mReuniones = ReunionAdapter(this, mCursor!!)
         mlista?.adapter = mReuniones
     }

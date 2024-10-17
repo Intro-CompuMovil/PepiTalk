@@ -29,13 +29,17 @@ class Reunion : AppCompatActivity(){
     }
 
     fun VerMisReuniones( ButtonVerMisReuniones : Button ){
-        val irAMisReuniones = Intent(this, VerReuniones::class.java)
+        val irAMisReuniones = Intent(this, VerReuniones::class.java).apply {
+            putExtra("tipo", "misReuniones")
+        }
         ButtonVerMisReuniones.setOnClickListener {
             startActivity(irAMisReuniones)
         }
     }
     fun VerReunionesParaUnirme( ButtonVerReunionesParaUnirme : Button ){
-        val irAReunionesParaUnirme = Intent(this, VerReuniones::class.java) // a que pantalla va este ??
+        val irAReunionesParaUnirme = Intent(this, VerReuniones::class.java).apply {
+            putExtra("tipo", "reunionesParaUnirme")
+        }
         ButtonVerReunionesParaUnirme.setOnClickListener {
             startActivity(irAReunionesParaUnirme)
         }
