@@ -18,7 +18,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.pepitalk.Datos.Data
+import com.example.pepitalk.Datos.DataGrupo
 import com.example.pepitalk.R
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -81,7 +84,8 @@ class CrearGrupo : AppCompatActivity() {
         val nombreG = "grupo1234"
 
         if(nombreG != nombre){
-
+            Data.listaGrupos.add(DataGrupo(nombre, idioma, nivel, lugar, descripcion, Data.personaLog.usuario, mutableListOf(Data.personaLog.usuario), mutableListOf()))
+            actualizarJson()
             var grupoCreado = Intent(this, Grupo::class.java)
             startActivity(grupoCreado)
             Toast.makeText(this,"Se ha creado su grupo correctamente" , Toast.LENGTH_SHORT).show()
@@ -94,6 +98,38 @@ class CrearGrupo : AppCompatActivity() {
 
     }
 
+    private fun actualizarJson() {
+        // Crear un objeto JSON para almacenar todos los grupos
+        val jsonObjectGrupo = JSONObject()
+        val jsonArray = JSONArray()
+
+        // Recorrer la lista de grupos y agregar cada grupo al JSONArray
+        for (grupo in Data.listaGrupos) {
+            val grupoJson = JSONObject()
+            grupoJson.put("nombre", grupo.nombre)
+            grupoJson.put("idioma", grupo.idioma)
+            grupoJson.put("nivel", grupo.nivel)
+            grupoJson.put("descripcion", grupo.descripcion)
+            grupoJson.put("dueno", grupo.dueno)
+            grupoJson.put("integrantes", JSONArray(grupo.integrantes))
+            grupoJson.put("calificaciones", JSONArray(grupo.calificaciones.map { it.nota }))
+
+            jsonArray.put(grupoJson)
+        }
+
+        // Agregar el JSONArray al objeto JSON
+        jsonObjectGrupo.put("listaGrupos", jsonArray)
+
+        // Escribir el objeto JSON actualizado en el archivo
+        guardarJsonEnArchivo(jsonObjectGrupo.toString())
+    }
+
+    private fun guardarJsonEnArchivo(json: String ) {
+        val file = File(filesDir, "grupos.json")
+        file.bufferedWriter().use { writer ->
+            writer.write(json)
+        }
+    }
     private fun escogerImagen(botonImagen: ImageButton){
         val options = arrayOf("Tomar foto", "Seleccionar de galería")
 
@@ -232,3 +268,4 @@ class CrearGrupo : AppCompatActivity() {
     }
 
 }
+

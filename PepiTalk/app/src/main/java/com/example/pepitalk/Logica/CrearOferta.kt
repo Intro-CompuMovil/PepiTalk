@@ -9,7 +9,11 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pepitalk.Datos.Data
+import com.example.pepitalk.Datos.DataOferta
 import com.example.pepitalk.R
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.File
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -68,7 +72,8 @@ class CrearOferta : AppCompatActivity() {
         val finalTiempo = LocalTime.parse(horaFinal, horaFormateado)
         val diaTiempo = LocalDate.parse(dia, diaFormateado)
         if(inicioTiempo < finalTiempo){
-
+            Data.listaOfertas.add(DataOferta(idioma,dia,horaInicio,horaFinal,recompensa,lugar,descripcion,Data.personaLog.nombre,"",false))
+            actualizarJson()
             var ofertaCreado = Intent(this, Oferta::class.java)
             startActivity(ofertaCreado)
             Toast.makeText(this,"Se ha creado su oferta correctamente" , Toast.LENGTH_SHORT).show()
@@ -76,5 +81,39 @@ class CrearOferta : AppCompatActivity() {
 
         }
 
+    }
+
+    private fun actualizarJson() {
+        //Crear un objeto JSON para almacenar todas las ofertas
+        val jsonObjectOferta = JSONObject()
+        val jsonArray = JSONArray()
+
+        // Recorrer la lista de ofertas y agregar cada oferta al JSONArray
+        for (oferta in Data.listaOfertas){
+            val ofertaJson = JSONObject()
+            ofertaJson.put("idioma", oferta.idioma)
+            ofertaJson.put("fecha", oferta.fecha)
+            ofertaJson.put("horaInicio", oferta.horaInicio)
+            ofertaJson.put("horaFinal", oferta.horaFinal)
+            ofertaJson.put("recompensa", oferta.recompensa)
+            ofertaJson.put("lugar", oferta.lugar)
+            ofertaJson.put("descripcion", oferta.descripcion)
+            ofertaJson.put("dueno", oferta.dueno)
+            ofertaJson.put("trabajador", oferta.trabajador)
+            ofertaJson.put("aceptado", oferta.aceptado)
+
+            jsonArray.put(ofertaJson)
+        }
+        // Agregar el JSONArray al objeto JSON
+        jsonObjectOferta.put("ofertas", jsonArray)
+        // Escribir el objeto JSON actualizado en el archivo
+        guardarJsonEnArchivo(jsonObjectOferta.toString())
+    }
+
+    private fun guardarJsonEnArchivo(json: String) {
+        val file = File(filesDir, "ofertas.json")
+        file.bufferedWriter().use { writer ->
+            writer.write(json)
+        }
     }
 }
