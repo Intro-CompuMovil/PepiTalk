@@ -104,6 +104,7 @@ class Data {
                 }
             }
         }
+
         //funcion para cargar las personas del json a la lista de personas
         fun loadPersonasFromJson(context: Context) {
             val jsonString = leerJsonDeArchivo(context, "personas.json")
@@ -122,8 +123,10 @@ class Data {
 
                     // Llenamos la lista de calificaciones
                     for (j in 0 until calificacionesArray.length()) {
-                        val calificacion = calificacionesArray.getJSONObject(j)
-                        calificacionesList.add(DataCalificaciones(calificacion.getDouble("nota"),calificacion.getString("comentario")))
+                        val calificacionJson = calificacionesArray.getJSONObject(j)
+                        val nota = calificacionJson.getDouble("nota")
+                        val comentario = calificacionJson.getString("comentario")
+                        calificacionesList.add(DataCalificaciones(nota, comentario))
                     }
 
                     // Creamos un nuevo objeto Persona y lo añadimos a la lista

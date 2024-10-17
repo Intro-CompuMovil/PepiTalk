@@ -72,7 +72,7 @@ class CrearOferta : AppCompatActivity() {
         val finalTiempo = LocalTime.parse(horaFinal, horaFormateado)
         val diaTiempo = LocalDate.parse(dia, diaFormateado)
         if(inicioTiempo < finalTiempo){
-            Data.listaOfertas.add(DataOferta(idioma,dia,horaInicio,horaFinal,recompensa,lugar,descripcion,Data.personaLog.nombre,"",false))
+            Data.listaOfertas.add(DataOferta(idioma,dia,horaInicio,horaFinal,recompensa,lugar,descripcion,Data.personaLog.usuario,"",false))
             actualizarJson()
             var ofertaCreado = Intent(this, Oferta::class.java)
             startActivity(ofertaCreado)

@@ -84,7 +84,7 @@ class CrearGrupo : AppCompatActivity() {
         val nombreG = "grupo1234"
 
         if(nombreG != nombre){
-            Data.listaGrupos.add(DataGrupo(nombre, idioma, nivel, lugar, descripcion, Data.personaLog.usuario, mutableListOf(Data.personaLog.usuario), mutableListOf()))
+            Data.listaGrupos.add(DataGrupo(nombre, idioma, nivel, descripcion, Data.personaLog.usuario, lugar,  mutableListOf(Data.personaLog.usuario), mutableListOf()))
             actualizarJson()
             var grupoCreado = Intent(this, Grupo::class.java)
             startActivity(grupoCreado)
@@ -111,6 +111,7 @@ class CrearGrupo : AppCompatActivity() {
             grupoJson.put("nivel", grupo.nivel)
             grupoJson.put("descripcion", grupo.descripcion)
             grupoJson.put("dueno", grupo.dueno)
+            grupoJson.put("lugar", grupo.lugar)
             grupoJson.put("integrantes", JSONArray(grupo.integrantes))
             grupoJson.put("calificaciones", JSONArray(grupo.calificaciones.map { it.nota }))
 
@@ -124,12 +125,6 @@ class CrearGrupo : AppCompatActivity() {
         Data.guardarJsonEnArchivo(this,jsonObjectGrupo.toString(),"grupos.json")
     }
 
-    private fun guardarJsonEnArchivo(json: String ) {
-        val file = File(filesDir, "grupos.json")
-        file.bufferedWriter().use { writer ->
-            writer.write(json)
-        }
-    }
     private fun escogerImagen(botonImagen: ImageButton){
         val options = arrayOf("Tomar foto", "Seleccionar de galería")
 

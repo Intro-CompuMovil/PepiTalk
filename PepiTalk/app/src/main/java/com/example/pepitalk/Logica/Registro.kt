@@ -140,7 +140,7 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
 
         // Agregar el JSONArray al objeto JSON
-        jsonObjectPersonas.put("personas", jsonArray)
+        jsonObjectPersonas.put("listaPersonas", jsonArray)
 
         // Escribir el objeto JSON actualizado en el archivo
         Data.guardarJsonEnArchivo(this,jsonObjectPersonas.toString(), "personas.json")
