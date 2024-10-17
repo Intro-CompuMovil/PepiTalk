@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Button
@@ -23,6 +24,8 @@ import androidx.core.content.FileProvider
 import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.Datos.Persona
 import com.example.pepitalk.R
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -88,12 +91,15 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             if(contrasena == confContrasena){
                 if(emailRegex.matches(correo)){
                     var newUser = Persona(tipo, usuario, nombre,contrasena, correo, mutableListOf())
-                    Data.personas.add(newUser)
+
                     Data.personaLog.tipo = tipo
                     Data.personaLog.usuario = usuario
                     Data.personaLog.nombre = nombre
                     Data.personaLog.contrasena = contrasena
                     Data.personaLog.correo = correo
+
+                    Data.personas.add(newUser)
+                    actualizarJson()
                     if(tipo == "Cliente"){
                         var clienteRegistrado = Intent(this, MenuCliente::class.java)
                         startActivity(clienteRegistrado)
@@ -115,7 +121,45 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
 
     }
+    private fun actualizarJson() {
+        // Crear un objeto JSON para almacenar todas las personas
+        val jsonObjectPersonas = JSONObject()
+        val jsonArray = JSONArray()
 
+        // Recorrer la lista de personas y agregar cada persona al JSONArray
+        for (persona in Data.personas) {
+            val personaJson = JSONObject()
+            personaJson.put("tipo", persona.tipo)
+            personaJson.put("usuario", persona.usuario)
+            personaJson.put("nombre", persona.nombre)
+            personaJson.put("contrasena", persona.contrasena)
+            personaJson.put("correo", persona.correo)
+            personaJson.put("calificaciones", JSONArray(persona.calificaciones.map { it.nota }))
+
+            jsonArray.put(personaJson)
+        }
+
+        // Agregar el JSONArray al objeto JSON
+        jsonObjectPersonas.put("personas", jsonArray)
+
+        // Escribir el objeto JSON actualizado en el archivo
+        guardarJsonEnArchivo(jsonObjectPersonas.toString(), "personas.json")
+    }
+
+    private fun guardarJsonEnArchivo(json: String, fileName: String) {
+        try{
+            val file = File(filesDir, fileName)
+            Log.d("FilePath", "Saving JSON to: ${file.absolutePath}")
+            file.bufferedWriter().use { writer ->
+                writer.write(json)
+            }
+            Log.d("FilePath", "JSON saved successfully to: ${file.absolutePath}")
+        } catch (e: IOException)
+        {
+            Log.e("FilePath", "Error saving JSON to file", e)
+        }
+
+    }
     private fun escogerImagen(botonImagen: ImageButton){
         val options = arrayOf("Tomar foto", "Seleccionar de galería")
 
