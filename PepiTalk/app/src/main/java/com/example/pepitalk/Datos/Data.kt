@@ -1,8 +1,10 @@
 package com.example.pepitalk.Datos
 
 import android.content.Context
+import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
 import java.io.IOException
 import java.io.InputStream
 
@@ -24,25 +26,38 @@ class Data {
 
     //funciones
 
-        // Método para cargar JSON desde assets
-        fun loadJSONFromAsset(context: Context, fileName: String): String? {
-            var json: String? = null
-            try {
-                val isStream: InputStream = context.assets.open(fileName)
-                val size: Int = isStream.available()
-                val buffer = ByteArray(size)
-                isStream.read(buffer)
-                isStream.close()
-                json = String(buffer, Charsets.UTF_8)
-            } catch (ex: IOException) {
-                ex.printStackTrace()
-                return null
+        // Método para cargar JSON
+        private fun leerJsonDeArchivo(context: Context, fileName: String): String? {
+            return try {
+                val file = File(context.filesDir, fileName)
+                file.bufferedReader().use { it.readText() }
+            } catch (e: IOException) {
+                Log.e("FilePath", "Error reading JSON from file", e)
+                null
             }
-            return json
         }
+
+        // Método para guardar JSON en archivo
+        fun guardarJsonEnArchivo(context: Context, json: String, fileName: String) {
+            try {
+                val file = File(context.filesDir, fileName)
+                Log.d("FilePath", "Saving JSON to: ${file.absolutePath}")
+                file.bufferedWriter().use { writer ->
+                    writer.write(json)
+                }
+                Log.d("FilePath", "JSON saved successfully to: ${file.absolutePath}")
+
+                // Leer y verificar el contenido del archivo
+                val contenidoJson = leerJsonDeArchivo(context, fileName)
+                Log.d("FilePath", "Contenido del archivo JSON: $contenidoJson")
+            } catch (e: IOException) {
+                Log.e("FilePath", "Error saving JSON to file", e)
+            }
+        }
+
         //funcion para cargar los grupos del json a la lista de grupos
         fun loadGruposFromJson(context: Context) {
-            val jsonString = loadJSONFromAsset(context, "grupos.json")
+            val jsonString =  leerJsonDeArchivo(context, "grupos.json")
             if (jsonString != null) {
                 val jsonObject = JSONObject(jsonString)
                 val jsonArray = jsonObject.getJSONArray("listaGrupos")
@@ -91,7 +106,7 @@ class Data {
         }
         //funcion para cargar las personas del json a la lista de personas
         fun loadPersonasFromJson(context: Context) {
-            val jsonString = loadJSONFromAsset(context, "personas.json")
+            val jsonString = leerJsonDeArchivo(context, "personas.json")
             if (jsonString != null) {
                 val jsonObject = JSONObject(jsonString)
                 val jsonArray = jsonObject.getJSONArray("listaPersonas")
@@ -128,7 +143,7 @@ class Data {
 
         //funcion para cargar las ofertas del json a la lista de ofertas
         fun loadOfertasFromJson(context: Context) {
-            val jsonString = loadJSONFromAsset(context, "ofertas.json")
+            val jsonString =  leerJsonDeArchivo(context, "ofertas.json")
             if (jsonString != null) {
                 val jsonObject = JSONObject(jsonString)
                 val jsonArray = jsonObject.getJSONArray("listaOfertas")
@@ -167,7 +182,7 @@ class Data {
         }
         //funcion para cargar las reuniones del json a la lista de reuniones
       fun loadReunionesFromJson(context: Context) {
-            val jsonString = loadJSONFromAsset(context, "reuniones.json")
+            val jsonString =  leerJsonDeArchivo(context, "reuniones.json")
             if (jsonString != null) {
                 val jsonObject = JSONObject(jsonString)
                 val jsonArray = jsonObject.getJSONArray("listaReuniones")
