@@ -42,21 +42,17 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val botonRegistro = findViewById<Button>(R.id.buttonRegistrar)
         val botonImagen = findViewById<ImageButton>(R.id.imageButton)
         botonImagen.isEnabled = false
-        pedirPermiso(
-            this,
-            arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE),
-            "Se necesita este permiso",
-            Data.MY_PERMISSION_REQUEST_CAMERA
-        )
-        botonRegistro.setOnClickListener() {
+        pedirPermiso(this, arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE), "Se necesita este permiso", Data.MY_PERMISSION_REQUEST_CAMERA)
+        botonRegistro.setOnClickListener(){
             validarCampos()
         }
-        botonImagen.setOnClickListener() {
+        botonImagen.setOnClickListener(){
             escogerImagen(botonImagen)
         }
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
 
 
     }
@@ -74,43 +70,23 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val confContrasena = findViewById<EditText>(R.id.editTextConfirmarPasswordRegistro)
         val correo = findViewById<EditText>(R.id.editTextCorreoRegistro)
 
-        if (nombre.text.toString().isEmpty() || username.text.toString()
-                .isEmpty() || contrasena.text.toString().isEmpty() || confContrasena.text.toString()
-                .isEmpty() || correo.text.toString().isEmpty()
-        ) {
-            Toast.makeText(this, "Por favor complete todos los campos", Toast.LENGTH_SHORT).show()
-        } else {
-            validarRegistro(
-                nombre.text.toString(),
-                username.text.toString(),
-                tipo.selectedItem.toString(),
-                contrasena.text.toString(),
-                confContrasena.text.toString(),
-                correo.text.toString()
-            )
+        if(nombre.text.toString().isEmpty() ||username.text.toString().isEmpty() || contrasena.text.toString().isEmpty() || confContrasena.text.toString().isEmpty() || correo.text.toString().isEmpty()){
+            Toast.makeText(this,"Por favor complete todos los campos" , Toast.LENGTH_SHORT).show()
+        }
+        else{
+            validarRegistro(nombre.text.toString(), username.text.toString(), tipo.selectedItem.toString(), contrasena.text.toString(), confContrasena.text.toString(), correo.text.toString())
         }
     }
 
-    private fun validarRegistro(
-        nombre: String,
-        usuario: String,
-        tipo: String,
-        contrasena: String,
-        confContrasena: String,
-        correo: String
-    ) {
+    private fun validarRegistro(nombre: String, usuario: String, tipo: String, contrasena: String, confContrasena: String, correo: String){
         //recorrer arreglo con los usuarios
         val emailRegex = Regex("^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})")
         var found = false
 
-        for (i in 0 until Data.personas.size) {
-            if (usuario == Data.personas[i].usuario || correo == Data.personas[i].correo) {
+        for( i in 0 until Data.personas.size){
+            if(usuario == Data.personas[i].usuario|| correo == Data.personas[i].correo){
                 found = true
-                Toast.makeText(
-                    this,
-                    "El usuario ya existe o el correo ya se ha utilizado",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this,"El usuario ya existe o el correo ya se ha utilizado" , Toast.LENGTH_SHORT).show()
             }
         }
         if (!found) {
@@ -129,19 +105,20 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     if (tipo == "Cliente") {
                         var clienteRegistrado = Intent(this, MenuCliente::class.java)
                         startActivity(clienteRegistrado)
-                        Toast.makeText(this, "Se ha registrado correctamente", Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
+                        Toast.makeText(this,"Se ha registrado correctamente" , Toast.LENGTH_SHORT).show()
+                    }
+                    else{
                         var traductorRegistrado = Intent(this, MenuTraductor::class.java)
                         startActivity(traductorRegistrado)
-                        Toast.makeText(this, "Se ha registrado correctamente", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(this,"Se ha registrado correctamente" , Toast.LENGTH_SHORT).show()
                     }
-                } else {
-                    Toast.makeText(this, "El correo no es válido", Toast.LENGTH_SHORT).show()
                 }
-            } else {
-                Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+                else{
+                    Toast.makeText(this,"El correo no es válido" , Toast.LENGTH_SHORT).show()
+                }
+            }
+            else{
+                Toast.makeText(this,"Las contraseñas no coinciden" , Toast.LENGTH_SHORT).show()
             }
         }
 
