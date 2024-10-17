@@ -125,15 +125,10 @@ class CrearReunion : AppCompatActivity() {
         jsonObjectReunion.put("reuniones", jsonArray)
 
         // Escribir el objeto JSON actualizado en el archivo
-        guardarJsonEnArchivo(jsonObjectReunion.toString())
+        Data.guardarJsonEnArchivo(this,jsonObjectReunion.toString(),"reuniones.json")
     }
 
-    private fun guardarJsonEnArchivo(json: String ) {
-        val file = File(filesDir, "reunion.json")
-        file.bufferedWriter().use { writer ->
-            writer.write(json)
-        }
-    }
+
     private fun escogerImagen(botonImagen: ImageButton){
         val options = arrayOf("Tomar foto", "Seleccionar de galería")
 

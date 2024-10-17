@@ -143,23 +143,11 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         jsonObjectPersonas.put("personas", jsonArray)
 
         // Escribir el objeto JSON actualizado en el archivo
-        guardarJsonEnArchivo(jsonObjectPersonas.toString(), "personas.json")
+        Data.guardarJsonEnArchivo(this,jsonObjectPersonas.toString(), "personas.json")
     }
 
-    private fun guardarJsonEnArchivo(json: String, fileName: String) {
-        try{
-            val file = File(filesDir, fileName)
-            Log.d("FilePath", "Saving JSON to: ${file.absolutePath}")
-            file.bufferedWriter().use { writer ->
-                writer.write(json)
-            }
-            Log.d("FilePath", "JSON saved successfully to: ${file.absolutePath}")
-        } catch (e: IOException)
-        {
-            Log.e("FilePath", "Error saving JSON to file", e)
-        }
 
-    }
+
     private fun escogerImagen(botonImagen: ImageButton){
         val options = arrayOf("Tomar foto", "Seleccionar de galería")
 

@@ -107,13 +107,8 @@ class CrearOferta : AppCompatActivity() {
         // Agregar el JSONArray al objeto JSON
         jsonObjectOferta.put("ofertas", jsonArray)
         // Escribir el objeto JSON actualizado en el archivo
-        guardarJsonEnArchivo(jsonObjectOferta.toString())
+        Data.guardarJsonEnArchivo(this,jsonObjectOferta.toString(),"ofertas.json")
     }
 
-    private fun guardarJsonEnArchivo(json: String) {
-        val file = File(filesDir, "ofertas.json")
-        file.bufferedWriter().use { writer ->
-            writer.write(json)
-        }
-    }
+
 }

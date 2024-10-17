@@ -121,7 +121,7 @@ class CrearGrupo : AppCompatActivity() {
         jsonObjectGrupo.put("listaGrupos", jsonArray)
 
         // Escribir el objeto JSON actualizado en el archivo
-        guardarJsonEnArchivo(jsonObjectGrupo.toString())
+        Data.guardarJsonEnArchivo(this,jsonObjectGrupo.toString(),"grupos.json")
     }
 
     private fun guardarJsonEnArchivo(json: String ) {
