@@ -56,7 +56,7 @@ class VerCalificaciones : AppCompatActivity() {
         val cursor = MatrixCursor(arrayOf("_id","nota", "comentario"))
 
         if(tipo == "grupo"){
-            var group = DataGrupo("","","","","", mutableListOf(), mutableListOf())
+            var group = DataGrupo("","","","","", "",mutableListOf(), mutableListOf())
             for(i in 0 until Data.listaGrupos.size){
                 if(identificador == Data.listaGrupos[i].nombre){
                     group = Data.listaGrupos[i]

@@ -69,8 +69,8 @@ class Data {
 
                     // Llenamos la lista de calificaciones
                     for (j in 0 until calificacionesArray.length()) {
-                        val calificacion = calificacionesArray.getInt(j)
-                        calificacionesList.add(DataCalificaciones(calificacion.toDouble(),"Comentario opcional"))
+                        val calificacion = calificacionesArray.getJSONObject(j)
+                        calificacionesList.add(DataCalificaciones(calificacion.getDouble("nota"),calificacion.getString("comentario")))
                     }
 
                     // Creamos un nuevo objeto DataGrupo y lo añadimos a la lista
@@ -107,8 +107,8 @@ class Data {
 
                     // Llenamos la lista de calificaciones
                     for (j in 0 until calificacionesArray.length()) {
-                        val calificacion = calificacionesArray.getInt(j)
-                        calificacionesList.add(DataCalificaciones(calificacion.toDouble(),"Comentario opcional"))
+                        val calificacion = calificacionesArray.getJSONObject(j)
+                        calificacionesList.add(DataCalificaciones(calificacion.getDouble("nota"),calificacion.getString("comentario")))
                     }
 
                     // Creamos un nuevo objeto Persona y lo añadimos a la lista
@@ -193,8 +193,8 @@ class Data {
 
                     // Llenamos la lista de calificaciones
                     for (j in 0 until calificacionesArray.length()) {
-                        val calificacion = calificacionesArray.getInt(j)
-                        calificacionesList.add(DataCalificaciones(calificacion.toDouble(),"Comentario opcional"))
+                        val calificacion = calificacionesArray.getJSONObject(j)
+                        calificacionesList.add(DataCalificaciones(calificacion.getDouble("nota"),calificacion.getString("comentario")))
                     }
 
                     // Creamos un nuevo objeto DataReunion y lo añadimos a la lista

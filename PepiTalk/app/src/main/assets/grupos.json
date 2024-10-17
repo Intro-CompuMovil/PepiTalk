@@ -6,26 +6,40 @@
       "nivel": "B1",
       "descripcion": "We learn better together!",
       "dueno": "gabriel13",
+      "lugar": "Universidad Javeriana",
       "integrantes": ["gabriel13", "andres88", "nmonta17"],
-      "calificaciones": [5, 4, 3]
+      "calificaciones": [
+        {"nota": 5, "comentario": "Excelente!!"},
+        {"nota": 4, "comentario": "Buen trabajo"},
+        {"nota": 3, "comentario": "Normal"}
+      ]
     },
     {
       "nombre": "Français Avancé",
       "idioma": "Francés",
       "nivel": "C1",
       "descripcion": "Apprenons ensemble!",
-      "dueno": "Maria",
-      "integrantes": ["Maria", "Juan", "Pedro"],
-      "calificaciones": [3, 2, 4]
+      "dueno": "andres88",
+      "lugar": "Centro Comercial Andino",
+      "integrantes": ["andres88", "nmonta17", "pepito"],
+      "calificaciones": [
+        {"nota": 3, "comentario": "Puede mejorar"},
+        {"nota": 2, "comentario": "No es el mejor"},
+        {"nota": 1, "comentario": "Terrible!"}
+      ]
     },
     {
       "nombre": "Deutsch für Anfänger",
       "idioma": "Alemán",
       "nivel": "A1",
       "descripcion": "Gemeinsam lernen wir besser!",
-      "dueno": "Pedro",
-      "integrantes": ["Pedro", "Maria", "Juan"],
-      "calificaciones": [4, 5, 3]
+      "dueno": "pepito",
+      "lugar": "Universidad Piloto",
+      "integrantes": ["pepito", "gabriel13", "nmonta17"],
+      "calificaciones": [
+        {"nota": 5, "comentario": "Toda la rebuena pal grupo"},
+        {"nota": 4, "comentario": "Buena gente"},
+        {"nota": 3, "comentario": "meh pues no está mal"}]
     }
   ]
 }
