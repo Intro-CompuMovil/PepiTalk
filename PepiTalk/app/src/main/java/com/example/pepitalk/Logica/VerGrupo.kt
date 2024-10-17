@@ -119,7 +119,13 @@ class VerGrupo : AppCompatActivity() {
         val eliminarGrupo = findViewById<Button>(R.id.btnEliminarGrupo)
 
         verCali.setOnClickListener {
+
             val peticion = Intent(this, VerCalificaciones::class.java)
+            val bundle = Bundle()
+            val nombre = intent.getStringExtra("nombre")!!
+            bundle.putString("nombre",nombre)
+            bundle.putString("tipo", "grupo")
+            peticion.putExtra("bundle", bundle)
             startActivity(peticion)
         }
 

@@ -125,8 +125,8 @@ class Ruta : AppCompatActivity() {
 
 
     private fun setupMap() {
-
-        obtenerCoordenadasPorNombre("Chase center")
+        var nombreLugar = intent.getStringExtra("destino")!!
+        obtenerCoordenadasPorNombre(nombreLugar)
         endPoint = GeoPoint(endLat, endLng)
 
         val startMarker = Marker(map)

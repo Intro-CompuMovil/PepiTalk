@@ -57,7 +57,7 @@ class VerOferta : AppCompatActivity()  {
         val language = intent.getStringExtra("idioma")
         val date = intent.getStringExtra("fecha")
         val start = intent.getStringExtra("horaInicio")
-        val final = intent.getStringExtra("horaFin")
+        val final = intent.getStringExtra("horaFinal")
         val place = intent.getStringExtra("lugar")
         val descripcion = intent.getStringExtra("descripcion")
         val dueno = intent.getStringExtra("dueno")
@@ -129,6 +129,8 @@ class VerOferta : AppCompatActivity()  {
 
         ruta.setOnClickListener {
             val peticion = Intent(this, Ruta::class.java)
+            val place = intent.getStringExtra("lugar")
+            peticion.putExtra("destino", place )
             startActivity(peticion)
         }
     }

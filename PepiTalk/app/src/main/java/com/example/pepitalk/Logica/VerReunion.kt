@@ -143,6 +143,11 @@ class VerReunion : AppCompatActivity() {
 
         verCali.setOnClickListener {
             val peticion = Intent(this, VerCalificaciones::class.java)
+            val bundle = Bundle()
+            val nombre = intent.getStringExtra("nombre")!!
+            bundle.putString("nombre",nombre)
+            bundle.putString("tipo", "reunion")
+            peticion.putExtra("bundle", bundle)
             startActivity(peticion)
         }
 
@@ -162,7 +167,9 @@ class VerReunion : AppCompatActivity() {
         }
 
         ruta.setOnClickListener {
+            val lugar = intent.getStringExtra("lugar")
             val peticion = Intent(this, Ruta::class.java)
+            peticion.putExtra("destino", lugar )
             startActivity(peticion)
         }
 
