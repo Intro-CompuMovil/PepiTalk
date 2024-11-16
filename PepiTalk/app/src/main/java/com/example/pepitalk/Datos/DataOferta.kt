@@ -10,4 +10,6 @@ data class DataOferta(
     var descripcion: String,
     var dueno: String,
     var trabajador: String,
-    var aceptado: Boolean)
+    var aceptado: Boolean){
+    constructor() : this("", "", "", "", "", "", "", "", "", false)
+}
