@@ -5,5 +5,8 @@ data class Persona(var tipo: String,
                    var nombre: String,
                    var contrasena: String,
                    var correo: String,
-                   var calificaciones: MutableList<DataCalificaciones>)
+                   var calificaciones: MutableList<DataCalificaciones>,
+                   var imageUrl: String){
+    constructor() : this("", "", "", "", "", mutableListOf(), "")
+}
 
