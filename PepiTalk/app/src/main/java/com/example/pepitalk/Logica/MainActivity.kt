@@ -5,8 +5,9 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pepitalk.R
-import com.example.pepitalk.Datos.Data
-
+import com.google.firebase.FirebaseApp
+import com.google.firebase.appcheck.FirebaseAppCheck
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,24 +26,13 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        cargarDatosDesdeJSON()
+        // Initialize Firebase
+        FirebaseApp.initializeApp(this)
 
+        // Initialize Firebase App Check
+        val firebaseAppCheck = FirebaseAppCheck.getInstance()
+        firebaseAppCheck.installAppCheckProviderFactory(
+            PlayIntegrityAppCheckProviderFactory.getInstance()
+        )
     }
-
-
-    private fun cargarDatosDesdeJSON() {
-        // Cargar Grupos
-        Data.loadGruposFromJson(this)
-
-        // Cargar Personas
-        Data.loadPersonasFromJson(this)
-
-        // Cargar Ofertas
-        Data.loadOfertasFromJson(this)
-
-        // Cargar Reuniones
-        Data.loadReunionesFromJson(this)
-
-    }
-
 }
