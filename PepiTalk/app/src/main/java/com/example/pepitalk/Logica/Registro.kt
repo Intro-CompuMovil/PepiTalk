@@ -22,8 +22,16 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.pepitalk.Datos.Data
+import com.example.pepitalk.Datos.DataCalificaciones
 import com.example.pepitalk.Datos.Persona
 import com.example.pepitalk.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
@@ -34,7 +42,22 @@ import java.util.Date
 
 class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
+    private lateinit var auth: FirebaseAuth
+    private lateinit var database: DatabaseReference
+    private lateinit var storage: FirebaseStorage
+    private lateinit var storageRef: StorageReference
     private lateinit var currentPhotoPath: String
+    private var imageUri: Uri? = null
+
+    private lateinit var nombre : EditText
+    private lateinit var username : EditText
+    private lateinit var contrasena : EditText
+    private lateinit var confContrasena : EditText
+    private lateinit var correo : EditText
+    private lateinit var tipo : Spinner
+    private lateinit var calificaciones : MutableList<DataCalificaciones>
+    //crear lista vacia de calificaciones de tipo dataCalificaciones
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +72,18 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         botonImagen.setOnClickListener(){
             escogerImagen(botonImagen)
         }
+
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance().reference
+        storage = FirebaseStorage.getInstance()
+        storageRef = storage.reference
+
+        nombre = findViewById(R.id.editTextNombreRegistro)
+        username = findViewById(R.id.editTextUsuarioRegistro)
+        contrasena = findViewById(R.id.editTextPasswordRegistro)
+        confContrasena = findViewById(R.id.editTextConfirmarPasswordRegistro)
+        correo = findViewById(R.id.editTextCorreoRegistro)
+        calificaciones = mutableListOf()
     }
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
@@ -62,11 +97,13 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private fun validarCampos(){
         val tipo = findViewById<Spinner>(R.id.spinner)
         tipo.onItemSelectedListener = this
+        //guardar valor del spinner en una variable
         val nombre = findViewById<EditText>(R.id.editTextNombreRegistro)
         val username = findViewById<EditText>(R.id.editTextUsuarioRegistro)
         val contrasena = findViewById<EditText>(R.id.editTextPasswordRegistro)
         val confContrasena = findViewById<EditText>(R.id.editTextConfirmarPasswordRegistro)
         val correo = findViewById<EditText>(R.id.editTextCorreoRegistro)
+
 
         if(nombre.text.toString().isEmpty() ||username.text.toString().isEmpty() || contrasena.text.toString().isEmpty() || confContrasena.text.toString().isEmpty() || correo.text.toString().isEmpty()){
             Toast.makeText(this,"Por favor complete todos los campos" , Toast.LENGTH_SHORT).show()
@@ -90,16 +127,9 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         if(!found){
             if(contrasena == confContrasena){
                 if(emailRegex.matches(correo)){
-                    var newUser = Persona(tipo, usuario, nombre,contrasena, correo, mutableListOf())
+                    var newUser = Persona(tipo, usuario, nombre, contrasena, correo, mutableListOf(), "")
 
-                    Data.personaLog.tipo = tipo
-                    Data.personaLog.usuario = usuario
-                    Data.personaLog.nombre = nombre
-                    Data.personaLog.contrasena = contrasena
-                    Data.personaLog.correo = correo
-
-                    Data.personas.add(newUser)
-                    actualizarJson()
+                    createUserWithImage(tipo, correo, contrasena, nombre, usuario)  // Crear usuario en Firebase
                     if(tipo == "Cliente"){
                         var clienteRegistrado = Intent(this, MenuCliente::class.java)
                         startActivity(clienteRegistrado)
@@ -120,30 +150,6 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
         }
 
-    }
-    private fun actualizarJson() {
-        // Crear un objeto JSON para almacenar todas las personas
-        val jsonObjectPersonas = JSONObject()
-        val jsonArray = JSONArray()
-
-        // Recorrer la lista de personas y agregar cada persona al JSONArray
-        for (persona in Data.personas) {
-            val personaJson = JSONObject()
-            personaJson.put("tipo", persona.tipo)
-            personaJson.put("usuario", persona.usuario)
-            personaJson.put("nombre", persona.nombre)
-            personaJson.put("contrasena", persona.contrasena)
-            personaJson.put("correo", persona.correo)
-            personaJson.put("calificaciones", JSONArray(persona.calificaciones.map { it.nota }))
-
-            jsonArray.put(personaJson)
-        }
-
-        // Agregar el JSONArray al objeto JSON
-        jsonObjectPersonas.put("listaPersonas", jsonArray)
-
-        // Escribir el objeto JSON actualizado en el archivo
-        Data.guardarJsonEnArchivo(this,jsonObjectPersonas.toString(), "personas.json")
     }
 
 
@@ -217,15 +223,22 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
                     val file = File(currentPhotoPath)
                     if (file.exists()) {
-                        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.fromFile(file))
+                        val bitmap =
+                            MediaStore.Images.Media.getBitmap(contentResolver, Uri.fromFile(file))
                         botonImagen.setImageBitmap(bitmap)
+                        imageUri = Uri.fromFile(file)
                     }
 
                 }
+
                 Data.MY_PERMISSION_REQUEST_GALLERY -> {
                     val selectedImageUri = data?.data
-                    // Muestra la imagen seleccionada o guárdala
-                    botonImagen.setImageURI(selectedImageUri)
+                    if (selectedImageUri != null) {
+                        botonImagen.setImageURI(selectedImageUri)
+                        imageUri = selectedImageUri
+                        // Muestra la imagen seleccionada o guárdala
+                        botonImagen.setImageURI(selectedImageUri)
+                    }
                 }
             }
         }
@@ -283,5 +296,81 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private fun arePermissionsGranted(grantResults: IntArray): Boolean {
         return grantResults.all { it == PackageManager.PERMISSION_GRANTED }
+    }
+
+    private fun createUserWithImage(tipo: String, email: String, password: String, nombre: String, username: String) {
+
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Log.d("FirebaseRegister", "createUserWithEmail:success")
+                    val user = auth.currentUser
+                    if (user != null) {
+                        val profileUpdates = UserProfileChangeRequest.Builder()
+                            .setDisplayName(nombre)
+                            .build()
+                        user.updateProfile(profileUpdates)
+
+                        val imageRef = storageRef.child("images/${user.uid}.jpg")
+                        imageUri?.let {
+                            imageRef.putFile(it)
+                                .addOnSuccessListener {
+                                    imageRef.downloadUrl.addOnSuccessListener { uri ->
+                                        val usuario = Persona(tipo, username, nombre, password, email, mutableListOf() , uri.toString())
+                                        Log.d("UsuarioInfo", "Tipo: $tipo, Nombre: $nombre")
+                                        database.child("users").child(user.uid).setValue(usuario)
+                                            .addOnCompleteListener { dbTask ->
+                                                if (dbTask.isSuccessful) {
+                                                    Toast.makeText(baseContext, "User created successfully.", Toast.LENGTH_SHORT).show()
+                                                    updateUI(user, tipo)
+                                                } else {
+                                                    Toast.makeText(baseContext, "Database update failed.", Toast.LENGTH_SHORT).show()
+                                                }
+                                            }
+                                        imageUri?.let {
+                                            val imageRef = storageRef.child("images/${user.uid}.jpg")
+                                            imageRef.putFile(it)
+                                                .addOnFailureListener {
+                                                    Toast.makeText(this, "Image upload failed.", Toast.LENGTH_SHORT).show()
+                                                }
+                                        }
+                                    }
+                                    .addOnFailureListener { exception ->
+                                        Log.e("FirebaseRegister", "Error al obtener la URL de la imagen: ${exception.message}", exception)
+                                    }
+                                }
+                                .addOnFailureListener { exception ->
+                                    Log.e("FirebaseRegister", "Error al subir archivo: ${exception.message}", exception)
+                                }
+                        }
+                    }
+                } else {
+                    Log.w("FirebaseRegister", "createUserWithEmail:failure", task.exception)
+                    Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+    private fun updateUI(currentUser: FirebaseUser?, tipo: String) {
+
+        if (currentUser != null) {
+            if(tipo == "Cliente"){
+                val intent = Intent(this, MenuCliente::class.java)
+                intent.putExtra("user", currentUser.email)
+                startActivity(intent)
+            }
+            else{
+                val intent = Intent(this, MenuTraductor::class.java)
+                intent.putExtra("user", currentUser.email)
+                startActivity(intent)
+            }
+        } else {
+            nombre.setText("")
+            username.setText("")
+            correo.setText("")
+            contrasena.setText("")
+            confContrasena.setText("")
+            Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
+        }
     }
 }

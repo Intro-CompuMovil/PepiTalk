@@ -34,8 +34,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, com.example.pepitalk.Logica.Registro::class.java)
             startActivity(intent)
         }
-
-
     }
 
     override fun onStart() {
@@ -52,6 +50,5 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
     }
-
 
 }
