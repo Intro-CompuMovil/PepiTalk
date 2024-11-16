@@ -10,6 +10,7 @@ import java.io.InputStream
 
 class Data {
     companion object{
+        val PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 1001
         val MY_PERMISSION_REQUEST_CAMERA=0;
         val MY_PERMISSION_REQUEST_GALLERY=1;
         val listaGrupos = mutableListOf<DataGrupo>()

@@ -10,4 +10,7 @@ data class DataReunion(
     var descripcion: String,
     var dueno: String,
     var integrantes: MutableList<String>,
-    var calificaciones: MutableList<DataCalificaciones>)
+    var calificaciones: MutableList<DataCalificaciones>,
+    var imageUrl: String){
+    constructor() : this("", "", "", "", "", "", "", "", mutableListOf(), mutableListOf(), "")
+}

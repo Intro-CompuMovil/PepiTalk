@@ -43,7 +43,7 @@ import java.util.Locale
 
 class Ruta : AppCompatActivity() {
 
-    private val PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 1001
+
     private lateinit var map: MapView
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var startPoint: GeoPoint? = null
@@ -68,7 +68,7 @@ class Ruta : AppCompatActivity() {
         map.setBuiltInZoomControls(true)
         map.setMultiTouchControls(true)
 
-        pedirPermiso(Manifest.permission.ACCESS_FINE_LOCATION, "Se necesita este permiso para acceder a tu ubicación.", PERMISSION_REQUEST_ACCESS_FINE_LOCATION)
+        pedirPermiso(Manifest.permission.ACCESS_FINE_LOCATION, "Se necesita este permiso para acceder a tu ubicación.", Data.PERMISSION_REQUEST_ACCESS_FINE_LOCATION)
 
 
         val menuInicio = findViewById<ImageButton>(R.id.butInicio)
@@ -195,7 +195,7 @@ class Ruta : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         when (requestCode) {
-            PERMISSION_REQUEST_ACCESS_FINE_LOCATION -> {
+            Data.PERMISSION_REQUEST_ACCESS_FINE_LOCATION -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Si el permiso fue concedido, accede a la ubicación
                     //initLocationAccess()

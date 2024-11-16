@@ -8,4 +8,8 @@ data class DataGrupo(
     var dueno: String,
     var lugar: String,
     var integrantes: MutableList<String>,
-    var calificaciones: MutableList<DataCalificaciones>)
+    var calificaciones: MutableList<DataCalificaciones>,
+    var imageUrl: String
+){
+    constructor() : this("", "", "", "", "", "", mutableListOf(), mutableListOf(), "")
+}
