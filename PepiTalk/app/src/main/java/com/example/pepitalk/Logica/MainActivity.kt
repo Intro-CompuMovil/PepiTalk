@@ -5,13 +5,23 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pepitalk.R
-import com.example.pepitalk.Datos.Data
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        FirebaseApp.initializeApp(this)
+        auth = FirebaseAuth.getInstance()
+
+        auth.signOut()
 
         val IniciarSesion = findViewById<Button>(R.id.buttonIniciarSesion)
         val Registrarse = findViewById<Button>(R.id.buttonRegistrarse)
@@ -25,24 +35,23 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        cargarDatosDesdeJSON()
 
     }
 
-
-    private fun cargarDatosDesdeJSON() {
-        // Cargar Grupos
-        Data.loadGruposFromJson(this)
-
-        // Cargar Personas
-        Data.loadPersonasFromJson(this)
-
-        // Cargar Ofertas
-        Data.loadOfertasFromJson(this)
-
-        // Cargar Reuniones
-        Data.loadReunionesFromJson(this)
-
+    override fun onStart() {
+        super.onStart()
+        auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+        updateUI(currentUser)
     }
+
+    private fun updateUI(currentUser: FirebaseUser?) {
+        if (currentUser != null) {
+            val intent = Intent(this, MenuCliente::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+
 
 }
