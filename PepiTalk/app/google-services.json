@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "924573527803",
+    "project_id": "pepitalk-a0bae",
+    "storage_bucket": "pepitalk-a0bae.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924573527803:android:0bc2273142b2e3e768ca5e",
+        "android_client_info": {
+          "package_name": "com.example.pepitalk"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBVXar-MCItqGmWA20Nmk5QFfYpWCVI5U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
