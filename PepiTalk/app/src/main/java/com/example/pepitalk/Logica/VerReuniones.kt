@@ -74,22 +74,21 @@ class VerReuniones : AppCompatActivity(){
     }
 
     private fun createCursor(tipo: String?, callback: CursorCallback) {
-        val cursor = MatrixCursor(arrayOf("_id", "nombre", "dia", "hora", "idioma", "nivel", "lugar", "descripcion", "dueno", "integrantes", "calificaciones", "imagen"))
+        val cursor = MatrixCursor(arrayOf("_id", "nombre", "dia", "hora", "idioma", "nivel", "lugar", "descripcion", "dueno", "integrantes", "calificaciones", "imagen", "llave"))
 
         myRef = database.getReference(PATH_REUNION)
         auth = FirebaseAuth.getInstance()
         val userId = auth.currentUser?.uid
 
-        if(userId != null){
+        if (userId != null) {
             var i = 0
             if (tipo == "misReuniones") {
-
                 myRef.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         for (singleSnapshot in dataSnapshot.children) {
                             val myReunion = singleSnapshot.getValue(DataReunion::class.java)
-
-                            if (myReunion != null && myReunion.dueno == userId || myReunion?.integrantes!!.contains(userId)) {
+                            val llave = singleSnapshot.key
+                            if (myReunion != null && (myReunion.dueno == userId || myReunion.integrantes.contains(userId))) {
                                 cursor.addRow(arrayOf(
                                     i,
                                     myReunion.nombre,
@@ -102,28 +101,26 @@ class VerReuniones : AppCompatActivity(){
                                     myReunion.dueno,
                                     myReunion.integrantes.joinToString(","),
                                     myReunion.calificaciones.joinToString(",") { "DataCalificaciones(nota=${it.nota}, comentario=${it.comentario})" },
-                                    myReunion.imageUrl
+                                    myReunion.imageUrl,
+                                    llave
                                 ))
                                 i++
                             }
                         }
-                        callback.onCursorReady(cursor) // Llama al callback una vez que el cursor esté listo
+                        callback.onCursorReady(cursor) // Call the callback once the cursor is ready
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {
-
+                        // Handle error
                     }
                 })
-
-
             } else if (tipo == "reunionesParaUnirme") {
-
                 myRef.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         for (singleSnapshot in dataSnapshot.children) {
                             val myReunion = singleSnapshot.getValue(DataReunion::class.java)
-
-                            if (!myReunion?.integrantes!!.contains(userId)) {
+                            val llave = singleSnapshot.key
+                            if (myReunion != null && !myReunion.integrantes.contains(userId)) {
                                 cursor.addRow(arrayOf(
                                     i,
                                     myReunion.nombre,
@@ -136,22 +133,21 @@ class VerReuniones : AppCompatActivity(){
                                     myReunion.dueno,
                                     myReunion.integrantes.joinToString(","),
                                     myReunion.calificaciones.joinToString(",") { "DataCalificaciones(nota=${it.nota}, comentario=${it.comentario})" },
-                                    myReunion.imageUrl
+                                    myReunion.imageUrl,
+                                    llave
                                 ))
                                 i++
                             }
                         }
-                        callback.onCursorReady(cursor)// Llama al callback una vez que el cursor esté listo
+                        callback.onCursorReady(cursor) // Call the callback once the cursor is ready
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {
-
+                        // Handle error
                     }
                 })
-
             }
         }
-
     }
 
     fun initView(tipo : String?) {
