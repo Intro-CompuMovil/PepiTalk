@@ -268,6 +268,9 @@ class VerReunion : AppCompatActivity() {
 
         calificar.setOnClickListener {
             val peticion = Intent(this, Calificar::class.java)
+            val llave = intent.getStringExtra("llave")
+            peticion.putExtra("llave", llave)
+            peticion.putExtra("tipo", "reunion")
             startActivity(peticion)
         }
 
