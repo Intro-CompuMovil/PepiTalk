@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -18,8 +19,17 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.pepitalk.Datos.Data
+import com.example.pepitalk.Datos.DataCalificaciones
 import com.example.pepitalk.Datos.DataGrupo
+import com.example.pepitalk.Datos.Persona
 import com.example.pepitalk.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
@@ -29,7 +39,20 @@ import java.util.Date
 
 class CrearGrupo : AppCompatActivity() {
 
+    private lateinit var auth: FirebaseAuth
+    private lateinit var database: DatabaseReference
+    private lateinit var storage: FirebaseStorage
+    private lateinit var storageRef: StorageReference
     private lateinit var currentPhotoPath: String
+    private var imageUri: Uri? = null
+
+    private lateinit var nombre : EditText
+    private lateinit var idioma : EditText
+    private lateinit var nivel : EditText
+    private lateinit var lugar : EditText
+    private lateinit var descripcion : EditText
+    private lateinit var calificaciones : MutableList<DataCalificaciones>
+    private lateinit var integrantes : MutableList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +75,19 @@ class CrearGrupo : AppCompatActivity() {
         perfil.setOnClickListener(){
             startActivity(Intent(this, Perfil::class.java))
         }
+
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance().reference
+        storage = FirebaseStorage.getInstance()
+        storageRef = storage.reference
+
+        nombre = findViewById(R.id.editTextNombreGrupo)
+        idioma = findViewById(R.id.editTextIdiomaGrupo)
+        nivel = findViewById(R.id.editTextNivelGrupo)
+        lugar = findViewById(R.id.editTextLugarGrupo)
+        descripcion = findViewById(R.id.editTextDescripcionGrupo)
+        calificaciones = mutableListOf()
+        integrantes = mutableListOf()
     }
 
     private fun irPrincipal(){
@@ -84,8 +120,8 @@ class CrearGrupo : AppCompatActivity() {
         val nombreG = "grupo1234"
 
         if(nombreG != nombre){
-            Data.listaGrupos.add(DataGrupo(nombre, idioma, nivel, descripcion, Data.personaLog.usuario, lugar,  mutableListOf(Data.personaLog.usuario), mutableListOf()))
-            actualizarJson()
+            Data.listaGrupos.add(DataGrupo())
+            createGroupWithImage(nombre, idioma, nivel, lugar, descripcion, calificaciones, imageUri)
             var grupoCreado = Intent(this, Grupo::class.java)
             startActivity(grupoCreado)
             Toast.makeText(this,"Se ha creado su grupo correctamente" , Toast.LENGTH_SHORT).show()
@@ -98,32 +134,6 @@ class CrearGrupo : AppCompatActivity() {
 
     }
 
-    private fun actualizarJson() {
-        // Crear un objeto JSON para almacenar todos los grupos
-        val jsonObjectGrupo = JSONObject()
-        val jsonArray = JSONArray()
-
-        // Recorrer la lista de grupos y agregar cada grupo al JSONArray
-        for (grupo in Data.listaGrupos) {
-            val grupoJson = JSONObject()
-            grupoJson.put("nombre", grupo.nombre)
-            grupoJson.put("idioma", grupo.idioma)
-            grupoJson.put("nivel", grupo.nivel)
-            grupoJson.put("descripcion", grupo.descripcion)
-            grupoJson.put("dueno", grupo.dueno)
-            grupoJson.put("lugar", grupo.lugar)
-            grupoJson.put("integrantes", JSONArray(grupo.integrantes))
-            grupoJson.put("calificaciones", JSONArray(grupo.calificaciones.map { it.nota }))
-
-            jsonArray.put(grupoJson)
-        }
-
-        // Agregar el JSONArray al objeto JSON
-        jsonObjectGrupo.put("listaGrupos", jsonArray)
-
-        // Escribir el objeto JSON actualizado en el archivo
-        Data.guardarJsonEnArchivo(this,jsonObjectGrupo.toString(),"grupos.json")
-    }
 
     private fun escogerImagen(botonImagen: ImageButton){
         val options = arrayOf("Tomar foto", "Seleccionar de galería")
@@ -196,13 +206,18 @@ class CrearGrupo : AppCompatActivity() {
                     if (file.exists()) {
                         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.fromFile(file))
                         botonImagen.setImageBitmap(bitmap)
+                        imageUri = Uri.fromFile(file)
                     }
 
                 }
                 Data.MY_PERMISSION_REQUEST_GALLERY -> {
                     val selectedImageUri = data?.data
-                    // Muestra la imagen seleccionada o guárdala
-                    botonImagen.setImageURI(selectedImageUri)
+                    if (selectedImageUri != null) {
+                        botonImagen.setImageURI(selectedImageUri)
+                        imageUri = selectedImageUri
+                        // Muestra la imagen seleccionada o guárdala
+                        botonImagen.setImageURI(selectedImageUri)
+                    }
                 }
             }
         }
@@ -262,5 +277,57 @@ class CrearGrupo : AppCompatActivity() {
         return grantResults.all { it == PackageManager.PERMISSION_GRANTED }
     }
 
+    //funcion guardar en firebase , exactamente igual a la del registro pero con los datos de un grupo
+    private fun createGroupWithImage(
+        nombre: String,
+        idioma: String,
+        nivel: String,
+        lugar: String,
+        descripcion: String,
+        calificaciones: MutableList<DataCalificaciones>,
+        imageUri: Uri?
+    ) {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            val dueño = user.uid // obtener el id del dueño
+            val integrantes = mutableListOf(dueño) // añadir al dueño de una vez a la lista de integrantes
+            val groupId = database.child("grupos").push().key
+            if (groupId != null && imageUri != null) {
+                val imageRef = storageRef.child("images/grupos/${groupId}.jpg")
+                imageRef.putFile(imageUri)
+                    .addOnSuccessListener {
+                        imageRef.downloadUrl.addOnSuccessListener { uri ->
+                            // Guardar los datos del grupo en la base de datos
+                            val group = DataGrupo(nombre = nombre, idioma = idioma, nivel = nivel,
+                                descripcion = descripcion, dueno = dueño, lugar = lugar, integrantes = integrantes,
+                                calificaciones = calificaciones, imageUrl = uri.toString()
+                            )
+                            // Guardar el grupo en la base de datos
+                            database.child("grupos").child(groupId).setValue(group)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        Toast.makeText(baseContext, "Group created successfully.", Toast.LENGTH_SHORT).show()
+                                        updateUI()
+                                    } else {
+                                        Toast.makeText(baseContext, "Database update failed.", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.e("FirebaseRegister", "Error uploading file: ${exception.message}", exception)
+                    }
+            } else {
+                Toast.makeText(baseContext, "Image is required to create a group.", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(baseContext, "User not authenticated.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun updateUI() {
+        val intent = Intent(this, MenuCliente::class.java)
+        startActivity(intent)
+    }
 }
 
