@@ -1,6 +1,7 @@
 package com.example.pepitalk.Logica
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -11,6 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.Datos.DataOferta
 import com.example.pepitalk.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
@@ -19,6 +25,23 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 class CrearOferta : AppCompatActivity() {
+
+    private lateinit var auth: FirebaseAuth
+    private lateinit var database: DatabaseReference
+    private lateinit var storage: FirebaseStorage
+    private lateinit var storageRef: StorageReference
+
+
+
+    private lateinit var dia : EditText
+    private lateinit var idioma : EditText
+    private lateinit var horaInicio : EditText
+    private lateinit var horaFinal : EditText
+    private lateinit var recompensa : EditText
+    private lateinit var lugar : EditText
+    private lateinit var descripcion : EditText
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crear_oferta)
@@ -34,6 +57,19 @@ class CrearOferta : AppCompatActivity() {
         perfil.setOnClickListener(){
             startActivity(Intent(this, Perfil::class.java))
         }
+
+        dia = findViewById(R.id.editTextDiaOferta)
+        idioma = findViewById(R.id.editTextIdiomaOferta)
+        horaInicio = findViewById(R.id.editTextHoraInicio)
+        horaFinal = findViewById(R.id.editTextHoraFinal)
+        recompensa = findViewById(R.id.editTextRecompensa)
+        lugar = findViewById(R.id.editTextLugarOferta)
+        descripcion = findViewById(R.id.editTextDescripcionOferta)
+
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance().reference
+        storage = FirebaseStorage.getInstance()
+        storageRef = storage.reference
     }
 
     private fun irPrincipal(){
@@ -72,43 +108,51 @@ class CrearOferta : AppCompatActivity() {
         val finalTiempo = LocalTime.parse(horaFinal, horaFormateado)
         val diaTiempo = LocalDate.parse(dia, diaFormateado)
         if(inicioTiempo < finalTiempo){
-            Data.listaOfertas.add(DataOferta(idioma,dia,horaInicio,horaFinal,recompensa,lugar,descripcion,Data.personaLog.usuario,"",false))
-            actualizarJson()
+            Data.listaOfertas.add(DataOferta())
+            crearOferta(idioma, dia, horaInicio, horaFinal, recompensa, lugar, descripcion)
             var ofertaCreado = Intent(this, Oferta::class.java)
             startActivity(ofertaCreado)
             Toast.makeText(this,"Se ha creado su oferta correctamente" , Toast.LENGTH_SHORT).show()
 
 
         }
-
     }
 
-    private fun actualizarJson() {
-        //Crear un objeto JSON para almacenar todas las ofertas
-        val jsonObjectOferta = JSONObject()
-        val jsonArray = JSONArray()
-
-        // Recorrer la lista de ofertas y agregar cada oferta al JSONArray
-        for (oferta in Data.listaOfertas){
-            val ofertaJson = JSONObject()
-            ofertaJson.put("idioma", oferta.idioma)
-            ofertaJson.put("fecha", oferta.fecha)
-            ofertaJson.put("horaInicio", oferta.horaInicio)
-            ofertaJson.put("horaFinal", oferta.horaFinal)
-            ofertaJson.put("recompensa", oferta.recompensa)
-            ofertaJson.put("lugar", oferta.lugar)
-            ofertaJson.put("descripcion", oferta.descripcion)
-            ofertaJson.put("dueno", oferta.dueno)
-            ofertaJson.put("trabajador", oferta.trabajador)
-            ofertaJson.put("aceptado", oferta.aceptado)
-
-            jsonArray.put(ofertaJson)
+    private fun crearOferta(idioma: String, fecha: String, horaInicio: String,
+                            horaFinal: String, recompensa: String, lugar: String,
+                            descripcion: String) {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            val dueno = user.uid // obtener el id del dueño
+            val ofertaId = database.child("ofertas").push().key
+            if (ofertaId != null) {
+                val oferta = DataOferta(
+                    // Guardando los datos de la oferta en la base de datos
+                    idioma = idioma, fecha = fecha, horaInicio = horaInicio, horaFinal = horaFinal,
+                    recompensa = recompensa, lugar = lugar, descripcion = descripcion, dueno = dueno,
+                    trabajador = "", aceptado = false)
+                    // Guardar la oferta en la base de datos
+                database.child("ofertas").child(ofertaId).setValue(oferta)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(baseContext, "Oferta creada exitosamente.", Toast.LENGTH_SHORT).show()
+                            updateUI()
+                        } else {
+                            Toast.makeText(baseContext, "Database update failed.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+            }
+        } else {
+            Toast.makeText(baseContext, "User not authenticated.", Toast.LENGTH_SHORT).show()
         }
-        // Agregar el JSONArray al objeto JSON
-        jsonObjectOferta.put("ofertas", jsonArray)
-        // Escribir el objeto JSON actualizado en el archivo
-        Data.guardarJsonEnArchivo(this,jsonObjectOferta.toString(),"ofertas.json")
     }
+
+    private fun updateUI() {
+        val intent = Intent(this, MenuCliente::class.java)
+        startActivity(intent)
+    }
+
+
 
 
 }
