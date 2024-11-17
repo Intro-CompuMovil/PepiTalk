@@ -5,31 +5,48 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.Datos.DataCalificaciones
 import com.example.pepitalk.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 
 class VerReunion : AppCompatActivity() {
+
+    private lateinit var auth: FirebaseAuth
+    private val database = FirebaseDatabase.getInstance()
+    private lateinit var myRef: DatabaseReference
+    private val PATH_USERS = "users/"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ver_reunion)
+        setUserPhoto()
         initializeTextViews()
         setupButtonListeners()
     }
 
     private fun roles(dueno: String?, integrantes: String?){
-        if(dueno == Data.personaLog.usuario){
-            botonesDueno()
-        }else if (integrantes != null) {
-            if(integrantes.contains(Data.personaLog.usuario)){
-                botonesMiembros()
-            }else{
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+        if(userId != null){
+            if(dueno == userId){
+                botonesDueno()
+            }else if (integrantes != null) {
+                if(integrantes.contains(userId)){
+                    botonesMiembros()
+                }else{
 
+                }
             }
         }
+
     }
 
     private fun botonesDueno(){
@@ -73,6 +90,9 @@ class VerReunion : AppCompatActivity() {
         val calificacionesString = intent.getStringExtra("calificaciones")
         val integrantes = intent.getStringExtra("integrantes")
         val dueno = intent.getStringExtra("dueno")
+        val imageUrl = intent.getStringExtra("imageUrl")
+
+        val imagenReunion = findViewById<ImageView>(R.id.imagenReunion)
 
         val calificaciones = parseCalificaciones(calificacionesString)
         val promedio = calcularPromedio(calificaciones)
@@ -85,6 +105,12 @@ class VerReunion : AppCompatActivity() {
         findViewById<TextView>(R.id.lugar).text = lugar
         findViewById<TextView>(R.id.descripcion).text = descripcion
         findViewById<TextView>(R.id.textCali).text = promedio.toString()
+
+        Glide.with(this)
+            .load(imageUrl)  // Carga la URL de descarga de Firebase
+            // .placeholder(R.drawable.placeholder)  // Imagen de marcador de posición mientras carga
+            //  .error(R.drawable.error)  // Imagen de error si falla la carga
+            .into(imagenReunion)
 
         roles(dueno, integrantes)
     }
@@ -113,6 +139,25 @@ class VerReunion : AppCompatActivity() {
             String.format("%.1f", notas.average())
         } else {
             "0.0"
+        }
+    }
+
+    fun setUserPhoto(){
+        val imageUser = findViewById<ImageButton>(R.id.butPerfil)
+        var imageUrl = ""
+
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+        if(userId != null){
+            val userRef = database.getReference(PATH_USERS).child(userId)
+            userRef.child("imageUrl").get().addOnSuccessListener { dataSnapshot ->
+                imageUrl = dataSnapshot.value.toString()
+                Glide.with(this)
+                    .load(imageUrl)  // Carga la URL de descarga de Firebase
+                    // .placeholder(R.drawable.placeholder)  // Imagen de marcador de posición mientras carga
+                    //  .error(R.drawable.error)  // Imagen de error si falla la carga
+                    .into(imageUser)
+            }
         }
     }
 
@@ -156,12 +201,20 @@ class VerReunion : AppCompatActivity() {
         }
 
         inicio.setOnClickListener {
-            if(Data.personaLog.tipo == "Cliente"){
-                val peticion = Intent(this, MenuCliente::class.java)
-                startActivity(peticion)
-            }else{
-                val peticion = Intent(this, MenuTraductor::class.java)
-                startActivity(peticion)
+            auth = FirebaseAuth.getInstance()
+            val userId = auth.currentUser?.uid
+            if(userId != null) {
+                val userRef = database.getReference(PATH_USERS).child(userId)
+                userRef.child("tipo").get().addOnSuccessListener { dataSnapshot ->
+                    val tipo = dataSnapshot.value.toString()
+                    if (tipo == "Cliente") {
+                        val peticion = Intent(this, MenuCliente::class.java)
+                        startActivity(peticion)
+                    } else {
+                        val peticion = Intent(this, MenuTraductor::class.java)
+                        startActivity(peticion)
+                    }
+                }
             }
         }
 

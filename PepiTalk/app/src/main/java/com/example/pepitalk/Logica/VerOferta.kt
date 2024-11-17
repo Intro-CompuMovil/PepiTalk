@@ -8,27 +8,41 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 
 class VerOferta : AppCompatActivity()  {
+    private lateinit var auth: FirebaseAuth
+    private val database = FirebaseDatabase.getInstance()
+    private lateinit var myRef: DatabaseReference
+    private val PATH_USERS = "users/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ver_oferta)
+        setUserPhoto()
         initializeTextViews()
         setupButtonListeners()
     }
 
     private fun roles(dueno: String?, trabajador: String?){
-        if(dueno == Data.personaLog.usuario){
-            botonesDueno()
-        }else if (Data.personaLog.usuario == trabajador) {
-            botonesTraductor()
-        }else{
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+        if(userId != null){
+            if(dueno == userId){
+                botonesDueno()
+            }else if (userId == trabajador) {
+                botonesTraductor()
+            }else{
 
+            }
         }
+
     }
 
     private fun botonesDueno(){
@@ -102,12 +116,20 @@ class VerOferta : AppCompatActivity()  {
         }
 
         inicio.setOnClickListener {
-            if(Data.personaLog.tipo == "Cliente"){
-                val peticion = Intent(this, MenuCliente::class.java)
-                startActivity(peticion)
-            }else{
-                val peticion = Intent(this, MenuTraductor::class.java)
-                startActivity(peticion)
+            auth = FirebaseAuth.getInstance()
+            val userId = auth.currentUser?.uid
+            if(userId != null) {
+                val userRef = database.getReference(PATH_USERS).child(userId)
+                userRef.child("tipo").get().addOnSuccessListener { dataSnapshot ->
+                    val tipo = dataSnapshot.value.toString()
+                    if (tipo == "Cliente") {
+                        val peticion = Intent(this, MenuCliente::class.java)
+                        startActivity(peticion)
+                    } else {
+                        val peticion = Intent(this, MenuTraductor::class.java)
+                        startActivity(peticion)
+                    }
+                }
             }
         }
 
@@ -135,4 +157,22 @@ class VerOferta : AppCompatActivity()  {
         }
     }
 
+    fun setUserPhoto(){
+        val imageUser = findViewById<ImageButton>(R.id.butPerfil)
+        var imageUrl = ""
+
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+        if(userId != null){
+            val userRef = database.getReference(PATH_USERS).child(userId)
+            userRef.child("imageUrl").get().addOnSuccessListener { dataSnapshot ->
+                imageUrl = dataSnapshot.value.toString()
+                Glide.with(this)
+                    .load(imageUrl)  // Carga la URL de descarga de Firebase
+                    // .placeholder(R.drawable.placeholder)  // Imagen de marcador de posición mientras carga
+                    //  .error(R.drawable.error)  // Imagen de error si falla la carga
+                    .into(imageUser)
+            }
+        }
+    }
 }

@@ -9,8 +9,16 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class Reunion : AppCompatActivity(){
+
+    private lateinit var auth: FirebaseAuth
+    private val database = FirebaseDatabase.getInstance()
+    private val PATH_USERS = "users/"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reunion)
@@ -52,12 +60,20 @@ class Reunion : AppCompatActivity(){
     }
     fun menuPrincipal(menuInicio: ImageButton, context: Context){
         menuInicio.setOnClickListener {
-            if(Data.personaLog.tipo == "Cliente"){
-                val peticion = Intent(this, MenuCliente::class.java)
-                startActivity(peticion)
-            }else{
-                val peticion = Intent(this, MenuTraductor::class.java)
-                startActivity(peticion)
+            auth = FirebaseAuth.getInstance()
+            val userId = auth.currentUser?.uid
+            if(userId != null) {
+                val userRef = database.getReference(PATH_USERS).child(userId)
+                userRef.child("tipo").get().addOnSuccessListener { dataSnapshot ->
+                    val tipo = dataSnapshot.value.toString()
+                    if (tipo == "Cliente") {
+                        val peticion = Intent(this, MenuCliente::class.java)
+                        startActivity(peticion)
+                    } else {
+                        val peticion = Intent(this, MenuTraductor::class.java)
+                        startActivity(peticion)
+                    }
+                }
             }
         }
     }
