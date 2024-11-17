@@ -43,13 +43,15 @@ class Perfil :  AppCompatActivity(){
             val userRef = database.getReference(PATH_USERS).child(userId)
             userRef.child("nombre").get().addOnSuccessListener { dataSnapshot ->
                 name = dataSnapshot.value.toString()
+                nombre.setText(name)
+
             }
             userRef.child("correo").get().addOnSuccessListener { dataSnapshot ->
                 correoE = dataSnapshot.value.toString()
+                correo.setText(correoE)
             }
         }
-        nombre.setText(name)
-        correo.setText(correoE)
+
     }
 
 
