@@ -189,6 +189,7 @@ class VerReunion : AppCompatActivity() {
 
         actualizarReunion.setOnClickListener {
             val peticion = Intent(this, ActualizarReunion::class.java)
+            peticion.putExtra("nombre", intent.getStringExtra("nombre"))
             startActivity(peticion)
         }
 
