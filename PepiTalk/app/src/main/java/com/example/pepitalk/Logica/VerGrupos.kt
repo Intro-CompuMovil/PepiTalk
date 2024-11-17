@@ -87,7 +87,9 @@ class VerGrupos : AppCompatActivity(){
                             if (myGroup != null) {
                                 val llave = singleSnapshot.key
                                 if (myGroup.dueno == userId || myGroup.integrantes.contains(userId)) {
-                                    Log.d("VerGrupos", "Encontró grupo: " + myGroup.nombre)
+                                    val calificacionesTexto = myGroup.calificaciones.joinToString(",") {
+                                        "DataCalificacion(nota=${it.nota}, comentario='${it.comentario}')"
+                                    }
                                     cursor.addRow(arrayOf(
                                         i,
                                         llave,
@@ -97,7 +99,7 @@ class VerGrupos : AppCompatActivity(){
                                         myGroup.descripcion,
                                         myGroup.dueno,
                                         myGroup.integrantes.joinToString(","),
-                                        myGroup.calificaciones.joinToString(",") { "DataCalificaciones(nota=${it.nota}, comentario=${it.comentario})" },
+                                        calificacionesTexto,
                                         myGroup.imageUrl
                                     ))
                                     i++
@@ -119,6 +121,10 @@ class VerGrupos : AppCompatActivity(){
                             if (myGroup != null) {
                                 val llave = singleSnapshot.key
                                 if (!myGroup.integrantes.contains(userId)) {
+
+                                    val calificacionesTexto = myGroup.calificaciones.joinToString(",") {
+                                        "DataCalificacion(nota=${it.nota}, comentario='${it.comentario}')"
+                                    }
                                     cursor.addRow(arrayOf(
                                         i,
                                         llave,
@@ -128,7 +134,7 @@ class VerGrupos : AppCompatActivity(){
                                         myGroup.descripcion,
                                         myGroup.dueno,
                                         myGroup.integrantes.joinToString(","),
-                                        myGroup.calificaciones.joinToString(",") { "DataCalificaciones(nota=${it.nota}, comentario=${it.comentario})" },
+                                        calificacionesTexto,
                                         myGroup.imageUrl
                                     ))
                                     i++
