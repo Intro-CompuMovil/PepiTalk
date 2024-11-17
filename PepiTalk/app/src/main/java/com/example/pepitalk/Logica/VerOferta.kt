@@ -2,6 +2,7 @@ package com.example.pepitalk.Logica
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -21,6 +22,7 @@ class VerOferta : AppCompatActivity()  {
     private val database = FirebaseDatabase.getInstance()
     private lateinit var myRef: DatabaseReference
     private val PATH_USERS = "users/"
+    private val PATH_OFFERS = "ofertas/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,11 +52,21 @@ class VerOferta : AppCompatActivity()  {
         val calificar = findViewById<Button>(R.id.btnCalificarTraductor)
         val actualizar = findViewById<Button>(R.id.btnActualizarContrato)
         val eliminar = findViewById<Button>(R.id.btnEliminarContrato)
+        val revisar = findViewById<Button>(R.id.btnAceptarTraductor)
+
+        val tipo = intent.getStringExtra("tipo")
 
         aceptar.visibility = View.GONE
-        calificar.visibility = View.VISIBLE
-        actualizar.visibility = View.VISIBLE
-        eliminar.visibility = View.VISIBLE
+
+        if (tipo == "misOfertas"){
+            calificar.visibility = View.VISIBLE
+            actualizar.visibility = View.VISIBLE
+            eliminar.visibility = View.VISIBLE
+        }
+        else if (tipo == "AceptarTraductor"){
+            revisar.visibility = View.VISIBLE
+        }
+
     }
 
     private fun botonesTraductor(){
@@ -96,15 +108,31 @@ class VerOferta : AppCompatActivity()  {
         val ruta = findViewById<Button>(R.id.btnRuta)
         val actualizarOferta = findViewById<Button>(R.id.btnActualizarContrato)
         val eliminarOferta = findViewById<Button>(R.id.btnEliminarContrato)
+        val revisar = findViewById<Button>(R.id.btnAceptarTraductor)
 
         aceptar.setOnClickListener {
             aceptar.visibility = View.GONE
-            ruta.visibility= View.VISIBLE
-            rechazar.visibility= View.VISIBLE
+            val ofertaId = intent.getStringExtra("llave")
+            val ofertaRef = database.getReference(PATH_OFFERS + ofertaId + "/trabajador")
+
+            auth = FirebaseAuth.getInstance()
+            val userId = auth.currentUser?.uid
+            if(userId != null){
+                ofertaRef.setValue(userId)
+                    .addOnSuccessListener {
+                        Log.d("FirebaseDB", "El valor de 'trabajador' se actualizó a $userId.")
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.e("FirebaseDB", "Error al actualizar el valor de 'trabajador'", exception)
+                    }
+            }
+            Toast.makeText(this, "Esperando confirmación del Cliente", Toast.LENGTH_LONG).show()
         }
 
         actualizarOferta.setOnClickListener {
             val peticion = Intent(this, ActualizarOferta::class.java)
+            val ofertaId = intent.getStringExtra("llave")
+            peticion.putExtra("id", ofertaId)
             startActivity(peticion)
         }
 
@@ -139,6 +167,28 @@ class VerOferta : AppCompatActivity()  {
         }
 
         rechazar.setOnClickListener {
+
+            val ofertaId = intent.getStringExtra("llave")
+            val ofertaRef = database.getReference(PATH_OFFERS + ofertaId + "/trabajador")
+            val aceptarRef = database.getReference(PATH_OFFERS + ofertaId + "/aceptado")
+
+                ofertaRef.setValue("")
+                    .addOnSuccessListener {
+                        Log.d("FirebaseDB", "El valor de 'trabajador' se actualizó a '' ")
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.e("FirebaseDB", "Error al actualizar el valor de 'trabajador'", exception)
+                    }
+
+            aceptarRef.setValue(false)
+                .addOnSuccessListener {
+                    Log.d("FirebaseDB", "El valor de 'aceptado' se actualizó a false.")
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("FirebaseDB", "Error al actualizar el valor de 'aceptado'", exception)
+                }
+
+
             Toast.makeText(this, "Oferta rechazada", Toast.LENGTH_LONG).show()
             val peticion = Intent(this, MenuTraductor::class.java)
             startActivity(peticion)
@@ -153,6 +203,15 @@ class VerOferta : AppCompatActivity()  {
             val peticion = Intent(this, Ruta::class.java)
             val place = intent.getStringExtra("lugar")
             peticion.putExtra("destino", place )
+            startActivity(peticion)
+        }
+
+        revisar.setOnClickListener {
+            val peticion = Intent(this, AceptarTraductor::class.java)
+            val trabajador = intent.getStringExtra("trabajador")
+            val llave = intent.getStringExtra("llave")
+            peticion.putExtra("trabajador", trabajador)
+            peticion.putExtra("llave", llave)
             startActivity(peticion)
         }
     }

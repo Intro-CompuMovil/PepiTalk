@@ -90,5 +90,17 @@
         android:textColor="@color/morado"
         android:textSize="20sp"/>
 
+    <Button
+        android:id="@+id/buttonAceptarOfertas"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:layout_below="@+id/buttonCrearOfertas"
+        android:text="Aceptar Traductores"
+        android:backgroundTint="@color/rosa"
+        android:textColor="@color/morado"
+        android:textSize="20sp"/>
+
 
 </RelativeLayout>

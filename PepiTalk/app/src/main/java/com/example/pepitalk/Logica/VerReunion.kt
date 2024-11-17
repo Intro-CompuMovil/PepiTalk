@@ -244,7 +244,7 @@ class VerReunion : AppCompatActivity() {
         }
 
         salir.setOnClickListener {
-            salirGrupo()
+            salirReunion()
             val peticion = Intent(this, Reunion::class.java)
             startActivity(peticion)
         }
@@ -283,7 +283,7 @@ class VerReunion : AppCompatActivity() {
 
     }
 
-    private fun salirGrupo(){
+    private fun salirReunion(){
         val userId = auth.currentUser?.uid
         val nombre = intent.getStringExtra("nombre")!!
         val reunionRef = database.getReference(PATH_REUNION)

@@ -112,6 +112,7 @@ class Perfil :  AppCompatActivity(){
 
         cerrar.setOnClickListener {
             Toast.makeText(this, "Log out exitoso ", Toast.LENGTH_LONG).show()
+            auth.signOut()
             val peticion = Intent(this, MainActivity::class.java)
             startActivity(peticion)
         }
