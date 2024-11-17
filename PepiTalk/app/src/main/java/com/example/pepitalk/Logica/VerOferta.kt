@@ -137,10 +137,21 @@ class VerOferta : AppCompatActivity()  {
         }
 
         eliminarOferta.setOnClickListener {
-            //eliminar del json
-            Toast.makeText(this, "Oferta eliminada", Toast.LENGTH_LONG).show()
-            val peticion = Intent(this, Oferta::class.java)
-            startActivity(peticion)
+            val ofertaId = intent.getStringExtra("llave")
+            if (ofertaId != null) {
+                val ofertaRef = database.getReference(PATH_OFFERS).child(ofertaId)
+                ofertaRef.removeValue().addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(this, "Oferta eliminada", Toast.LENGTH_LONG).show()
+                        val peticion = Intent(this, Oferta::class.java)
+                        startActivity(peticion)
+                    } else {
+                        Toast.makeText(this, "Error al eliminar la oferta", Toast.LENGTH_LONG).show()
+                    }
+                }
+            } else {
+                Toast.makeText(this, "ID de la oferta no encontrado", Toast.LENGTH_SHORT).show()
+            }
         }
 
         inicio.setOnClickListener {
