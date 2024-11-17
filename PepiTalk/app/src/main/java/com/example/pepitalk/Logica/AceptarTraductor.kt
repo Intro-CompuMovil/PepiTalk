@@ -29,7 +29,7 @@ class AceptarTraductor : AppCompatActivity(){
         setContentView(R.layout.activity_aceptar_traductor)
 
         setUpVista()
-        setUserPhoto()
+        setMyUserPhoto()
 
 
         val aceptar = findViewById<Button>(R.id.buttonAceptar)
@@ -156,6 +156,26 @@ class AceptarTraductor : AppCompatActivity(){
         }
 
     }
+
+    fun setMyUserPhoto(){
+        val imageUser = findViewById<ImageButton>(R.id.butPerfil)
+        var imageUrl = ""
+
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+        if(userId != null){
+            val userRef = database.getReference(PATH_USERS).child(userId)
+            userRef.child("imageUrl").get().addOnSuccessListener { dataSnapshot ->
+                imageUrl = dataSnapshot.value.toString()
+                Glide.with(this)
+                    .load(imageUrl)  // Carga la URL de descarga de Firebase
+                    // .placeholder(R.drawable.placeholder)  // Imagen de marcador de posición mientras carga
+                    //  .error(R.drawable.error)  // Imagen de error si falla la carga
+                    .into(imageUser)
+            }
+        }
+    }
+
 
     private fun parseCalificaciones(calificacionesString: String?): List<DataCalificaciones> {
         if (calificacionesString.isNullOrEmpty()) return emptyList()

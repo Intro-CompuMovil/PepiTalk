@@ -54,6 +54,12 @@ class Ruta : AppCompatActivity() {
     private var endPoint: GeoPoint? = null
     private var roadOverlay: Polyline? = null
 
+    private val lowerLeftLatitude = 1.396967
+    private val lowerLeftLongitude = -78.903968
+    private val upperRightLatitude = 11.983639
+    private val upperRightLongitude = -71.869905
+
+
     private lateinit var sensorManager: SensorManager
     private lateinit var lightSensor: Sensor
     private lateinit var lightSensorListener: SensorEventListener
@@ -267,7 +273,7 @@ class Ruta : AppCompatActivity() {
         val geocoder = Geocoder(this, Locale.getDefault())
         try {
             // Geocoding: convertir el nombre del lugar a coordenadas
-            val direcciones: List<Address>? = geocoder.getFromLocationName(nombreLugar, 1)
+            val direcciones: List<Address>? = geocoder.getFromLocationName(nombreLugar, 1, lowerLeftLatitude, lowerLeftLongitude, upperRightLatitude, upperRightLongitude)
 
             if (!direcciones.isNullOrEmpty()) {
                 val direccion = direcciones[0]
