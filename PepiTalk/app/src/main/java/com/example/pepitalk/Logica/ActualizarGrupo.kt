@@ -111,7 +111,7 @@ class ActualizarGrupo : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         val userId = auth.currentUser?.uid
         if (userId != null) {
-            val userRef = database.getReference(PATH_GRUPOS).child(userId)
+            val userRef = database.getReference(PATH_USERS).child(userId)
             userRef.child("imageUrl").get().addOnSuccessListener { dataSnapshot ->
                 imageUrl1 = dataSnapshot.value?.toString() ?: ""
                 if (imageUrl1.isNotEmpty()) {
