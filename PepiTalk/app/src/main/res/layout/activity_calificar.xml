@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbarCalificar"
         android:text="Diligencia toda la información solicitada:"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:layout_margin="0dp"
         android:textAlignment="center"
         android:textColor="@color/letraOscura"
@@ -67,13 +67,29 @@
         android:paddingTop="60dp"
         android:textStyle="bold"/>
 
+    <TextView
+        android:id="@+id/nombreCalificado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/infoText"
+        android:text="Calificando a:"
+        android:textSize="20sp"
+        android:layout_margin="0dp"
+        android:textAlignment="center"
+        android:textColor="@color/letraOscura"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:textStyle="bold"/>
+
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="10dp"
         android:layout_marginHorizontal="30dp"
-        android:layout_below="@id/toolbarCalificar"
+        android:layout_below="@id/nombreCalificado"
         android:entries="@array/numerosCalificacion"
         android:background="@drawable/rounded"
         android:padding="14dp"
