@@ -30,7 +30,7 @@ class ActualizarOferta : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        val idOferta1 = intent.getStringExtra("idOferta")
+        val idOferta1 = intent.getStringExtra("id")
         if (idOferta1 != null) {
             idOferta = idOferta1
         }
