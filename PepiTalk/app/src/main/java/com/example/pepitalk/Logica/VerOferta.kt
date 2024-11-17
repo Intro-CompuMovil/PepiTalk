@@ -207,6 +207,9 @@ class VerOferta : AppCompatActivity()  {
 
         calificar.setOnClickListener {
             val peticion = Intent(this, Calificar::class.java)
+            val ofertaId = intent.getStringExtra("llave")
+            peticion.putExtra("llave", ofertaId)
+            peticion.putExtra("tipo", "traductor")
             startActivity(peticion)
         }
 
