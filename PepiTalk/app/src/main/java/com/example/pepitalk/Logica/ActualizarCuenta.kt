@@ -18,20 +18,35 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.pepitalk.Datos.Data
-import com.example.pepitalk.Datos.Persona
 import com.example.pepitalk.R
+import com.google.firebase.auth.FirebaseAuth
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
 
 class ActualizarCuenta : AppCompatActivity() {
 
-    private lateinit var currentPhotoPath: String
+    private var currentPhotoPath: String = ""
+    private lateinit var auth: FirebaseAuth
+    private lateinit var tipo: String
+    private lateinit var otroTemp: String
+    private lateinit var claveTemp: String
+    private lateinit var fotoTemp: String
+    private var imageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_actualizar_cuenta)
+
+        auth = Firebase.auth
+
         val botonActualizar = findViewById<Button>(R.id.buttonActualizar)
         val botonImagen = findViewById<ImageButton>(R.id.imageButton2)
         val menuPrincipal = findViewById<ImageButton>(R.id.butInicio)
@@ -45,71 +60,137 @@ class ActualizarCuenta : AppCompatActivity() {
             escogerImagen(botonImagen)
         }
         menuPrincipal.setOnClickListener(){
-            irPrincipal()
+            revisarTipo(auth.currentUser?.uid ?: "")
         }
         perfil.setOnClickListener(){
             startActivity(Intent(this, Perfil::class.java))
         }
     }
-    private fun irPrincipal(){
-        if(Data.personaLog.tipo == "Cliente"){
-            startActivity(Intent(this, MenuCliente::class.java))
-        }
-        else{
-            startActivity(Intent(this, MenuTraductor::class.java))
+
+    private fun revisarTipo(userId: String) {
+        val database = Firebase.database
+        val userRef = database.getReference("users").child(userId)
+
+        userRef.get().addOnSuccessListener { dataSnapshot ->
+            val userType = dataSnapshot.child("tipo").getValue(String::class.java)
+            if (userType != null) {
+                tipo = userType
+                navigateToMenu(userType)
+            } else {
+                Toast.makeText(baseContext, "Tipo no encontrado", Toast.LENGTH_SHORT).show()
+            }
+        }.addOnFailureListener {
+            Toast.makeText(baseContext, "Failed to retrieve user type.", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun validarCampos(){
+    private fun navigateToMenu(userType: String) {
+        if (userType == "Cliente") {
+            val clienteLoggedIn = Intent(this, MenuCliente::class.java)
+            startActivity(clienteLoggedIn)
+        } else {
+            val traductorLoggedIn = Intent(this, MenuTraductor::class.java)
+            startActivity(traductorLoggedIn)
+        }
+    }
+
+    private fun validarCampos() {
         val username = findViewById<EditText>(R.id.editTextUsuarioActualizar)
         val contrasena = findViewById<EditText>(R.id.editTextPasswordActualizar)
         val confContrasena = findViewById<EditText>(R.id.editTextConfirmarPasswordActualizar)
         val contrasenaAnt = findViewById<EditText>(R.id.editTextPasswordAnterior)
 
-        if(username.text.toString().isEmpty() || contrasena.text.toString().isEmpty() || confContrasena.text.toString().isEmpty() || contrasenaAnt.text.toString().isEmpty()){
-            Toast.makeText(this,"Por favor complete todos los campos" , Toast.LENGTH_SHORT).show()
-        }
-        else{
-            validarRegistro(username.text.toString(), contrasena.text.toString(), confContrasena.text.toString(), contrasenaAnt.text.toString())
+        if (username.text.toString().isEmpty() && contrasena.text.toString().isEmpty() && confContrasena.text.toString().isEmpty() && contrasenaAnt.text.toString().isEmpty() && imageUri == null) {
+            Toast.makeText(this, "Por favor complete al menos un campo o cargue una foto", Toast.LENGTH_SHORT).show()
+        } else {
+            obtenerDatosUsuario(username.text.toString(), contrasena, confContrasena, contrasenaAnt)
         }
     }
 
-    private fun validarRegistro(usuario: String, contrasena: String, confContrasena: String, contrasenaAnt: String){
-        //recorrer arreglo con los usuarios
-        val usuTemp = "gabriel13"
-        val otroTemp = "juafra1"
-        val claveTemp = "clave123"
-        val tipo = "Cliente"
+    private fun obtenerDatosUsuario(usuario: String, contrasena: EditText, confContrasena: EditText, contrasenaAnt: EditText) {
+        val database = Firebase.database
+        val userRef = database.getReference("users").child(auth.currentUser?.uid ?: "")
 
-        if(otroTemp == usuario){
-            if(claveTemp == contrasenaAnt){
-                if(contrasena == confContrasena){
-                    if(tipo == "Cliente"){
-
-                        var clienteRegistrado = Intent(this, MenuCliente::class.java)
-                        clienteRegistrado.putExtra("usuario", usuario)
-                        startActivity(clienteRegistrado)
-                        Toast.makeText(this,"Se ha actualizado correctamente" , Toast.LENGTH_SHORT).show()
-                    }
-                    else{
-                        var traductorRegistrado = Intent(this, MenuTraductor::class.java)
-                        traductorRegistrado.putExtra("usuario", usuario)
-                        startActivity(traductorRegistrado)
-                        Toast.makeText(this,"Se ha actualizado correctamente" , Toast.LENGTH_SHORT).show()
-                    }
-                }
-                else{
-                    Toast.makeText(this,"Las contraseñas no coinciden" , Toast.LENGTH_SHORT).show()
-                }
-            }
-            else{
-                Toast.makeText(this,"Contraseña Anterior incorrecta" , Toast.LENGTH_SHORT).show()
-            }
+        userRef.get().addOnSuccessListener { dataSnapshot ->
+            otroTemp = dataSnapshot.child("usuario").getValue(String::class.java) ?: ""
+            claveTemp = dataSnapshot.child("contrasena").getValue(String::class.java) ?: ""
+            fotoTemp = dataSnapshot.child("imageUrl").getValue(String::class.java) ?: ""
+            validarRegistro(usuario, contrasena.text.toString(), confContrasena.text.toString(), contrasenaAnt.text.toString())
+        }.addOnFailureListener {
+            Toast.makeText(baseContext, "Failed to retrieve user data.", Toast.LENGTH_SHORT).show()
         }
-        else{
-            Toast.makeText(this,"El usuario ya existe" , Toast.LENGTH_SHORT).show()
+    }
+
+    private fun validarRegistro(usuario: String, contrasena: String, confContrasena: String, contrasenaAnt: String) {
+        if (usuario.isNotEmpty() && otroTemp == usuario) {
+            Toast.makeText(this, "El usuario ya existe", Toast.LENGTH_SHORT).show()
+            return
         }
 
+        if (contrasena.isNotEmpty() || confContrasena.isNotEmpty() || contrasenaAnt.isNotEmpty()) {
+            if (claveTemp != contrasenaAnt) {
+                Toast.makeText(this, "Contraseña Anterior incorrecta " + claveTemp + " " + contrasenaAnt, Toast.LENGTH_SHORT).show()
+                return
+            }
+            if (contrasena != confContrasena) {
+                Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+                return
+            }
+        }
+
+        actualizarDatos(usuario, contrasena)
+    }
+
+    private fun actualizarDatos(usuario: String, contrasena: String) {
+        val user = auth.currentUser
+        val userRef = Firebase.database.getReference("users").child(user?.uid ?: "")
+
+        val updates = mutableMapOf<String, Any>()
+        if (usuario.isNotEmpty()) updates["usuario"] = usuario
+
+        if (imageUri != null && imageUri.toString() != fotoTemp) {
+            val storageRef = Firebase.storage.reference.child("images/${user?.uid}.jpg")
+            val uploadTask = storageRef.putFile(imageUri!!)
+
+            uploadTask.addOnSuccessListener {
+                storageRef.downloadUrl.addOnSuccessListener { uri ->
+                    updates["imageUrl"] = uri.toString()
+                    updateUserDatabase(userRef, updates, contrasena)
+                }
+            }.addOnFailureListener {
+                Toast.makeText(this, "Error al subir la imagen", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            updateUserDatabase(userRef, updates, contrasena)
+        }
+    }
+
+    private fun updateUserDatabase(userRef: DatabaseReference, updates: Map<String, Any>, contrasena: String) {
+        userRef.updateChildren(updates).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                if (contrasena.isNotEmpty()) {
+                    auth.currentUser?.updatePassword(contrasena)?.addOnCompleteListener { passwordTask ->
+                        if (passwordTask.isSuccessful) {
+                            userRef.child("contrasena").setValue(contrasena).addOnCompleteListener { dbTask ->
+                                if (dbTask.isSuccessful) {
+                                    Toast.makeText(this, "Se ha actualizado correctamente", Toast.LENGTH_SHORT).show()
+                                    navigateToMenu(tipo)
+                                } else {
+                                    Toast.makeText(this, "Error al actualizar la contraseña en la base de datos", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        } else {
+                            Toast.makeText(this, "Error al actualizar la contraseña en la autenticación", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                } else {
+                    Toast.makeText(this, "Se ha actualizado correctamente", Toast.LENGTH_SHORT).show()
+                    navigateToMenu(tipo)
+                }
+            } else {
+                Toast.makeText(this, "Error al actualizar", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun escogerImagen(botonImagen: ImageButton){
@@ -181,19 +262,27 @@ class ActualizarCuenta : AppCompatActivity() {
 
                     val file = File(currentPhotoPath)
                     if (file.exists()) {
-                        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.fromFile(file))
+                        val bitmap =
+                            MediaStore.Images.Media.getBitmap(contentResolver, Uri.fromFile(file))
                         botonImagen.setImageBitmap(bitmap)
+                        imageUri = Uri.fromFile(file)
                     }
 
                 }
+
                 Data.MY_PERMISSION_REQUEST_GALLERY -> {
                     val selectedImageUri = data?.data
-                    // Muestra la imagen seleccionada o guárdala
-                    botonImagen.setImageURI(selectedImageUri)
+                    if (selectedImageUri != null) {
+                        botonImagen.setImageURI(selectedImageUri)
+                        imageUri = selectedImageUri
+                        // Muestra la imagen seleccionada o guárdala
+                        botonImagen.setImageURI(selectedImageUri)
+                    }
                 }
             }
         }
     }
+
     private fun pedirPermiso(context: Activity, permisos: Array<String>, justificacion: String, idCode: Int) {
 
         val permisosNoConcedidos = permisos.filter {
@@ -247,6 +336,4 @@ class ActualizarCuenta : AppCompatActivity() {
     private fun arePermissionsGranted(grantResults: IntArray): Boolean {
         return grantResults.all { it == PackageManager.PERMISSION_GRANTED }
     }
-
-
 }
