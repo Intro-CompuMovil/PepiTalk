@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.pepitalk.Datos.Data
@@ -21,6 +22,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 
 
 class VerReunion : AppCompatActivity() {
@@ -194,9 +196,34 @@ class VerReunion : AppCompatActivity() {
         }
 
         eliminarReunion.setOnClickListener {
-            //eliminar reuniones del json
-            val peticion = Intent(this, Reunion::class.java)
-            startActivity(peticion)
+            val llave = intent.getStringExtra("llave")
+            if (llave != null) {
+                val grupoRef = database.getReference(PATH_REUNION).child(llave)
+
+                grupoRef.child("imageUrl").get().addOnSuccessListener { dataSnapshot ->
+                    val imageUrl = dataSnapshot.value.toString()
+                    if (imageUrl.isNotEmpty()) {
+                        val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
+                        storageRef.delete().addOnSuccessListener {
+                            grupoRef.removeValue().addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Toast.makeText(this, "Reunion eliminada", Toast.LENGTH_LONG).show()
+                                    val peticion = Intent(this, Reunion::class.java)
+                                    startActivity(peticion)
+                                } else {
+                                    Toast.makeText(this, "Error al eliminar la reunion", Toast.LENGTH_LONG).show()
+                                }
+                            }
+                        }.addOnFailureListener {
+                            Toast.makeText(this, "Error al eliminar la imagen", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }.addOnFailureListener {
+                    Toast.makeText(this, "Error al obtener la URL de la imagen", Toast.LENGTH_LONG).show()
+                }
+            } else {
+                Toast.makeText(this, "ID de la reunion no proporcionado", Toast.LENGTH_SHORT).show()
+            }
         }
 
         verCali.setOnClickListener {

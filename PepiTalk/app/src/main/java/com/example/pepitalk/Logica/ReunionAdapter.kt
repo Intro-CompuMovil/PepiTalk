@@ -27,6 +27,7 @@ class ReunionAdapter (context: Context, cursor: Cursor) : CursorAdapter(context,
         val caliTextView = view.findViewById<TextView>(R.id.calificacion)
         val imagenReunion = view.findViewById<ImageView>(R.id.imageView2)
 
+        val llave = cursor.getString(cursor.getColumnIndexOrThrow("llave"))
         val nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre"))
         val dia = cursor.getString(cursor.getColumnIndexOrThrow("dia"))
         val hora = cursor.getString(cursor.getColumnIndexOrThrow("hora"))
@@ -68,6 +69,7 @@ class ReunionAdapter (context: Context, cursor: Cursor) : CursorAdapter(context,
                 putExtra("integrantes", integrantes)
                 putExtra("calificaciones", calificacionesString)
                 putExtra("imageUrl", imageUrl)
+                putExtra("llave", llave)
             }
             context.startActivity(intent)
         }

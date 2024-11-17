@@ -227,9 +227,34 @@ class VerGrupo : AppCompatActivity() {
         }
 
         eliminarGrupo.setOnClickListener {
-            Toast.makeText(this, "Grupo eliminado", Toast.LENGTH_LONG).show()
-            val peticion = Intent(this, Grupo::class.java)
-            startActivity(peticion)
+            val llave = intent.getStringExtra("llave")
+            if (llave != null) {
+                val grupoRef = database.getReference(PATH_GRUPOS).child(llave)
+
+                grupoRef.child("imageUrl").get().addOnSuccessListener { dataSnapshot ->
+                    val imageUrl = dataSnapshot.value.toString()
+                    if (imageUrl.isNotEmpty()) {
+                        val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
+                        storageRef.delete().addOnSuccessListener {
+                            grupoRef.removeValue().addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Toast.makeText(this, "Grupo eliminado", Toast.LENGTH_LONG).show()
+                                    val peticion = Intent(this, Grupo::class.java)
+                                    startActivity(peticion)
+                                } else {
+                                    Toast.makeText(this, "Error al eliminar el grupo", Toast.LENGTH_LONG).show()
+                                }
+                            }
+                        }.addOnFailureListener {
+                            Toast.makeText(this, "Error al eliminar la imagen", Toast.LENGTH_LONG).show()
+                        }
+                    }
+            }.addOnFailureListener {
+                    Toast.makeText(this, "Error al obtener la URL de la imagen", Toast.LENGTH_LONG).show()
+                }
+            } else {
+                Toast.makeText(this, "ID del grupo no proporcionado", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
