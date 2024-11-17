@@ -124,6 +124,7 @@
         android:textSize="18sp"
         android:textColorHint="@color/morado"
         android:background="@drawable/rounded"
+        android:inputType="textPassword"
 
         />
     <EditText
@@ -140,7 +141,7 @@
         android:textSize="18sp"
         android:textColorHint="@color/morado"
         android:background="@drawable/rounded"
-
+        android:inputType="textPassword"
         />
     <EditText
         android:id="@+id/editTextPasswordAnterior"
@@ -156,6 +157,7 @@
         android:textSize="18sp"
         android:textColorHint="@color/morado"
         android:background="@drawable/rounded"
+        android:inputType="textPassword"
 
         />
 
