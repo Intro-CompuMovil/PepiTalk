@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -18,8 +19,14 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.pepitalk.Datos.Data
+import com.example.pepitalk.Datos.DataCalificaciones
 import com.example.pepitalk.Datos.DataReunion
 import com.example.pepitalk.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
@@ -29,7 +36,25 @@ import java.util.Date
 
 class CrearReunion : AppCompatActivity() {
 
+    private lateinit var auth: FirebaseAuth
+    private lateinit var database: DatabaseReference
+    private lateinit var storage: FirebaseStorage
+    private lateinit var storageRef: StorageReference
     private lateinit var currentPhotoPath: String
+    private var imageUri: Uri? = null
+
+    private lateinit var nombre : EditText
+    private lateinit var dia : EditText
+    private lateinit var hora : EditText
+    private lateinit var idioma : EditText
+    private lateinit var nivel : EditText
+    private lateinit var lugar : EditText
+    private lateinit var descripcion : EditText
+    private lateinit var calificaciones : MutableList<DataCalificaciones>
+    private lateinit var integrantes : MutableList<String>
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +77,21 @@ class CrearReunion : AppCompatActivity() {
         perfil.setOnClickListener(){
             startActivity(Intent(this, Perfil::class.java))
         }
+
+        nombre = findViewById(R.id.editTextNombreReunion)
+        dia = findViewById(R.id.editTextDiaReunion)
+        hora = findViewById(R.id.editTextHoraReunion)
+        idioma = findViewById(R.id.editTextIdiomaReunion)
+        nivel = findViewById(R.id.editTextNivelReunion)
+        lugar = findViewById(R.id.editTextLugarReunion)
+        descripcion = findViewById(R.id.editTextDescripcionReunion)
+        calificaciones = mutableListOf()
+        integrantes = mutableListOf()
+
+        auth = FirebaseAuth.getInstance()
+        database =  FirebaseDatabase.getInstance().reference
+        storage = FirebaseStorage.getInstance()
+        storageRef = storage.reference
     }
 
     private fun irPrincipal(){
@@ -86,8 +126,8 @@ class CrearReunion : AppCompatActivity() {
         val nombreR = "grupo1234"
 
         if(nombreR != nombre){
-            Data.listaReuniones.add(DataReunion(nombre, dia, hora, idioma, nivel, lugar, descripcion, Data.personaLog.usuario, mutableListOf(Data.personaLog.usuario), mutableListOf()))
-            actualizarJson()
+            Data.listaReuniones.add(DataReunion())
+            createReunion(nombre, dia, hora, idioma, nivel, lugar, descripcion, imageUri)
             var reunionCreado = Intent(this, Reunion::class.java)
             startActivity(reunionCreado)
             Toast.makeText(this,"Se ha creado su reunion correctamente" , Toast.LENGTH_SHORT).show()
@@ -98,34 +138,6 @@ class CrearReunion : AppCompatActivity() {
             Toast.makeText(this,"Ya existe una reunion con ese nombre" , Toast.LENGTH_SHORT).show()
         }
 
-    }
-
-    private fun actualizarJson() {
-        // Crear un objeto JSON para almacenar todas las reuniones
-        val jsonObjectReunion= JSONObject()
-        val jsonArray = JSONArray()
-        // Recorrer la lista de reuniones y agregar cada reunión al JSONArray
-        for (reunion in Data.listaReuniones) {
-            val reunionJson = JSONObject()
-            reunionJson.put("nombre", reunion.nombre)
-            reunionJson.put("dia", reunion.dia)
-            reunionJson.put("hora", reunion.hora)
-            reunionJson.put("idioma", reunion.idioma)
-            reunionJson.put("nivel", reunion.nivel)
-            reunionJson.put("lugar", reunion.lugar)
-            reunionJson.put("descripcion", reunion.descripcion)
-            reunionJson.put("dueno", reunion.dueno)
-            reunionJson.put("integrantes", JSONArray(reunion.integrantes))
-            reunionJson.put("calificaciones", JSONArray(reunion.calificaciones.map { it.nota }))
-
-            jsonArray.put(reunionJson)
-        }
-
-        // Agregar el JSONArray al objeto JSON
-        jsonObjectReunion.put("reuniones", jsonArray)
-
-        // Escribir el objeto JSON actualizado en el archivo
-        Data.guardarJsonEnArchivo(this,jsonObjectReunion.toString(),"reuniones.json")
     }
 
 
@@ -200,6 +212,7 @@ class CrearReunion : AppCompatActivity() {
                     if (file.exists()) {
                         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.fromFile(file))
                         botonImagen.setImageBitmap(bitmap)
+                        imageUri = Uri.fromFile(file)
                     }
 
                 }
@@ -207,6 +220,12 @@ class CrearReunion : AppCompatActivity() {
                     val selectedImageUri = data?.data
                     // Muestra la imagen seleccionada o guárdala
                     botonImagen.setImageURI(selectedImageUri)
+                    if (selectedImageUri != null) {
+                        botonImagen.setImageURI(selectedImageUri)
+                        imageUri = selectedImageUri
+                        // Muestra la imagen seleccionada o guárdala
+                        botonImagen.setImageURI(selectedImageUri)
+                    }
                 }
             }
         }
@@ -264,5 +283,52 @@ class CrearReunion : AppCompatActivity() {
 
     private fun arePermissionsGranted(grantResults: IntArray): Boolean {
         return grantResults.all { it == PackageManager.PERMISSION_GRANTED }
+    }
+
+    private fun createReunion(nombre: String, dia: String, hora: String, idioma: String, nivel: String,
+        lugar: String, descripcion: String, imageUri: Uri?
+    ) {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null ) {
+            val dueno = user.uid // obtener el id del dueño
+            val integrantes = mutableListOf(dueno) // añadir al dueño de una vez a la lista de integrantes
+            val meetingId = database.child("reuniones").push().key
+            if (meetingId != null && imageUri != null) {
+                val imageRef = storageRef.child("images/reuniones/${meetingId}.jpg")
+                imageRef.putFile(imageUri)
+                    .addOnSuccessListener {
+                        imageRef.downloadUrl.addOnSuccessListener { uri ->
+                            // Guardar los datos de la reunión en la base de datos
+                            val meeting = DataReunion(
+                                nombre = nombre, dia = dia, hora = hora, idioma = idioma,
+                                nivel = nivel, lugar = lugar, descripcion = descripcion, dueno = dueno,
+                                integrantes = integrantes, calificaciones = mutableListOf(), imageUrl = uri.toString()
+                            )
+
+                            database.child("reuniones").child(meetingId).setValue(meeting)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        Toast.makeText(baseContext, "Reunión creada exitosamente.", Toast.LENGTH_SHORT).show()
+                                        updateUI()
+                                    } else {
+                                        Toast.makeText(baseContext, "Error al actualizar la base de datos.", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.e("FirebaseRegister", "Error al subir el archivo: ${exception.message}", exception)
+                    }
+            } else {
+                Toast.makeText(baseContext, "Se requiere una imagen para crear la reunión.", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(baseContext, "Usuario no autenticado.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun updateUI() {
+        val intent = Intent(this, MenuCliente::class.java)
+        startActivity(intent)
     }
 }
