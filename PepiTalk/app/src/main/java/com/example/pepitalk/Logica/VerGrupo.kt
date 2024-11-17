@@ -215,6 +215,7 @@ class VerGrupo : AppCompatActivity() {
         }
 
         salir.setOnClickListener {
+            salirGrupo()
             val peticion = Intent(this, Grupo::class.java)
             startActivity(peticion)
         }
@@ -282,5 +283,50 @@ class VerGrupo : AppCompatActivity() {
             }
         })
 
+    }
+
+    private fun salirGrupo(){
+        val userId = auth.currentUser?.uid
+        val nombre = intent.getStringExtra("nombre")!!
+        val grupoRef = database.getReference(PATH_GRUPOS)
+
+        grupoRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                for (singleSnapshot in dataSnapshot.children) {
+                    val myGroup = singleSnapshot.getValue(DataGrupo::class.java)
+                    if (myGroup != null && myGroup.nombre == nombre) {
+                        val grupoId = singleSnapshot.key
+                        val newRef = grupoRef.child(grupoId!!).child("integrantes")
+                        val tam = myGroup.integrantes.size
+
+                        newRef.get().addOnSuccessListener { snapshot ->
+                            // Verifica que los datos existan
+                            val integrantes = snapshot.value as? List<String>?
+
+                            if (integrantes != null) {
+                                // Creamos un mapa mutable para la nueva lista de integrantes
+                                val nuevosIntegrantes = integrantes.filter { it != userId }
+
+                                // Ahora actualizamos la base de datos con la nueva lista sin el integrante eliminado
+                                grupoRef.child(grupoId).child("integrantes").setValue(nuevosIntegrantes)
+                                    .addOnSuccessListener {
+                                        Log.d("FirebaseDB", "Integrante eliminado correctamente")
+                                    }
+                                    .addOnFailureListener { exception ->
+                                        Log.e("FirebaseDB", "Error al eliminar el integrante", exception)
+                                    }
+                            }
+                        }
+
+
+                    }
+
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Si ocurre un error
+            }
+        })
     }
 }
