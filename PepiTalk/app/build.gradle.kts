@@ -59,4 +59,8 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation ("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
+
+    implementation ("androidx.core:core-ktx:1.10.1")
+    implementation ("com.google.firebase:firebase-messaging:23.1.2")
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
 }
