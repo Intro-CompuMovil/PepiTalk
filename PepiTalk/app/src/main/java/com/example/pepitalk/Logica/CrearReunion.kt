@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
 import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.Datos.DataCalificaciones
 import com.example.pepitalk.Datos.DataReunion
@@ -43,6 +44,9 @@ class CrearReunion : AppCompatActivity() {
     private lateinit var currentPhotoPath: String
     private var imageUri: Uri? = null
 
+    private val PATH_USERS = "users/"
+    private val bd = FirebaseDatabase.getInstance()
+
     private lateinit var nombre : EditText
     private lateinit var dia : EditText
     private lateinit var hora : EditText
@@ -65,6 +69,8 @@ class CrearReunion : AppCompatActivity() {
         val perfil = findViewById<ImageButton>(R.id.butPerfil)
         botonImagen.isEnabled = false
         pedirPermiso(this, arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE), "Se necesita este permiso", Data.MY_PERMISSION_REQUEST_CAMERA)
+
+        setUserPhoto()
         botonCrearReunion.setOnClickListener(){
             validarCampos()
         }
@@ -330,5 +336,25 @@ class CrearReunion : AppCompatActivity() {
     private fun updateUI() {
         val intent = Intent(this, MenuCliente::class.java)
         startActivity(intent)
+    }
+
+    fun setUserPhoto(){
+        val imageUser = findViewById<ImageButton>(R.id.butPerfil)
+        var imageUrl = ""
+
+
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+        if(userId != null){
+            val userRef = bd.getReference(PATH_USERS).child(userId)
+            userRef.child("imageUrl").get().addOnSuccessListener { dataSnapshot ->
+                imageUrl = dataSnapshot.value.toString()
+                Glide.with(this)
+                    .load(imageUrl)  // Carga la URL de descarga de Firebase
+                    // .placeholder(R.drawable.placeholder)  // Imagen de marcador de posición mientras carga
+                    //  .error(R.drawable.error)  // Imagen de error si falla la carga
+                    .into(imageUser)
+            }
+        }
     }
 }

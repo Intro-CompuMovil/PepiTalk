@@ -29,6 +29,7 @@ class AceptarTraductor : AppCompatActivity(){
         setContentView(R.layout.activity_aceptar_traductor)
 
         setUpVista()
+        setUserPhoto()
 
 
         val aceptar = findViewById<Button>(R.id.buttonAceptar)

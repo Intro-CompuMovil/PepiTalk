@@ -172,7 +172,7 @@ class VerOferta : AppCompatActivity()  {
             val ofertaRef = database.getReference(PATH_OFFERS + ofertaId + "/trabajador")
             val aceptarRef = database.getReference(PATH_OFFERS + ofertaId + "/aceptado")
 
-                ofertaRef.setValue("")
+            ofertaRef.setValue("")
                     .addOnSuccessListener {
                         Log.d("FirebaseDB", "El valor de 'trabajador' se actualizó a '' ")
                     }

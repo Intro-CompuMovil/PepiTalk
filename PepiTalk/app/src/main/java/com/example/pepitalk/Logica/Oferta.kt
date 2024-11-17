@@ -29,6 +29,7 @@ class Oferta : AppCompatActivity(){
         val menuInicio = findViewById<ImageButton>(R.id.butInicio)
         val perfil = findViewById<ImageButton>(R.id.butPerfil)
 
+        setUserPhoto()
         aceptarTraductor(BotonAceptarTraductores)
         VerOfertas(BotonVerOfertas)
         CrearOfertas(BotonCrearOfertas)

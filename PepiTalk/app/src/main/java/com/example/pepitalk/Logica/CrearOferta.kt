@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.Datos.DataOferta
 import com.example.pepitalk.R
@@ -30,8 +31,8 @@ class CrearOferta : AppCompatActivity() {
     private lateinit var database: DatabaseReference
     private lateinit var storage: FirebaseStorage
     private lateinit var storageRef: StorageReference
-
-
+    private val PATH_USERS = "users/"
+    private val bd = FirebaseDatabase.getInstance()
 
     private lateinit var dia : EditText
     private lateinit var idioma : EditText
@@ -48,6 +49,7 @@ class CrearOferta : AppCompatActivity() {
         val botonCrearOferta = findViewById<Button>(R.id.buttonCrearOferta)
         val menuPrincipal = findViewById<ImageButton>(R.id.butInicio)
         val perfil = findViewById<ImageButton>(R.id.butPerfil)
+        setUserPhoto()
         botonCrearOferta.setOnClickListener(){
             validarCampos()
         }
@@ -152,7 +154,25 @@ class CrearOferta : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun setUserPhoto(){
+        val imageUser = findViewById<ImageButton>(R.id.butPerfil)
+        var imageUrl = ""
 
+
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+        if(userId != null){
+            val userRef = bd.getReference(PATH_USERS).child(userId)
+            userRef.child("imageUrl").get().addOnSuccessListener { dataSnapshot ->
+                imageUrl = dataSnapshot.value.toString()
+                Glide.with(this)
+                    .load(imageUrl)  // Carga la URL de descarga de Firebase
+                    // .placeholder(R.drawable.placeholder)  // Imagen de marcador de posición mientras carga
+                    //  .error(R.drawable.error)  // Imagen de error si falla la carga
+                    .into(imageUser)
+            }
+        }
+    }
 
 
 }
