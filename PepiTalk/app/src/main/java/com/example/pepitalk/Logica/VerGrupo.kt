@@ -58,30 +58,24 @@ class VerGrupo : AppCompatActivity() {
     }
 
     private fun botonesDueno(){
-        val reuniones = findViewById<Button>(R.id.btnVerReuniones)
         val verCali = findViewById<Button>(R.id.btnVerCalificaciones)
-        val crearReunion = findViewById<Button>(R.id.btnCrearReunion)
         val actualizarGrupo = findViewById<Button>(R.id.btnActualizarGrupo)
         val eliminarGrupo = findViewById<Button>(R.id.btnEliminarGrupo)
         val unirse = findViewById<Button>(R.id.btnUnirse)
 
         unirse.visibility = View.GONE
-        reuniones.visibility = View.VISIBLE
         verCali.visibility = View.VISIBLE
-        crearReunion.visibility = View.VISIBLE
         actualizarGrupo.visibility = View.VISIBLE
         eliminarGrupo.visibility = View.VISIBLE
     }
 
     private fun botonesMiembros(){
-        val reuniones = findViewById<Button>(R.id.btnVerReuniones)
         val verCali = findViewById<Button>(R.id.btnVerCalificaciones)
         val calificar = findViewById<Button>(R.id.btnCalificarGrupo)
         val salir = findViewById<Button>(R.id.btnSalirGrupo)
         val unirse = findViewById<Button>(R.id.btnUnirse)
 
         unirse.visibility = View.GONE
-        reuniones.visibility = View.VISIBLE
         verCali.visibility = View.VISIBLE
         calificar.visibility = View.VISIBLE
         salir.visibility = View.VISIBLE
@@ -149,10 +143,8 @@ class VerGrupo : AppCompatActivity() {
         val perfil = findViewById<ImageButton>(R.id.butPerfil)
         val verCali = findViewById<Button>(R.id.btnVerCalificaciones)
         val unirse = findViewById<Button>(R.id.btnUnirse)
-        val reuniones = findViewById<Button>(R.id.btnVerReuniones)
         val calificar = findViewById<Button>(R.id.btnCalificarGrupo)
         val salir = findViewById<Button>(R.id.btnSalirGrupo)
-        val crearReunion = findViewById<Button>(R.id.btnCrearReunion)
         val actualizarGrupo = findViewById<Button>(R.id.btnActualizarGrupo)
         val eliminarGrupo = findViewById<Button>(R.id.btnEliminarGrupo)
 
@@ -172,7 +164,6 @@ class VerGrupo : AppCompatActivity() {
             unirse.visibility = View.GONE
             calificar.visibility = View.VISIBLE
             salir.visibility = View.VISIBLE
-            reuniones.visibility = View.VISIBLE
         }
 
         inicio.setOnClickListener {
@@ -196,16 +187,6 @@ class VerGrupo : AppCompatActivity() {
 
         perfil.setOnClickListener {
             val peticion = Intent(this, Perfil::class.java)
-            startActivity(peticion)
-        }
-
-        reuniones.setOnClickListener {
-            val peticion = Intent(this, VerReuniones::class.java)
-            startActivity(peticion)
-        }
-
-        crearReunion.setOnClickListener {
-            val peticion = Intent(this, CrearReunion::class.java)
             startActivity(peticion)
         }
 
