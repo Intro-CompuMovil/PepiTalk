@@ -184,7 +184,7 @@
         android:layout_marginHorizontal="60dp"
         android:padding="15dp"
         android:textSize="18sp"
-        android:text="Crear"
+        android:text="Actualizar Reunión"
         android:textColor="@color/morado"
         android:backgroundTint="@color/rosa"
         android:elevation="12dp"

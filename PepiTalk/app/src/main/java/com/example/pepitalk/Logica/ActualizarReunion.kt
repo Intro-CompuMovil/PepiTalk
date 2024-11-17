@@ -19,8 +19,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
 import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -29,10 +39,28 @@ import java.util.Date
 class ActualizarReunion : AppCompatActivity() {
 
     private lateinit var currentPhotoPath: String
+    private lateinit var auth: FirebaseAuth
+    private lateinit var idReunion: String
+    private var imageUri: Uri? = null
+    private val PATH_USERS = "users/"
+    private val PATH_REUNIONES = "reuniones/"
+    private val database = FirebaseDatabase.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_actualizar_reunion)
+
+        auth = Firebase.auth
+
+        var nombreReunion = intent.getStringExtra("nombre")
+
+        obtenerIdReunionPorNombre(nombreReunion!!) { reunionId ->
+            if (reunionId != null) {
+                idReunion = reunionId
+                setUserPhoto()
+            }
+        }
+
         val botonActualizarReunion = findViewById<Button>(R.id.buttonActualizarReunion)
         val botonImagen = findViewById<ImageButton>(R.id.imageButton6)
         val menuPrincipal = findViewById<ImageButton>(R.id.butInicio)
@@ -53,40 +81,121 @@ class ActualizarReunion : AppCompatActivity() {
         }
     }
 
+    private fun obtenerIdReunionPorNombre(nombreGrupo: String, callback: (String?) -> Unit) {
+        val grupoRef = database.getReference(PATH_REUNIONES)
+        grupoRef.orderByChild("nombre").equalTo(nombreGrupo).addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (singleSnapshot in dataSnapshot.children) {
+                        val grupoId = singleSnapshot.key
+                        callback(grupoId)
+                        return
+                    }
+                } else {
+                    callback(null)
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                callback(null)
+            }
+        })
+    }
+
+    fun setUserPhoto() {
+        val imageUser = findViewById<ImageButton>(R.id.butPerfil)
+        val imageCam = findViewById<ImageButton>(R.id.imageButton6)
+        var imageUrl1 = ""
+        var reunionImageUrl = ""
+
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            val userRef = database.getReference(PATH_USERS).child(userId)
+            userRef.child("imageUrl").get().addOnSuccessListener { dataSnapshot ->
+                imageUrl1 = dataSnapshot.value?.toString() ?: ""
+                if (imageUrl1.isNotEmpty()) {
+                    Glide.with(this)
+                        .load(imageUrl1)
+                        .into(imageUser)
+                }
+            }.addOnFailureListener {
+                Toast.makeText(this, "Error al cargar la imagen del usuario", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        if (::idReunion.isInitialized) {
+            val groupRef = database.getReference(PATH_REUNIONES).child(idReunion)
+            groupRef.child("imageUrl").get().addOnSuccessListener { dataSnapshot ->
+                reunionImageUrl = dataSnapshot.value?.toString() ?: ""
+                if (reunionImageUrl.isNotEmpty()) {
+                    Glide.with(this)
+                        .load(reunionImageUrl)
+                        .into(imageCam)
+                }
+            }.addOnFailureListener {
+                Toast.makeText(this, "Error al cargar la imagen del grupo", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     private fun irPrincipal(){
-        if(Data.personaLog.tipo == "Cliente"){
-            val peticion = Intent(this, MenuCliente::class.java)
-            startActivity(peticion)
-        }else{
-            val peticion = Intent(this, MenuTraductor::class.java)
-            startActivity(peticion)
+        val peticion = Intent(this, MenuCliente::class.java)
+        startActivity(peticion)
+
+    }
+
+    private fun validarCampos() {
+        val dia = findViewById<EditText>(R.id.editTextDiaReunionAct)
+        val hora = findViewById<EditText>(R.id.editTextHoraReunionAct)
+        val nivel = findViewById<EditText>(R.id.editTextNivelReunionAct)
+        val lugar = findViewById<EditText>(R.id.editTextLugarReunionAct)
+        val descripcion = findViewById<EditText>(R.id.editTextDescripcionReunionAct)
+
+        if (dia.text.toString().isEmpty() && hora.text.toString().isEmpty() && nivel.text.toString().isEmpty() && lugar.text.toString().isEmpty() && descripcion.text.toString().isEmpty() && imageUri == null) {
+            Toast.makeText(this, "Por favor complete al menos un campo o cargue una foto", Toast.LENGTH_SHORT).show()
+        } else {
+            validarRegistro(dia.text.toString(), hora.text.toString(), nivel.text.toString(), lugar.text.toString(), descripcion.text.toString())
         }
     }
 
-    private fun validarCampos(){
+    private fun validarRegistro(dia: String, hora: String, nivel: String, lugar: String, descripcion: String) {
+        val updates = mutableMapOf<String, Any>()
+        if (dia.isNotEmpty()) updates["dia"] = dia
+        if (hora.isNotEmpty()) updates["hora"] = hora
+        if (nivel.isNotEmpty()) updates["nivel"] = nivel
+        if (lugar.isNotEmpty()) updates["lugar"] = lugar
+        if (descripcion.isNotEmpty()) updates["descripcion"] = descripcion
 
-        val dia = findViewById<EditText>(R.id.editTextDiaReunion)
-        val hora = findViewById<EditText>(R.id.editTextHoraReunion)
-        val nivel = findViewById<EditText>(R.id.editTextNivelReunion)
-        val lugar = findViewById<EditText>(R.id.editTextLugarReunion)
-        val descripcion = findViewById<EditText>(R.id.editTextDescripcionReunion)
+        if (imageUri != null) {
+            val storageRef = Firebase.storage.reference.child("images/reuniones/${idReunion}.jpg")
+            val uploadTask = storageRef.putFile(imageUri!!)
 
-        if(dia.text.toString().isEmpty() ||hora.text.toString().isEmpty() || nivel.text.toString().isEmpty() || lugar.text.toString().isEmpty()|| descripcion.text.toString().isEmpty()){
-            Toast.makeText(this,"Por favor complete todos los campos" , Toast.LENGTH_SHORT).show()
-        }
-        else{
-            validarRegistro(dia.text.toString(),hora.text.toString(), nivel.text.toString(), lugar.text.toString(), descripcion.text.toString())
+            uploadTask.addOnSuccessListener {
+                storageRef.downloadUrl.addOnSuccessListener { uri ->
+                    updates["imageUrl"] = uri.toString()
+                    updateReunionDatabase(updates)
+                }
+            }.addOnFailureListener {
+                Toast.makeText(this, "Error al subir la imagen", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            updateReunionDatabase(updates)
         }
     }
 
-    private fun validarRegistro(dia: String, hora: String,  nivel: String, lugar: String, descripcion: String){
-        //recorrer arreglo con los usuarios
-
-        var reunionCreado = Intent(this, Reunion::class.java)
-        startActivity(reunionCreado)
-        Toast.makeText(this,"Se ha actualizado su reunion correctamente" , Toast.LENGTH_SHORT).show()
-
-
+    private fun updateReunionDatabase(updates: Map<String, Any>) {
+        val reunionRef = Firebase.database.getReference(PATH_REUNIONES).child(idReunion)
+        reunionRef.updateChildren(updates).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(this, "Se ha actualizado su reunión correctamente", Toast.LENGTH_SHORT).show()
+                val reunionCreado = Intent(this, Reunion::class.java)
+                startActivity(reunionCreado)
+            } else {
+                Toast.makeText(this, "Error al actualizar la reunión", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 
@@ -159,19 +268,27 @@ class ActualizarReunion : AppCompatActivity() {
 
                     val file = File(currentPhotoPath)
                     if (file.exists()) {
-                        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.fromFile(file))
+                        val bitmap =
+                            MediaStore.Images.Media.getBitmap(contentResolver, Uri.fromFile(file))
                         botonImagen.setImageBitmap(bitmap)
+                        imageUri = Uri.fromFile(file)
                     }
 
                 }
+
                 Data.MY_PERMISSION_REQUEST_GALLERY -> {
                     val selectedImageUri = data?.data
-                    // Muestra la imagen seleccionada o guárdala
-                    botonImagen.setImageURI(selectedImageUri)
+                    if (selectedImageUri != null) {
+                        botonImagen.setImageURI(selectedImageUri)
+                        imageUri = selectedImageUri
+                        // Muestra la imagen seleccionada o guárdala
+                        botonImagen.setImageURI(selectedImageUri)
+                    }
                 }
             }
         }
     }
+
     private fun pedirPermiso(context: Activity, permisos: Array<String>, justificacion: String, idCode: Int) {
 
         val permisosNoConcedidos = permisos.filter {
