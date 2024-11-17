@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CursorAdapter
+import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.example.pepitalk.Datos.DataCalificaciones
 import com.example.pepitalk.R
 import kotlin.math.roundToLong
@@ -23,6 +25,7 @@ class GruposAdapter (context: Context, cursor: Cursor) : CursorAdapter(context, 
         val idiomaTextView = view.findViewById<TextView>(R.id.language)
         val nivelTextView = view.findViewById<TextView>(R.id.level)
         val calificacionTextView = view.findViewById<TextView>(R.id.calificacion)
+        val imagenGrupo = view.findViewById<ImageView>(R.id.imageView2)
 
         val nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre"))
         val idioma = cursor.getString(cursor.getColumnIndexOrThrow("idioma"))
@@ -31,6 +34,8 @@ class GruposAdapter (context: Context, cursor: Cursor) : CursorAdapter(context, 
         val dueno = cursor.getString(cursor.getColumnIndexOrThrow("dueno"))
         val integrantes = cursor.getString(cursor.getColumnIndexOrThrow("integrantes"))
         val calificacionesString = cursor.getString(cursor.getColumnIndexOrThrow("calificaciones"))
+        val imageUrl = cursor.getString(cursor.getColumnIndexOrThrow("imagen"))
+
 
         val calificaciones = parseCalificaciones(calificacionesString)
         val promedio = calcularPromedio(calificaciones)
@@ -40,6 +45,11 @@ class GruposAdapter (context: Context, cursor: Cursor) : CursorAdapter(context, 
         nivelTextView.text = nivel
         calificacionTextView.text = promedio.toString()
 
+        Glide.with(context)
+            .load(imageUrl)  // Carga la URL de descarga de Firebase
+            // .placeholder(R.drawable.placeholder)  // Imagen de marcador de posición mientras carga
+            //  .error(R.drawable.error)  // Imagen de error si falla la carga
+            .into(imagenGrupo)
 
         view.setOnClickListener {
             val intent = Intent(context, VerGrupo::class.java).apply {
@@ -50,6 +60,7 @@ class GruposAdapter (context: Context, cursor: Cursor) : CursorAdapter(context, 
                 putExtra("dueno", dueno)
                 putExtra("integrantes", integrantes)
                 putExtra("calificaciones", calificacionesString)
+                putExtra("imageUrl", imageUrl)
             }
             context.startActivity(intent)
         }
