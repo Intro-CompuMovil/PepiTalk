@@ -27,6 +27,7 @@ class GruposAdapter (context: Context, cursor: Cursor) : CursorAdapter(context, 
         val calificacionTextView = view.findViewById<TextView>(R.id.calificacion)
         val imagenGrupo = view.findViewById<ImageView>(R.id.imageView2)
 
+        val llave = cursor.getString(cursor.getColumnIndexOrThrow("llave"))
         val nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre"))
         val idioma = cursor.getString(cursor.getColumnIndexOrThrow("idioma"))
         val nivel = cursor.getString(cursor.getColumnIndexOrThrow("nivel"))
@@ -61,6 +62,7 @@ class GruposAdapter (context: Context, cursor: Cursor) : CursorAdapter(context, 
                 putExtra("integrantes", integrantes)
                 putExtra("calificaciones", calificacionesString)
                 putExtra("imageUrl", imageUrl)
+                putExtra("llave", llave)
             }
             context.startActivity(intent)
         }

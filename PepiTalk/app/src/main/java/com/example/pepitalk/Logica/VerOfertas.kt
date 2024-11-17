@@ -71,7 +71,7 @@ class VerOfertas : AppCompatActivity(){
     }
 
     private fun createCursor(tipo: String?, callback: CursorCallback) {
-        val cursor = MatrixCursor(arrayOf("_id", "idioma", "fecha", "horaInicio", "horaFinal", "lugar", "descripcion", "dueno", "trabajador", "aceptado"))
+        val cursor = MatrixCursor(arrayOf("_id", "tipo","idioma", "fecha", "horaInicio", "horaFinal", "lugar", "descripcion", "dueno", "trabajador", "aceptado", "llave"))
         myRef = database.getReference(PATH_OFFERS)
         auth = FirebaseAuth.getInstance()
         val userId = auth.currentUser?.uid
@@ -82,9 +82,11 @@ class VerOfertas : AppCompatActivity(){
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         for (singleSnapshot in dataSnapshot.children) {
                             val myOffer = singleSnapshot.getValue(DataOferta::class.java)
+                            val llave = singleSnapshot.key
                             if (myOffer != null && myOffer.dueno == userId) {
                                 cursor.addRow(arrayOf(
                                     i,
+                                    "misOfertas",
                                     myOffer.idioma,
                                     myOffer.fecha,
                                     myOffer.horaInicio,
@@ -93,7 +95,8 @@ class VerOfertas : AppCompatActivity(){
                                     myOffer.descripcion,
                                     myOffer.dueno,
                                     myOffer.trabajador,
-                                    myOffer.aceptado
+                                    myOffer.aceptado,
+                                    llave
                                 ))
                                 i++
                             }
@@ -119,9 +122,11 @@ class VerOfertas : AppCompatActivity(){
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         for (singleSnapshot in dataSnapshot.children) {
                             val myOffer = singleSnapshot.getValue(DataOferta::class.java)
-                            if (myOffer != null && myOffer.trabajador == userId && tipo == "Traductor") {
+                            val llave = singleSnapshot.key
+                            if (myOffer != null && myOffer.trabajador == userId) {
                                 cursor.addRow(arrayOf(
                                     i,
+                                    "misTrabajos",
                                     myOffer.idioma,
                                     myOffer.fecha,
                                     myOffer.horaInicio,
@@ -130,7 +135,8 @@ class VerOfertas : AppCompatActivity(){
                                     myOffer.descripcion,
                                     myOffer.dueno,
                                     myOffer.trabajador,
-                                    myOffer.aceptado
+                                    myOffer.aceptado,
+                                    llave
                                 ))
                                 i++
                             }
@@ -154,9 +160,11 @@ class VerOfertas : AppCompatActivity(){
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         for (singleSnapshot in dataSnapshot.children) {
                             val myOffer = singleSnapshot.getValue(DataOferta::class.java)
+                            val llave = singleSnapshot.key
                             if (myOffer != null && tipo == "Traductor" && myOffer.trabajador.isEmpty()) {
                                 cursor.addRow(arrayOf(
                                     i,
+                                    "aceptarOfertas",
                                     myOffer.idioma,
                                     myOffer.fecha,
                                     myOffer.horaInicio,
@@ -165,7 +173,8 @@ class VerOfertas : AppCompatActivity(){
                                     myOffer.descripcion,
                                     myOffer.dueno,
                                     myOffer.trabajador,
-                                    myOffer.aceptado
+                                    myOffer.aceptado,
+                                    llave
                                 ))
                                 i++
                             }
@@ -178,6 +187,38 @@ class VerOfertas : AppCompatActivity(){
                     }
                 })
 
+            }
+            else if(tipo == "AceptarTraductor"){
+                myRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        for (singleSnapshot in dataSnapshot.children) {
+                            val myOffer = singleSnapshot.getValue(DataOferta::class.java)
+                            val llave = singleSnapshot.key
+                            if (myOffer != null && myOffer.dueno == userId && myOffer.trabajador.isNotEmpty() && myOffer.aceptado == false) {
+                                cursor.addRow(arrayOf(
+                                    i,
+                                    "AceptarTraductor",
+                                    myOffer.idioma,
+                                    myOffer.fecha,
+                                    myOffer.horaInicio,
+                                    myOffer.horaFinal,
+                                    myOffer.lugar,
+                                    myOffer.descripcion,
+                                    myOffer.dueno,
+                                    myOffer.trabajador,
+                                    myOffer.aceptado,
+                                    llave
+                                ))
+                                i++
+                            }
+                        }
+                        callback.onCursorReady(cursor)
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+
+                    }
+                })
             }
         }
 

@@ -73,7 +73,7 @@ class VerGrupos : AppCompatActivity(){
     }
 
     private fun createCursor(tipo: String?, callback: CursorCallback) {
-        val cursor = MatrixCursor(arrayOf("_id", "nombre", "idioma", "nivel", "descripcion", "dueno", "integrantes", "calificaciones", "imagen"))
+        val cursor = MatrixCursor(arrayOf("_id", "llave","nombre", "idioma", "nivel", "descripcion", "dueno", "integrantes", "calificaciones", "imagen"))
         myRef = database.getReference(PATH_GROUPS)
         auth = FirebaseAuth.getInstance()
         val userId = auth.currentUser?.uid
@@ -90,6 +90,7 @@ class VerGrupos : AppCompatActivity(){
                                     Log.d("VerGrupos", "Encontró grupo: " + myGroup.nombre)
                                     cursor.addRow(arrayOf(
                                         i,
+                                        llave,
                                         myGroup.nombre,
                                         myGroup.idioma,
                                         myGroup.nivel,
@@ -116,9 +117,11 @@ class VerGrupos : AppCompatActivity(){
                         for (singleSnapshot in dataSnapshot.children) {
                             val myGroup = singleSnapshot.getValue(DataGrupo::class.java)
                             if (myGroup != null) {
+                                val llave = singleSnapshot.key
                                 if (!myGroup.integrantes.contains(userId)) {
                                     cursor.addRow(arrayOf(
                                         i,
+                                        llave,
                                         myGroup.nombre,
                                         myGroup.idioma,
                                         myGroup.nivel,

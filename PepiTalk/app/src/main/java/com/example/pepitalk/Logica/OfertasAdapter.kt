@@ -29,6 +29,8 @@ class OfertasAdapter (context: Context, cursor: Cursor) : CursorAdapter(context,
         val dueno = cursor.getString(cursor.getColumnIndexOrThrow("dueno"))
         val trabajador = cursor.getString(cursor.getColumnIndexOrThrow("trabajador"))
         val aceptado = cursor.getString(cursor.getColumnIndexOrThrow("aceptado"))
+        val tipo = cursor.getString(cursor.getColumnIndexOrThrow("tipo"))
+        val llave = cursor.getString(cursor.getColumnIndexOrThrow("llave"))
 
         idiomaTextView.text = idioma
         diaTextView.text = fecha
@@ -44,6 +46,8 @@ class OfertasAdapter (context: Context, cursor: Cursor) : CursorAdapter(context,
                 putExtra("dueno", dueno)
                 putExtra("trabajador", trabajador)
                 putExtra("aceptado", aceptado)
+                putExtra("tipo", tipo)
+                putExtra("llave", llave)
             }
             context.startActivity(intent)
         }

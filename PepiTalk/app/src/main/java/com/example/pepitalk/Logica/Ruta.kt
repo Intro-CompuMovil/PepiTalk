@@ -20,10 +20,14 @@ import android.preference.PreferenceManager
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
+import com.bumptech.glide.Glide
 import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.R
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -56,6 +60,11 @@ class Ruta : AppCompatActivity() {
     private var endLat = 0.0
     private var endLng = 0.0
 
+    private lateinit var auth: FirebaseAuth
+    private val database = FirebaseDatabase.getInstance()
+    private lateinit var myRef: DatabaseReference
+    private val PATH_USERS = "users/"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this))
@@ -73,17 +82,15 @@ class Ruta : AppCompatActivity() {
 
         val menuInicio = findViewById<ImageButton>(R.id.butInicio)
         val perfil = findViewById<ImageButton>(R.id.butPerfil)
-        val reunion = findViewById<Button>(R.id.btnDevolverReunion)
         // Solicita el permiso de acceso a la ubicación
         //Sensores
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)!!
         //listener
         luzSensor()
-
+        setUserPhoto()
         irPerfil(perfil, this)
         menuPrincipal(menuInicio, this)
-        devolverReunion(reunion, this)
     }
 
     private fun luzSensor(){
@@ -166,13 +173,6 @@ class Ruta : AppCompatActivity() {
     }
 
 
-    fun devolverReunion(reunion: Button, context: Context){
-        val irAReunion = Intent(this, VerReunion::class.java)
-        reunion.setOnClickListener {
-            startActivity(irAReunion)
-        }
-    }
-
     private fun pedirPermiso(permiso: String, justificacion: String, idCode: Int) {
 
         if (ContextCompat.checkSelfPermission(this, permiso) != PackageManager.PERMISSION_GRANTED) {
@@ -214,13 +214,21 @@ class Ruta : AppCompatActivity() {
     }
     fun menuPrincipal(menuInicio: ImageButton, context: Context){
         menuInicio.setOnClickListener {
-            if(Data.personaLog.tipo == "Cliente"){
-                startActivity(Intent(this, MenuCliente::class.java))
+            auth = FirebaseAuth.getInstance()
+            val userId = auth.currentUser?.uid
+            if(userId != null) {
+                val userRef = database.getReference(PATH_USERS).child(userId)
+                userRef.child("tipo").get().addOnSuccessListener { dataSnapshot ->
+                    val tipo = dataSnapshot.value.toString()
+                    if (tipo == "Cliente") {
+                        val peticion = Intent(this, MenuCliente::class.java)
+                        startActivity(peticion)
+                    } else {
+                        val peticion = Intent(this, MenuTraductor::class.java)
+                        startActivity(peticion)
+                    }
+                }
             }
-            else{
-                startActivity(Intent(this, MenuTraductor::class.java))
-            }
-            Toast.makeText(this,"Yendo al menú", Toast. LENGTH_LONG).show()
         }
     }
     fun irPerfil(perfil : ImageButton, context : Context){
@@ -272,6 +280,25 @@ class Ruta : AppCompatActivity() {
         } catch (e: IOException) {
             e.printStackTrace()
             Log.e("Geocoding", "Error al obtener coordenadas: ${e.message}")
+        }
+    }
+
+    fun setUserPhoto(){
+        val imageUser = findViewById<ImageButton>(R.id.butPerfil)
+        var imageUrl = ""
+
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+        if(userId != null){
+            val userRef = database.getReference(PATH_USERS).child(userId)
+            userRef.child("imageUrl").get().addOnSuccessListener { dataSnapshot ->
+                imageUrl = dataSnapshot.value.toString()
+                Glide.with(this)
+                    .load(imageUrl)  // Carga la URL de descarga de Firebase
+                    // .placeholder(R.drawable.placeholder)  // Imagen de marcador de posición mientras carga
+                    //  .error(R.drawable.error)  // Imagen de error si falla la carga
+                    .into(imageUser)
+            }
         }
     }
 
