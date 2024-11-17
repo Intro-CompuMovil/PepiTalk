@@ -5,7 +5,6 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -14,13 +13,22 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
 import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -29,10 +37,29 @@ import java.util.Date
 class ActualizarGrupo : AppCompatActivity() {
 
     private lateinit var currentPhotoPath: String
+    private lateinit var auth: FirebaseAuth
+    private lateinit var idGrupo: String
+    private var imageUri: Uri? = null
+    private val PATH_USERS = "users/"
+    private val PATH_GRUPOS = "grupos/"
+    private val database = FirebaseDatabase.getInstance()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_actualizar_grupo)
+
+        auth = Firebase.auth
+
+        var nombreGrupo = intent.getStringExtra("nombre")
+
+        obtenerIdGrupoPorNombre(nombreGrupo!!) { grupoId ->
+            if (grupoId != null) {
+                idGrupo = grupoId
+                setUserPhoto()
+            }
+        }
+
         val botonActualizarGrupo = findViewById<Button>(R.id.buttonActualizarGrupo)
         val botonImagen = findViewById<ImageButton>(R.id.imageButton4)
         val menuPrincipal = findViewById<ImageButton>(R.id.butInicio)
@@ -53,37 +80,116 @@ class ActualizarGrupo : AppCompatActivity() {
         }
     }
 
-    private fun irPrincipal(){
-        if(Data.personaLog.tipo == "Cliente"){
-            val peticion = Intent(this, MenuCliente::class.java)
-            startActivity(peticion)
-        }else{
-            val peticion = Intent(this, MenuTraductor::class.java)
-            startActivity(peticion)
+    private fun obtenerIdGrupoPorNombre(nombreGrupo: String, callback: (String?) -> Unit) {
+        val grupoRef = database.getReference(PATH_GRUPOS)
+        grupoRef.orderByChild("nombre").equalTo(nombreGrupo).addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (singleSnapshot in dataSnapshot.children) {
+                        val grupoId = singleSnapshot.key
+                        callback(grupoId)
+                        return
+                    }
+                } else {
+                    callback(null)
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                callback(null)
+            }
+        })
+    }
+
+    fun setUserPhoto() {
+        val imageUser = findViewById<ImageButton>(R.id.butPerfil)
+        val imageCam = findViewById<ImageButton>(R.id.imageButton4)
+        var imageUrl1 = ""
+        var groupImageUrl = ""
+
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            val userRef = database.getReference(PATH_GRUPOS).child(userId)
+            userRef.child("imageUrl").get().addOnSuccessListener { dataSnapshot ->
+                imageUrl1 = dataSnapshot.value?.toString() ?: ""
+                if (imageUrl1.isNotEmpty()) {
+                    Glide.with(this)
+                        .load(imageUrl1)
+                        .into(imageUser)
+                }
+            }.addOnFailureListener {
+                Toast.makeText(this, "Error al cargar la imagen del usuario", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        if (::idGrupo.isInitialized) {
+            val groupRef = database.getReference(PATH_GRUPOS).child(idGrupo)
+            groupRef.child("imageUrl").get().addOnSuccessListener { dataSnapshot ->
+                groupImageUrl = dataSnapshot.value?.toString() ?: ""
+                if (groupImageUrl.isNotEmpty()) {
+                    Glide.with(this)
+                        .load(groupImageUrl)
+                        .into(imageCam)
+                }
+            }.addOnFailureListener {
+                Toast.makeText(this, "Error al cargar la imagen del grupo", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
-    private fun validarCampos(){
+    private fun irPrincipal(){
+        val peticion = Intent(this, MenuCliente::class.java)
+        startActivity(peticion)
+    }
 
+    private fun validarCampos() {
         val nivel = findViewById<EditText>(R.id.editTextNivelGrupoAct)
         val lugar = findViewById<EditText>(R.id.editTextLugarGrupoAct)
         val descripcion = findViewById<EditText>(R.id.editTextDescripcionGrupoAct)
 
-        if( nivel.text.toString().isEmpty() || lugar.text.toString().isEmpty()|| descripcion.text.toString().isEmpty()){
-            Toast.makeText(this,"Por favor complete todos los campos" , Toast.LENGTH_SHORT).show()
-        }
-        else{
+        if (nivel.text.toString().isEmpty() && lugar.text.toString().isEmpty() && descripcion.text.toString().isEmpty() && imageUri == null) {
+            Toast.makeText(this, "Por favor complete al menos un campo o cargue una foto", Toast.LENGTH_SHORT).show()
+        } else {
             validarRegistro(nivel.text.toString(), lugar.text.toString(), descripcion.text.toString())
         }
     }
 
-    private fun validarRegistro(nivel: String, lugar: String, descripcion: String){
-        //recorrer arreglo con los usuarios
+    private fun validarRegistro(nivel: String, lugar: String, descripcion: String) {
+        val updates = mutableMapOf<String, Any>()
+        if (nivel.isNotEmpty()) updates["nivel"] = nivel
+        if (lugar.isNotEmpty()) updates["lugar"] = lugar
+        if (descripcion.isNotEmpty()) updates["descripcion"] = descripcion
 
-        var grupoActualizar = Intent(this, Grupo::class.java)
-        startActivity(grupoActualizar)
-        Toast.makeText(this,"Se ha actualizado su grupo correctamente" , Toast.LENGTH_SHORT).show()
+        if (imageUri != null) {
+            val storageRef = Firebase.storage.reference.child("images/grupos/${idGrupo}.jpg")
+            val uploadTask = storageRef.putFile(imageUri!!)
 
+            uploadTask.addOnSuccessListener {
+                storageRef.downloadUrl.addOnSuccessListener { uri ->
+                    updates["imageUrl"] = uri.toString()
+                    updateGroupDatabase(updates)
+                }
+            }.addOnFailureListener {
+                Toast.makeText(this, "Error al subir la imagen", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            updateGroupDatabase(updates)
+        }
+    }
+
+    private fun updateGroupDatabase(updates: Map<String, Any>) {
+        val groupRef = Firebase.database.getReference(PATH_GRUPOS).child(idGrupo)
+        groupRef.updateChildren(updates).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(this, "Se ha actualizado su grupo correctamente", Toast.LENGTH_SHORT).show()
+                val grupoActualizar = Intent(this, Grupo::class.java)
+                startActivity(grupoActualizar)
+            } else {
+                Toast.makeText(this, "Error al actualizar el grupo", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun escogerImagen(botonImagen: ImageButton){
@@ -155,19 +261,27 @@ class ActualizarGrupo : AppCompatActivity() {
 
                     val file = File(currentPhotoPath)
                     if (file.exists()) {
-                        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.fromFile(file))
+                        val bitmap =
+                            MediaStore.Images.Media.getBitmap(contentResolver, Uri.fromFile(file))
                         botonImagen.setImageBitmap(bitmap)
+                        imageUri = Uri.fromFile(file)
                     }
 
                 }
+
                 Data.MY_PERMISSION_REQUEST_GALLERY -> {
                     val selectedImageUri = data?.data
-                    // Muestra la imagen seleccionada o guárdala
-                    botonImagen.setImageURI(selectedImageUri)
+                    if (selectedImageUri != null) {
+                        botonImagen.setImageURI(selectedImageUri)
+                        imageUri = selectedImageUri
+                        // Muestra la imagen seleccionada o guárdala
+                        botonImagen.setImageURI(selectedImageUri)
+                    }
                 }
             }
         }
     }
+
     private fun pedirPermiso(context: Activity, permisos: Array<String>, justificacion: String, idCode: Int) {
 
         val permisosNoConcedidos = permisos.filter {

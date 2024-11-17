@@ -12,11 +12,13 @@ import android.provider.MediaStore
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
 import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.R
 import com.google.firebase.auth.FirebaseAuth
@@ -26,9 +28,9 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 
 class ActualizarCuenta : AppCompatActivity() {
@@ -40,6 +42,8 @@ class ActualizarCuenta : AppCompatActivity() {
     private lateinit var claveTemp: String
     private lateinit var fotoTemp: String
     private var imageUri: Uri? = null
+    private val PATH_USERS = "users/"
+    private val database = FirebaseDatabase.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +56,7 @@ class ActualizarCuenta : AppCompatActivity() {
         val menuPrincipal = findViewById<ImageButton>(R.id.butInicio)
         val perfil = findViewById<ImageButton>(R.id.butPerfil)
         botonImagen.isEnabled = false
+        setUserPhoto()
         pedirPermiso(this, arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE), "Se necesita este permiso", Data.MY_PERMISSION_REQUEST_CAMERA)
         botonActualizar.setOnClickListener(){
             validarCampos()
@@ -64,6 +69,31 @@ class ActualizarCuenta : AppCompatActivity() {
         }
         perfil.setOnClickListener(){
             startActivity(Intent(this, Perfil::class.java))
+        }
+    }
+
+    fun setUserPhoto() {
+        val imageUser = findViewById<ImageButton>(R.id.butPerfil)
+        val imageCam = findViewById<ImageButton>(R.id.imageButton2)
+        var imageUrl = ""
+
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            val userRef = database.getReference(PATH_USERS).child(userId)
+            userRef.child("imageUrl").get().addOnSuccessListener { dataSnapshot ->
+                imageUrl = dataSnapshot.value?.toString() ?: ""
+                if (imageUrl.isNotEmpty()) {
+                    Glide.with(this)
+                        .load(imageUrl)
+                        .into(imageUser)
+                    Glide.with(this)
+                        .load(imageUrl)
+                        .into(imageCam)
+                }
+            }.addOnFailureListener {
+                Toast.makeText(this, "Error al cargar la imagen", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

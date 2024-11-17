@@ -221,6 +221,7 @@ class VerGrupo : AppCompatActivity() {
 
         actualizarGrupo.setOnClickListener {
             val peticion = Intent(this, ActualizarGrupo::class.java)
+            peticion.putExtra("nombre", intent.getStringExtra("nombre"))
             startActivity(peticion)
         }
 
