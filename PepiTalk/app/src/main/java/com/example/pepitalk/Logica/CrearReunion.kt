@@ -45,6 +45,7 @@ class CrearReunion : AppCompatActivity() {
     private var imageUri: Uri? = null
 
     private val PATH_USERS = "users/"
+    private val PATH_GROUPS = "grupos/"
     private val bd = FirebaseDatabase.getInstance()
 
     private lateinit var nombre : EditText
@@ -320,6 +321,33 @@ class CrearReunion : AppCompatActivity() {
                                         Toast.makeText(baseContext, "Error al actualizar la base de datos.", Toast.LENGTH_SHORT).show()
                                     }
                                 }
+
+                            val groupId = intent.getStringExtra("llave")
+                            if (!groupId.isNullOrEmpty()) {
+                                // El valor llegó correctamente
+                                val grupoBd = FirebaseDatabase.getInstance()
+                                val grupoRef = grupoBd.getReference(PATH_GROUPS + groupId + "/reuniones")
+
+                                grupoRef.get().addOnSuccessListener { dataSnapshot ->
+                                    val currentSize = dataSnapshot.childrenCount.toInt() // Obtiene el tamaño actual
+
+                                    // Agrega el meetingId en la posición actual
+                                    grupoRef.child(currentSize.toString()).setValue(meetingId)
+                                        .addOnSuccessListener {
+                                            // La actualización fue exitosa
+                                            println("Meeting ID agregado correctamente en reuniones.")
+                                        }
+                                        .addOnFailureListener { exception ->
+                                            // Hubo un error al actualizar
+                                            println("Error al agregar el Meeting ID: ${exception.message}")
+                                        }
+                                }.addOnFailureListener { exception ->
+                                    // Maneja errores al intentar obtener la lista de reuniones
+                                    println("Error al obtener la lista de reuniones: ${exception.message}")
+                                }
+
+                            }
+
                         }
                     }
                     .addOnFailureListener { exception ->

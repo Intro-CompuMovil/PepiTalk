@@ -33,6 +33,7 @@ class VerReuniones : AppCompatActivity(){
     private lateinit var myRef: DatabaseReference
     private val PATH_USERS = "users/"
     private val PATH_REUNION = "reuniones/"
+    private val PATH_GROUPS = "grupos/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -146,6 +147,56 @@ class VerReuniones : AppCompatActivity(){
                         // Handle error
                     }
                 })
+            }
+            else if (tipo == "grupo"){
+                val groupId = intent.getStringExtra("llave")
+                val grupoBd = FirebaseDatabase.getInstance()
+                val grupoRef = grupoBd.getReference(PATH_GROUPS + groupId + "/reuniones")
+
+                grupoRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(grupoSnapshot: DataSnapshot) {
+                        val reunionesIds = grupoSnapshot.children.mapNotNull { it.value as? String }
+
+                        myRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                for (singleSnapshot in dataSnapshot.children) {
+                                    val myReunion = singleSnapshot.getValue(DataReunion::class.java)
+                                    val llave = singleSnapshot.key
+                                    if (myReunion != null && llave != null && reunionesIds.contains(llave)) {
+                                        cursor.addRow(arrayOf(
+                                            i,
+                                            myReunion.nombre,
+                                            myReunion.dia,
+                                            myReunion.hora,
+                                            myReunion.idioma,
+                                            myReunion.nivel,
+                                            myReunion.lugar,
+                                            myReunion.descripcion,
+                                            myReunion.dueno,
+                                            myReunion.integrantes.joinToString(","),
+                                            myReunion.calificaciones.joinToString(",") { "DataCalificaciones(nota=${it.nota}, comentario=${it.comentario})" },
+                                            myReunion.imageUrl,
+                                            llave
+                                        ))
+                                        i++
+                                    }
+                                }
+                                callback.onCursorReady(cursor) // Call the callback once the cursor is ready
+                            }
+
+                            override fun onCancelled(databaseError: DatabaseError) {
+                                // Handle error
+                            }
+                        })
+
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        // Handle error
+                    }
+                })
+
+
             }
         }
     }
