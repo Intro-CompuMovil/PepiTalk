@@ -2,6 +2,7 @@ package com.example.pepitalk.Logica
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -11,10 +12,15 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.pepitalk.Datos.Data
 import com.example.pepitalk.Datos.DataCalificaciones
+import com.example.pepitalk.Datos.DataGrupo
+import com.example.pepitalk.Datos.DataReunion
 import com.example.pepitalk.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 
 class VerReunion : AppCompatActivity() {
@@ -23,6 +29,7 @@ class VerReunion : AppCompatActivity() {
     private val database = FirebaseDatabase.getInstance()
     private lateinit var myRef: DatabaseReference
     private val PATH_USERS = "users/"
+    private val PATH_REUNION = "reuniones/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -173,6 +180,7 @@ class VerReunion : AppCompatActivity() {
         val perfil = findViewById<ImageButton>(R.id.butPerfil)
 
         unirse.setOnClickListener {
+            unirseAReunion()
             unirse.visibility = View.GONE
             calificar.visibility = View.VISIBLE
             salir.visibility = View.VISIBLE
@@ -236,8 +244,87 @@ class VerReunion : AppCompatActivity() {
         }
 
         salir.setOnClickListener {
+            salirGrupo()
             val peticion = Intent(this, Reunion::class.java)
             startActivity(peticion)
         }
+    }
+
+    private fun unirseAReunion(){
+        val userId = auth.currentUser?.uid
+        val nombre = intent.getStringExtra("nombre")!!
+        val reunionRef = database.getReference(PATH_REUNION)
+
+        reunionRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                for (singleSnapshot in dataSnapshot.children) {
+                    val myReunion = singleSnapshot.getValue(DataReunion::class.java)
+                    if (myReunion != null && myReunion.nombre == nombre) {
+                        val reunionId = singleSnapshot.key
+                        val newRef = reunionRef.child(reunionId!!).child("integrantes")
+                        val tam = myReunion.integrantes.size
+                        val nuevoIntegrante = mapOf(tam.toString() to userId)
+                        newRef.updateChildren(nuevoIntegrante)
+                            .addOnSuccessListener {
+                                Log.d("FirebaseDB", "ID del usuario añadido correctamente")
+                            }
+                            .addOnFailureListener { exception ->
+                                Log.e("FirebaseDB", "Error al añadir el ID del usuario", exception)
+                            }
+                    }
+
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Si ocurre un error
+            }
+        })
+
+    }
+
+    private fun salirGrupo(){
+        val userId = auth.currentUser?.uid
+        val nombre = intent.getStringExtra("nombre")!!
+        val reunionRef = database.getReference(PATH_REUNION)
+
+        reunionRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                for (singleSnapshot in dataSnapshot.children) {
+                    val myReunion = singleSnapshot.getValue(DataReunion::class.java)
+                    if (myReunion != null && myReunion.nombre == nombre) {
+                        val reunionId = singleSnapshot.key
+                        val newRef = reunionRef.child(reunionId!!).child("integrantes")
+                        val tam = myReunion.integrantes.size
+
+                        newRef.get().addOnSuccessListener { snapshot ->
+                            // Verifica que los datos existan
+                            val integrantes = snapshot.value as? List<String>?
+
+                            if (integrantes != null) {
+                                // Creamos un mapa mutable para la nueva lista de integrantes
+                                val nuevosIntegrantes = integrantes.filter { it != userId }
+
+                                // Ahora actualizamos la base de datos con la nueva lista sin el integrante eliminado
+                                reunionRef.child(reunionId).child("integrantes").setValue(nuevosIntegrantes)
+                                    .addOnSuccessListener {
+                                        Log.d("FirebaseDB", "Integrante eliminado correctamente")
+                                    }
+                                    .addOnFailureListener { exception ->
+                                        Log.e("FirebaseDB", "Error al eliminar el integrante", exception)
+                                    }
+                            }
+                        }
+
+
+                    }
+
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Si ocurre un error
+            }
+        })
     }
 }
