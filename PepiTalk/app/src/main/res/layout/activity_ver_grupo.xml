@@ -225,23 +225,12 @@
         android:backgroundTint="@color/rosa"
         android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/btnVerReuniones"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btnVerCalificaciones"
-        android:layout_centerHorizontal="true"
-        android:text="Ver Reuniones"
-        android:textColor="@color/morado"
-        android:backgroundTint="@color/rosa"
-        android:textSize="18sp"
-        android:visibility="gone"/>
 
     <Button
         android:id="@+id/btnCalificarGrupo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btnVerReuniones"
+        android:layout_below="@id/btnVerCalificaciones"
         android:layout_centerHorizontal="true"
         android:text="Calificar Grupo"
         android:textColor="@color/morado"
@@ -262,22 +251,10 @@
         android:visibility="gone"/>
 
     <Button
-        android:id="@+id/btnCrearReunion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btnVerReuniones"
-        android:layout_centerHorizontal="true"
-        android:text="Crear Reunion"
-        android:textColor="@color/morado"
-        android:backgroundTint="@color/rosa"
-        android:textSize="18sp"
-        android:visibility="gone"/>
-
-    <Button
         android:id="@+id/btnActualizarGrupo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btnCrearReunion"
+        android:layout_below="@id/btnVerCalificaciones"
         android:layout_centerHorizontal="true"
         android:text="Actualizar Grupo"
         android:textColor="@color/morado"
