@@ -112,11 +112,6 @@ class CrearOferta : AppCompatActivity() {
         if(inicioTiempo < finalTiempo){
             Data.listaOfertas.add(DataOferta())
             crearOferta(idioma, dia, horaInicio, horaFinal, recompensa, lugar, descripcion)
-            var ofertaCreado = Intent(this, Oferta::class.java)
-            startActivity(ofertaCreado)
-            Toast.makeText(this,"Se ha creado su oferta correctamente" , Toast.LENGTH_SHORT).show()
-
-
         }
     }
 
@@ -152,6 +147,7 @@ class CrearOferta : AppCompatActivity() {
     private fun updateUI() {
         val intent = Intent(this, MenuCliente::class.java)
         startActivity(intent)
+        Toast.makeText(this,"Se ha creado su oferta correctamente" , Toast.LENGTH_SHORT).show()
     }
 
     fun setUserPhoto(){

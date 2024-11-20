@@ -155,7 +155,9 @@ class Perfil :  AppCompatActivity(){
             Toast.makeText(this, "Log out exitoso ", Toast.LENGTH_LONG).show()
             auth.signOut()
             val peticion = Intent(this, MainActivity::class.java)
+            peticion.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(peticion)
+            finish()
         }
     }
 

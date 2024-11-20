@@ -56,8 +56,6 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var correo : EditText
     private lateinit var tipo : Spinner
     private lateinit var calificaciones : MutableList<DataCalificaciones>
-    //crear lista vacia de calificaciones de tipo dataCalificaciones
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -130,16 +128,7 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     var newUser = Persona(tipo, usuario, nombre, contrasena, correo, mutableListOf(), "")
 
                     createUserWithImage(tipo, correo, contrasena, nombre, usuario)  // Crear usuario en Firebase
-                    if(tipo == "Cliente"){
-                        var clienteRegistrado = Intent(this, MenuCliente::class.java)
-                        startActivity(clienteRegistrado)
-                        Toast.makeText(this,"Se ha registrado correctamente" , Toast.LENGTH_SHORT).show()
-                    }
-                    else{
-                        var traductorRegistrado = Intent(this, MenuTraductor::class.java)
-                        startActivity(traductorRegistrado)
-                        Toast.makeText(this,"Se ha registrado correctamente" , Toast.LENGTH_SHORT).show()
-                    }
+
                 }
                 else{
                     Toast.makeText(this,"El correo no es válido" , Toast.LENGTH_SHORT).show()
@@ -299,53 +288,73 @@ class Registro : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun createUserWithImage(tipo: String, email: String, password: String, nombre: String, username: String) {
+        if (password.length < 6) {
+            Toast.makeText(this, "La contraseña debe tener por lo menos 6 caracteres", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        var isAuthSuccessful = false
+        var isProfileUpdateSuccessful = false
+        var isImageUploadSuccessful = false
+        var isDatabaseUpdateSuccessful = false
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Log.d("FirebaseRegister", "createUserWithEmail:success")
+                    isAuthSuccessful = true
                     val user = auth.currentUser
                     if (user != null) {
                         val profileUpdates = UserProfileChangeRequest.Builder()
                             .setDisplayName(nombre)
                             .build()
                         user.updateProfile(profileUpdates)
-
-                        val imageRef = storageRef.child("images/${user.uid}.jpg")
-                        imageUri?.let {
-                            imageRef.putFile(it)
-                                .addOnSuccessListener {
-                                    imageRef.downloadUrl.addOnSuccessListener { uri ->
-                                        val usuario = Persona(tipo, username, nombre, password, email, mutableListOf() , uri.toString())
-                                        Log.d("UsuarioInfo", "Tipo: $tipo, Nombre: $nombre")
-                                        database.child("users").child(user.uid).setValue(usuario)
-                                            .addOnCompleteListener { dbTask ->
-                                                if (dbTask.isSuccessful) {
-                                                    Toast.makeText(baseContext, "User created successfully.", Toast.LENGTH_SHORT).show()
-                                                    updateUI(user, tipo)
-                                                } else {
-                                                    Toast.makeText(baseContext, "Database update failed.", Toast.LENGTH_SHORT).show()
+                            .addOnCompleteListener { profileTask ->
+                                if (profileTask.isSuccessful) {
+                                    Log.d("FirebaseRegister", "updateProfile:success")
+                                    isProfileUpdateSuccessful = true
+                                    val imageRef = storageRef.child("images/${user.uid}.jpg")
+                                    imageUri?.let {
+                                        imageRef.putFile(it)
+                                            .addOnSuccessListener {
+                                                Log.d("FirebaseRegister", "imageUpload:success")
+                                                isImageUploadSuccessful = true
+                                                imageRef.downloadUrl.addOnSuccessListener { uri ->
+                                                    Log.d("FirebaseRegister", "getDownloadUrl:success")
+                                                    val usuario = Persona(tipo, username, nombre, password, email, mutableListOf(), uri.toString())
+                                                    database.child("users").child(user.uid).setValue(usuario)
+                                                        .addOnCompleteListener { dbTask ->
+                                                            if (dbTask.isSuccessful) {
+                                                                Log.d("FirebaseRegister", "databaseUpdate:success")
+                                                                isDatabaseUpdateSuccessful = true
+                                                                if (isAuthSuccessful && isProfileUpdateSuccessful && isImageUploadSuccessful && isDatabaseUpdateSuccessful) {
+                                                                    Toast.makeText(baseContext, "Creación de usuario exitosa.", Toast.LENGTH_SHORT).show()
+                                                                    updateUI(user, tipo)
+                                                                }else{
+                                                                    Toast.makeText(baseContext, "Errores en la creación de usuario, intente con otro correo.", Toast.LENGTH_SHORT).show()
+                                                                }
+                                                            } else {
+                                                                Log.e("FirebaseRegister", "databaseUpdate:failure", dbTask.exception)
+                                                                Toast.makeText(baseContext, "Database update failed.", Toast.LENGTH_SHORT).show()
+                                                            }
+                                                        }
+                                                }.addOnFailureListener { exception ->
+                                                    Log.e("FirebaseRegister", "getDownloadUrl:failure", exception)
+                                                    Toast.makeText(baseContext, "Failed to get image URL.", Toast.LENGTH_SHORT).show()
                                                 }
+                                            }.addOnFailureListener { exception ->
+                                                Log.e("FirebaseRegister", "imageUpload:failure", exception)
+                                                Toast.makeText(baseContext, "Image upload failed.", Toast.LENGTH_SHORT).show()
                                             }
-                                        imageUri?.let {
-                                            val imageRef = storageRef.child("images/${user.uid}.jpg")
-                                            imageRef.putFile(it)
-                                                .addOnFailureListener {
-                                                    Toast.makeText(this, "Image upload failed.", Toast.LENGTH_SHORT).show()
-                                                }
-                                        }
                                     }
-                                    .addOnFailureListener { exception ->
-                                        Log.e("FirebaseRegister", "Error al obtener la URL de la imagen: ${exception.message}", exception)
-                                    }
+                                } else {
+                                    Log.e("FirebaseRegister", "updateProfile:failure", profileTask.exception)
+                                    Toast.makeText(baseContext, "Profile update failed.", Toast.LENGTH_SHORT).show()
                                 }
-                                .addOnFailureListener { exception ->
-                                    Log.e("FirebaseRegister", "Error al subir archivo: ${exception.message}", exception)
-                                }
-                        }
+                            }
                     }
                 } else {
-                    Log.w("FirebaseRegister", "createUserWithEmail:failure", task.exception)
+                    Log.e("FirebaseRegister", "createUserWithEmail:failure", task.exception)
                     Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
                 }
             }

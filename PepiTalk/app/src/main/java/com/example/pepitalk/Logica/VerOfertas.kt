@@ -1,9 +1,11 @@
 package com.example.pepitalk.Logica
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
@@ -153,6 +155,7 @@ class VerOfertas : AppCompatActivity(){
             else if(tipo == "aceptarOfertas" ){
                 var tipo = ""
                 val userRef = database.getReference(PATH_USERS).child(userId)
+                Log.i(TAG, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ")
                 userRef.child("tipo").get().addOnSuccessListener { dataSnapshot ->
                     tipo = dataSnapshot.value.toString()
                 }
@@ -161,7 +164,7 @@ class VerOfertas : AppCompatActivity(){
                         for (singleSnapshot in dataSnapshot.children) {
                             val myOffer = singleSnapshot.getValue(DataOferta::class.java)
                             val llave = singleSnapshot.key
-                            if (myOffer != null && tipo == "Traductor" && myOffer.trabajador.isEmpty()) {
+                            if (myOffer != null  && myOffer.trabajador.isEmpty()) {
                                 cursor.addRow(arrayOf(
                                     i,
                                     "aceptarOfertas",

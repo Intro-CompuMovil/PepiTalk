@@ -32,8 +32,14 @@ class NotificationReceiver : BroadcastReceiver() {
         val randomTextsLarge = listOf(
             "¡Deberías aprender algo de italiano! ¿Qué tal empezar con unas frases básicas?",
             "¿Por qué no intentas aprender alemán en un nuevo grupo? ¡Es un idioma muy interesante!",
-            "Hay nuevos grupos de francés disponibles. ¡No pierdas la oportunidad de aprender un idioma tan bonito!",
-            "Nuevo grupo de inglés para principiantes. ¡Es el momento perfecto para empezar a aprender!"
+            "Nuevo grupo de inglés para principiantes. ¡Es el momento perfecto para empezar a aprender!",
+            "¿Has probado a aprender chino? ¡Es un idioma muy interesante y diferente a los que ya conoces!",
+            "Para aprender un idioma nuevo, ¡necesitas practicar! ¡Únete a un grupo de conversación!",
+            "¡Aprender un idioma nuevo es una experiencia increíble! ¡No te quedes atrás y únete a un grupo!",
+            "Escuchar música en el idioma que estás aprendiendo es una buena forma de practicar. ¡Hazlo ahora!",
+            "¡No te rindas! Aprender un idioma nuevo puede ser difícil, pero con esfuerzo y dedicación, lo lograrás.",
+            "¡Aprender un idioma nuevo te abrirá muchas puertas! ¡No pierdas la oportunidad de hacerlo ahora!",
+            "¡Aprender un idioma nuevo es una experiencia increíble! ¡No te quedes atrás y únete a un grupo!"
         )
         val randomText = randomTextsLarge.random()
 
