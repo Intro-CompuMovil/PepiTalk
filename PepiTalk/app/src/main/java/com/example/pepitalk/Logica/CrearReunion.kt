@@ -135,10 +135,6 @@ class CrearReunion : AppCompatActivity() {
         if(nombreR != nombre){
             Data.listaReuniones.add(DataReunion())
             createReunion(nombre, dia, hora, idioma, nivel, lugar, descripcion, imageUri)
-            var reunionCreado = Intent(this, Reunion::class.java)
-            startActivity(reunionCreado)
-            Toast.makeText(this,"Se ha creado su reunion correctamente" , Toast.LENGTH_SHORT).show()
-
 
         }
         else{
@@ -364,6 +360,7 @@ class CrearReunion : AppCompatActivity() {
     private fun updateUI() {
         val intent = Intent(this, MenuCliente::class.java)
         startActivity(intent)
+        Toast.makeText(this,"Se ha creado su reunion correctamente" , Toast.LENGTH_SHORT).show()
     }
 
     fun setUserPhoto(){

@@ -77,7 +77,7 @@
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/buttonTrabajos"
-        android:text="OFERTAS\n Ver mis ofertas"
+        android:text="OFERTAS\n Ver ofertas disponibles"
         android:backgroundTint="@color/rosa"
         android:textColor="@color/morado"
         android:layout_marginTop="30dp"

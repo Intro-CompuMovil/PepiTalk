@@ -129,10 +129,6 @@ class CrearGrupo : AppCompatActivity() {
         if(nombreG != nombre){
             Data.listaGrupos.add(DataGrupo())
             createGroupWithImage(nombre, idioma, nivel, lugar, descripcion, calificaciones, imageUri)
-            var grupoCreado = Intent(this, Grupo::class.java)
-            startActivity(grupoCreado)
-            Toast.makeText(this,"Se ha creado su grupo correctamente" , Toast.LENGTH_SHORT).show()
-
 
         }
         else{
@@ -335,6 +331,7 @@ class CrearGrupo : AppCompatActivity() {
     private fun updateUI() {
         val intent = Intent(this, MenuCliente::class.java)
         startActivity(intent)
+        Toast.makeText(this,"Se ha creado su grupo correctamente" , Toast.LENGTH_SHORT).show()
     }
 
     fun setUserPhoto(){
